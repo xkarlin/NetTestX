@@ -5,8 +5,10 @@ using EnvDTE;
 using EnvDTE80;
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
+using NetTestX.CodeAnalysis.Common;
+using NetTestX.VSIX.Core;
 
-namespace NetTestX.VSIX;
+namespace NetTestX.VSIX.Commands;
 
 [Command(PackageIds.GenerateTestsCommand)]
 internal sealed class GenerateTestsCommand : BaseCommand<GenerateTestsCommand>
@@ -21,11 +23,14 @@ internal sealed class GenerateTestsCommand : BaseCommand<GenerateTestsCommand>
 
     protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
     {
-        await VS.MessageBox.ShowWarningAsync("NetTestX.VSIX", "Button clicked");
+        TestGenerationCoordinator coordinator = new(_dte);
+        await coordinator.ProcessTestGenerationRequestAsync();
     }
 
     protected override void BeforeQueryStatus(EventArgs e)
     {
+        ThreadHelper.ThrowIfNotOnUIThread();
+
         bool visible = ShouldCommandBeVisible();
 
         Command.Visible = Command.Enabled = visible;
@@ -42,6 +47,6 @@ internal sealed class GenerateTestsCommand : BaseCommand<GenerateTestsCommand>
 
         var projectItem = (ProjectItem)selectedItems[0].Object;
 
-        return projectItem.FileNames[0].EndsWith(".cs");
+        return projectItem.FileNames[0].EndsWith(SourceFileExtensions.CSHARP_DOT);
     }
 }
