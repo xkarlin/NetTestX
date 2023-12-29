@@ -57,6 +57,10 @@ public class TestSourceCodeCoordinator(DTE2 dte)
             Type = typeSymbol,
             Compilation = compilation,
             Options = new()
+            {
+                TestClassName = $"{typeSymbol.Name}Tests",
+                TestClassNamespace = $"{typeSymbol.ContainingNamespace}.Tests"
+            }
         };
 
         UnitTestGeneratorDriver driver = new(context);

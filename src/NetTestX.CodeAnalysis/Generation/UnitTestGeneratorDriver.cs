@@ -6,9 +6,9 @@ public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
     {
         return
 $$"""
-namespace {{context.Type.ContainingNamespace}}.Tests;
+namespace {{context.Options.TestClassNamespace}};
                
-public class {{context.Type.Name}}Tests
+public class {{context.Options.TestClassName}}
 {
     
 }
