@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using NetTestX.Razor.Utils;
 
 namespace NetTestX.Razor;
 
@@ -12,15 +14,32 @@ public abstract class RazorPage<TModel> : Microsoft.AspNetCore.Mvc.Razor.RazorPa
 {
     private readonly MemoryStream _outputStream = new();
 
+    private string _lastIndentation;
+
     protected RazorPage()
     {
-        HtmlEncoder = HtmlEncoder.Default;
+        HtmlEncoder = NullHtmlEncoder.Default;
 
         // ReSharper disable once VirtualMemberCallInConstructor
         ViewContext = new()
         {
             Writer = new StreamWriter(_outputStream)
         };
+    }
+
+    public async Task<string> ImportPageAsync(object model)
+    {
+        RazorFileTemplate nestedTemplate = new(model);
+        string nestedText = await nestedTemplate.RenderAsync();
+        return RazorRenderUtilities.NormalizeIndentation(nestedText, _lastIndentation);
+    }
+
+    public override void WriteLiteral(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            _lastIndentation = value;
+
+        base.WriteLiteral(value);
     }
 
     void IRazorPage.SetModel(object model)

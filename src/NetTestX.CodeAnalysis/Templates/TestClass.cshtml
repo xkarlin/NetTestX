@@ -5,5 +5,8 @@ namespace @Model.TestClassNamespace;
 
 public class @Model.TestClassName
 {
-
+    @foreach (var method in Model.TestMethods)
+    {
+    @:@await ImportPageAsync(method)
+    }
 }
