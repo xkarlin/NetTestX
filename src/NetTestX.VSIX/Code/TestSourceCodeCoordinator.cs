@@ -32,7 +32,7 @@ public class TestSourceCodeCoordinator(DTE2 dte)
 
         var driver = await GetGeneratorDriverAsync(selectedProject, projectItem.FileNames[0]);
 
-        string testSource = driver.GenerateTestClassSource();
+        string testSource = await driver.GenerateTestClassSourceAsync();
         string testFileName = $"{Path.GetFileNameWithoutExtension(projectItem.Name)}Tests.{SourceFileExtensions.CSHARP}";
 
         await AddSourceFileToProjectAsync(testProject, testSource, testFileName);

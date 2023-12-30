@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestX.VSIX", "src\NetTes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A7311CB0-1C0E-4B23-896B-23D20D5C9C7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestX.CodeAnalysis", "src\NetTestX.CodeAnalysis\NetTestX.CodeAnalysis.csproj", "{F3028BF4-E209-4F71-B578-6E41C2A365FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestX.CodeAnalysis", "src\NetTestX.CodeAnalysis\NetTestX.CodeAnalysis.csproj", "{F3028BF4-E209-4F71-B578-6E41C2A365FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

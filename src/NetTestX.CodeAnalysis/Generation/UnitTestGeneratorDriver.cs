@@ -1,17 +1,22 @@
-﻿namespace NetTestX.CodeAnalysis.Generation;
+﻿using System.Threading.Tasks;
+using NetTestX.CodeAnalysis.Razor;
+using NetTestX.CodeAnalysis.Templates;
+
+namespace NetTestX.CodeAnalysis.Generation;
 
 public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
 {
-    public string GenerateTestClassSource()
+    public async Task<string> GenerateTestClassSourceAsync()
     {
-        return
-$$"""
-namespace {{context.Options.TestClassNamespace}};
-               
-public class {{context.Options.TestClassName}}
-{
-    
-}
-""";
+        TestClassModel model = new()
+        {
+            TestClassName = context.Options.TestClassName,
+            TestClassNamespace = context.Options.TestClassNamespace
+        };
+
+        RazorFileTemplate template = new(model);
+
+        string sourceText = await template.RenderAsync();
+        return sourceText;
     }
 }
