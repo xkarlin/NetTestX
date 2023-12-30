@@ -1,4 +1,4 @@
-﻿namespace NetTestX.CodeAnalysis.Razor;
+﻿namespace NetTestX.Razor;
 
 public interface IRazorPage : Microsoft.AspNetCore.Mvc.Razor.IRazorPage
 {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using NetTestX.CodeAnalysis.Razor;
 using NetTestX.CodeAnalysis.Templates;
+using NetTestX.Razor;
 
 namespace NetTestX.CodeAnalysis.Generation;
 

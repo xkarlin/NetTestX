@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace NetTestX.CodeAnalysis.Razor;
+namespace NetTestX.Razor;
 
-internal class RazorFileTemplate
+public class RazorFileTemplate
 {
     public IRazorPage Page { get; }
 

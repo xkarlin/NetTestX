@@ -127,6 +127,10 @@
       <Project>{f3028bf4-e209-4f71-b578-6e41c2a365ff}</Project>
       <Name>NetTestX.CodeAnalysis</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NetTestX.Polyfill\NetTestX.Polyfill.csproj">
+      <Project>{b0d7f511-d21c-4abf-8615-4ffdf0685a4e}</Project>
+      <Name>NetTestX.Polyfill</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />

@@ -1,0 +1,8 @@
+<Project>
+  
+  <PropertyGroup Condition="'$(UseRazor)' == 'true'">
+    <UseRazorSourceGenerator>true</UseRazorSourceGenerator>
+    <RazorLangVersion>latest</RazorLangVersion>
+  </PropertyGroup>
+
+</Project>
