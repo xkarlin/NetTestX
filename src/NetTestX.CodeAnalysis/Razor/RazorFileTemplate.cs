@@ -3,11 +3,19 @@ using System.Threading.Tasks;
 
 namespace NetTestX.CodeAnalysis.Razor;
 
-internal class RazorFileTemplate(object model)
+internal class RazorFileTemplate
 {
-    public IRazorPage Page { get; } = RazorPageLocator.FindPage(model.GetType());
+    public IRazorPage Page { get; }
 
-    public object Model { get; } = model;
+    public object Model { get; }
+
+    public RazorFileTemplate(object model)
+    {
+        Page = RazorPageLocator.FindPage(model.GetType());
+        Model = model;
+
+        Page.SetModel(Model);
+    }
 
     public async Task<string> RenderAsync()
     {
