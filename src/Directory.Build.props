@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
-
+  
   <ItemGroup Condition="'$(MSBuildProjectName)' != 'NetTestX.Polyfill'">
     <ProjectReference Include="$(MSBuildThisFileDirectory)NetTestX.Polyfill\NetTestX.Polyfill.csproj" />
   </ItemGroup>

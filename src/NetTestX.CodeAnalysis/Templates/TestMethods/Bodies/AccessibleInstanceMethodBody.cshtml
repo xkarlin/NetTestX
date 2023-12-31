@@ -3,29 +3,37 @@
 @using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies
 @using static NetTestX.CodeAnalysis.Razor.RazorTemplateHelpers
 @inherits RazorPage<AccessibleInstanceMethodBodyModel>
+@functions {
+    string MethodArg(string name) => $"test{Pascal(name)}";
+}
 // Arrange
+@foreach (var param in Model.Parent.Parent.Constructor.Parameters)
+{
+@:var @param.Name = @Model.Parent.Parent.Value(param.Type);
+}
+@Full(Model.Method.ContainingType) sot = new(@Args(Model.Parent.Parent.Constructor));
+
 @foreach (var param in Model.Method.Parameters)
 {
-@:@Full(param.Type) @param.Name = @Model.Parent.Parent.Value(param.Type);
+@:@Full(param.Type) @MethodArg(param.Name) = @Model.Parent.Parent.Value(param.Type);
 }
-@Full(Model.Method.ContainingType) sot = new(@Args(Model.Parent.Parent.Constructor, "_"));
 
 // Act
 @if (Model.Method.ReturnsVoid)
 {
-@:sot.@(Model.Method.Name)(@Args(Model.Method));
+@:sot.@(Model.Method.Name)(@Args(Model.Method, MethodArg));
 }
 else if (Model.Method is { IsAsync: true, ReturnType: INamedTypeSymbol { IsGenericType: true } })
 {
-@:var result = await sot.@(Model.Method.Name)(@Args(Model.Method));
+@:var result = await sot.@(Model.Method.Name)(@Args(Model.Method, MethodArg));
 }
 else if (Model.Method.IsAsync)
 {
-@:await sot.@(Model.Method.Name)(@Args(Model.Method));
+@:await sot.@(Model.Method.Name)(@Args(Model.Method, MethodArg));
 }
 else
 {
-@:var result = sot.@(Model.Method.Name)(@Args(Model.Method));
+@:var result = sot.@(Model.Method.Name)(@Args(Model.Method, MethodArg));
 }
 
 // Assert

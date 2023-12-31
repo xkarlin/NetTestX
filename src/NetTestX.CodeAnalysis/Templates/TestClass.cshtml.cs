@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
-using NetTestX.CodeAnalysis.Generation.DependencyResolvers;
+using NetTestX.CodeAnalysis.Generation.TypeValueProviders;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 
 namespace NetTestX.CodeAnalysis.Templates;

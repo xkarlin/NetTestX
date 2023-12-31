@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace NetTestX.CodeAnalysis.Generation.DependencyResolvers;
+namespace NetTestX.CodeAnalysis.Generation.TypeValueProviders;
 
 public interface ITypeValueProvider
 {

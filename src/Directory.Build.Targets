@@ -1,10 +1,8 @@
 <Project>
-  
+
   <PropertyGroup Condition="'$(UseRazor)' == 'true'">
     <UseRazorSourceGenerator>true</UseRazorSourceGenerator>
     <RazorLangVersion>latest</RazorLangVersion>
-    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    <CompilerGeneratedFilesOutputPath>$(IntermediateOutputPath)/generated</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
 
 </Project>

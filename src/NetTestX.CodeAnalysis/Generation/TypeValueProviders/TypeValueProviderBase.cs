@@ -1,7 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Common;
 using NetTestX.CodeAnalysis.Extensions;
 
-namespace NetTestX.CodeAnalysis.Generation.DependencyResolvers;
+namespace NetTestX.CodeAnalysis.Generation.TypeValueProviders;
 
 public abstract class TypeValueProviderBase : ITypeValueProvider
 {
@@ -9,8 +10,10 @@ public abstract class TypeValueProviderBase : ITypeValueProvider
     {
         IArrayTypeSymbol a => ResolveArray(a),
         INamedTypeSymbol n => ResolveNamed(n),
-        _ => "default"
+        _ => Default(type)
     };
+
+    protected string Default(ITypeSymbol type) => $"default({type.ToDisplayString(CommonFormats.FullNullableFormat)})";
 
     private string ResolveArray(IArrayTypeSymbol array) => "[]";
 
@@ -20,6 +23,6 @@ public abstract class TypeValueProviderBase : ITypeValueProvider
         { SpecialType: SpecialType.System_Boolean } => "false",
         { SpecialType: SpecialType.System_Char } => "' '",
         { SpecialType: SpecialType.System_String } => @"""""",
-        _ => "default"
+        _ => Default(named)
     };
  }

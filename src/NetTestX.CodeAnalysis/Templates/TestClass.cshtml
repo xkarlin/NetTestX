@@ -1,24 +1,10 @@
 ﻿@using NetTestX.Razor
 @using NetTestX.CodeAnalysis.Templates
-@using static NetTestX.CodeAnalysis.Razor.RazorTemplateHelpers
 @inherits RazorPage<TestClassModel>
 namespace @Model.TestClassNamespace;
 
 public class @Model.TestClassName
 {
-    @foreach (var param in Model.Constructor.Parameters)
-    {
-    @:private readonly @Full(param.Type) _@param.Name;
-    }
-
-    public @(Model.TestClassName)()
-    {
-        @foreach(var param in Model.Constructor.Parameters)
-        {
-        @:_@param.Name = @Model.Value(param.Type);
-        }
-    }
-
     @foreach (var method in Model.TestMethods)
     {
     @:@await ImportPageAsync(method)
