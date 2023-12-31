@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Common;
 using NetTestX.CodeAnalysis.Extensions;
+using System.Collections.Generic;
 
 namespace NetTestX.CodeAnalysis.Generation.TypeValueProviders;
 
@@ -13,9 +14,11 @@ public abstract class TypeValueProviderBase : ITypeValueProvider
         _ => Default(type)
     };
 
-    protected string Default(ITypeSymbol type) => $"default({type.ToDisplayString(CommonFormats.FullNullableFormat)})";
+    public virtual IEnumerable<string> CollectNamespaces() => [];
 
-    private string ResolveArray(IArrayTypeSymbol array) => "[]";
+    protected string Default(ITypeSymbol type) => $"default({type.ToDisplayString(CommonFormats.ShortNullableFormat)})";
+
+    private string ResolveArray(IArrayTypeSymbol array) => $"Array.Empty<{array.ElementType.ToDisplayString(CommonFormats.ShortNullableFormat)}>()";
 
     private string ResolveNamed(INamedTypeSymbol named) => named switch
     {

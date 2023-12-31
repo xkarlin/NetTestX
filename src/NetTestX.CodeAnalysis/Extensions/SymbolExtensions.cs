@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using System.Collections.Generic;
 
 namespace NetTestX.CodeAnalysis.Extensions;
 
@@ -18,4 +19,31 @@ public static class SymbolExtensions
             SpecialType.System_Single or
             SpecialType.System_Double
     };
+
+    public static IEnumerable<string> CollectNamespaces(this ISymbol symbol)
+    {
+        HashSet<string> namespaces = [];
+
+        CollectNamespacesInternal(symbol);
+
+        return namespaces;
+
+        void CollectNamespacesInternal(ISymbol current)
+        {
+            if (current.ContainingNamespace is { } containingNs)
+                namespaces.Add(containingNs.ToDisplayString());
+
+            if (current.ContainingType is { } containingType)
+                CollectNamespacesInternal(containingType);
+
+            if (current is IArrayTypeSymbol array)
+                CollectNamespacesInternal(array.ElementType);
+
+            if (current is INamedTypeSymbol { IsGenericType: true } genericType)
+            {
+                foreach (var typeArgument in genericType.TypeArguments)
+                    CollectNamespacesInternal(typeArgument);
+            }
+        }
+    }
 }

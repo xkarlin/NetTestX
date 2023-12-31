@@ -1,5 +1,7 @@
 using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NetTestX.CodeAnalysis.Templates.TestMethods;
 
@@ -17,4 +19,6 @@ public class TestMethodModel : ITestMethodModel
         MethodBodyModel = methodBodyModel;
         methodBodyModel.Parent = this;
     }
+
+    public IEnumerable<string> CollectNamespaces() => MethodBodyModel.CollectNamespaces().Union(["Xunit"]);
 }

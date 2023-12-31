@@ -1,9 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Generation;
 using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
 
 namespace NetTestX.CodeAnalysis.Templates.TestMethods;
 
-public interface ITestMethodModel
+public interface ITestMethodModel : INamespaceCollector
 {
     ISymbol Symbol { get; }
 

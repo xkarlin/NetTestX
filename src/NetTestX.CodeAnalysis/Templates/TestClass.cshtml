@@ -1,6 +1,11 @@
 ﻿@using NetTestX.Razor
 @using NetTestX.CodeAnalysis.Templates
 @inherits RazorPage<TestClassModel>
+@foreach (string ns in Model.CollectNamespaces())
+{
+@:using @ns;
+}
+
 namespace @Model.TestClassNamespace;
 
 public class @Model.TestClassName

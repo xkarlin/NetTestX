@@ -1,6 +1,8 @@
-﻿namespace NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
+﻿using NetTestX.CodeAnalysis.Generation;
 
-public interface IMethodBodyModel
+namespace NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
+
+public interface IMethodBodyModel : INamespaceCollector
 {
     ITestMethodModel Parent { get; set; }
 }

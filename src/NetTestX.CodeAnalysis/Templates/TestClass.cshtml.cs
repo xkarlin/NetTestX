@@ -1,12 +1,15 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Extensions;
+using NetTestX.CodeAnalysis.Generation;
 using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
 using NetTestX.CodeAnalysis.Generation.TypeValueProviders;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 
 namespace NetTestX.CodeAnalysis.Templates;
 
-public class TestClassModel
+public class TestClassModel : INamespaceCollector
 {
     public string TestClassName { get; }
 
@@ -44,4 +47,21 @@ public class TestClassModel
     }
 
     public string Value(ITypeSymbol type) => ValueProvider.Resolve(type);
+
+    public IEnumerable<string> CollectNamespaces()
+    {
+        IEnumerable<string> namespaces = NamespaceUtilities.DefaultNamespaces;
+
+        namespaces = namespaces.Union(Type.CollectNamespaces());
+
+        namespaces = namespaces.Union(ValueProvider.CollectNamespaces());
+
+        foreach (var model in TestMethods)
+            namespaces = namespaces.Union(model.CollectNamespaces());
+
+        foreach (var param in Constructor.Parameters)
+            namespaces = namespaces.Union(param.Type.CollectNamespaces());
+
+        return namespaces;
+    }
 }

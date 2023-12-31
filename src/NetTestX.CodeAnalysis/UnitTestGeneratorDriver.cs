@@ -2,13 +2,13 @@
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
+using NetTestX.CodeAnalysis.Generation.MethodCollectors;
 using NetTestX.CodeAnalysis.Generation.TypeValueProviders;
-using NetTestX.CodeAnalysis.MethodCollectors;
 using NetTestX.CodeAnalysis.Templates;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.Razor;
 
-namespace NetTestX.CodeAnalysis.Generation;
+namespace NetTestX.CodeAnalysis;
 
 public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
 {

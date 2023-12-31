@@ -11,11 +11,11 @@
 {
 @:var @param.Name = @Model.Parent.Parent.Value(param.Type);
 }
-@Full(Model.Method.ContainingType) sot = new(@Args(Model.Parent.Parent.Constructor));
+@Short(Model.Method.ContainingType) sot = new(@Args(Model.Parent.Parent.Constructor));
 
 @foreach (var param in Model.Method.Parameters)
 {
-@:@Full(param.Type) @MethodArg(param.Name) = @Model.Parent.Parent.Value(param.Type);
+@:var @MethodArg(param.Name) = @Model.Parent.Parent.Value(param.Type);
 }
 
 // Act

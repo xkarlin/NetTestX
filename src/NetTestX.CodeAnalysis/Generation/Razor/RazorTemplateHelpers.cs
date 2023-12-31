@@ -3,12 +3,15 @@ using NetTestX.CodeAnalysis.Common;
 using System;
 using System.Linq;
 
-namespace NetTestX.CodeAnalysis.Razor;
+namespace NetTestX.CodeAnalysis.Generation.Razor;
 
 public static class RazorTemplateHelpers
 {
     public static string Full(ISymbol symbol)
         => symbol.ToDisplayString(CommonFormats.FullNullableFormat);
+
+    public static string Short(ISymbol symbol)
+        => symbol.ToDisplayString(CommonFormats.ShortNullableFormat);
 
     public static string Args(IMethodSymbol method)
     => string.Join(", ", method.Parameters.Select(x => Arg(x, x => x)));

@@ -10,4 +10,11 @@ public static class CommonFormats
         genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
         miscellaneousOptions: SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier |
             SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
+
+    public static SymbolDisplayFormat ShortNullableFormat { get; } = new(
+    typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypes,
+    globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
+    genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
+    miscellaneousOptions: SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier |
+        SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
 }
