@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
+using NetTestX.CodeAnalysis.Generation.TypeValueProviders;
 using NetTestX.CodeAnalysis.MethodCollectors;
 using NetTestX.CodeAnalysis.Templates;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
@@ -26,13 +28,18 @@ public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
         TestClassModel model = new(
             context.Options.TestClassName,
             context.Options.TestClassNamespace,
+            context.Type,
+            new DummyConstructorResolver(),
+            new NSubstituteValueProvider(),
             testMethods);
 
         return model;
     }
 
-    private IEnumerable<ITestMethodModel> CollectTestMethods()
+    private IReadOnlyCollection<ITestMethodModel> CollectTestMethods()
     {
+        List<ITestMethodModel> testMethods = [];
+
         var collectors = MethodCollectorLocator.GetAvailableCollectors();
 
         MethodCollectionContext collectionContext = new()
@@ -51,10 +58,12 @@ public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
                 if (collector.ShouldCollectSymbol(collectionContext, symbol))
                 {
                     var testMethod = collector.CollectSymbol(collectionContext, symbol);
-                    yield return testMethod;
+                    testMethods.Add(testMethod);
                 }
             }
         }
+
+        return testMethods;
 
         bool ShouldCollectSymbol(ISymbol symbol)
         {

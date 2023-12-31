@@ -1,6 +1,20 @@
 using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
+using NetTestX.CodeAnalysis.Templates.TestMethods;
+using NetTestX.CodeAnalysis.Templates;
 
-namespace NetTestX.CodeAnalysis.Templates.TestMethods;
+public class AsyncTestMethodModel : ITestMethodModel
+{
+    public ISymbol Symbol { get; }
 
-public record AsyncTestMethodModel(ISymbol Symbol, object MethodBodyModel)
-    : ITestMethodModel;
+    public IMethodBodyModel MethodBodyModel { get; }
+
+    public TestClassModel Parent { get; set; }
+
+    public AsyncTestMethodModel(ISymbol symbol, IMethodBodyModel methodBodyModel)
+    {
+        Symbol = symbol;
+        MethodBodyModel = methodBodyModel;
+        methodBodyModel.Parent = this;
+    }
+}

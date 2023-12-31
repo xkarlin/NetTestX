@@ -6,9 +6,9 @@
 // Arrange
 @foreach (var param in Model.Method.Parameters)
 {
-@:@Full(param.Type) @param.Name = default;
+@:@Full(param.Type) @param.Name = @Model.Parent.Parent.Value(param.Type);
 }
-@Full(Model.Method.ContainingType) sot = new();
+@Full(Model.Method.ContainingType) sot = new(@Args(Model.Parent.Parent.Constructor, "_"));
 
 // Act
 @if (Model.Method.ReturnsVoid)

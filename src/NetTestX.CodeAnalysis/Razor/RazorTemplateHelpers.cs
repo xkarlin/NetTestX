@@ -10,15 +10,15 @@ internal static class RazorTemplateHelpers
     public static string Full(ISymbol symbol)
         => symbol.ToDisplayString(CommonFormats.FullNullableFormat);
 
-    public static string Args(IMethodSymbol method)
-        => string.Join(", ", method.Parameters.Select(Arg));
+    public static string Args(IMethodSymbol method, string prefix = "")
+        => string.Join(", ", method.Parameters.Select(x => Arg(x, prefix)));
 
-    public static string Arg(IParameterSymbol param)
+    public static string Arg(IParameterSymbol param, string prefix = "")
     {
         if (param.RefKind == RefKind.None)
-            return param.Name;
+            return prefix + param.Name;
 
-        string prefix = param.RefKind switch
+        string @ref = param.RefKind switch
         {
             RefKind.In => "in",
             RefKind.Ref => "ref",
@@ -26,6 +26,6 @@ internal static class RazorTemplateHelpers
             _ => throw new ArgumentOutOfRangeException(nameof(param))
         };
 
-        return $"{prefix} {param.Name}";
+        return $"{@ref} {prefix}{param.Name}";
     }
 }
