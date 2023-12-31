@@ -36,9 +36,9 @@ public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
         return model;
     }
 
-    private IReadOnlyCollection<ITestMethodModel> CollectTestMethods()
+    private IReadOnlyCollection<TestMethodModelBase> CollectTestMethods()
     {
-        List<ITestMethodModel> testMethods = [];
+        List<TestMethodModelBase> testMethods = [];
 
         var collectors = MethodCollectorLocator.GetAvailableCollectors();
 
@@ -65,7 +65,7 @@ public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
 
         return testMethods;
 
-        bool ShouldCollectSymbol(ISymbol symbol)
+        static bool ShouldCollectSymbol(ISymbol symbol)
         {
             if (symbol.IsImplicitlyDeclared)
                 return false;

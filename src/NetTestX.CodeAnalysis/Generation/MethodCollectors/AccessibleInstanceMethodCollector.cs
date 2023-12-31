@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using NetTestX.CodeAnalysis.Templates;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
 
@@ -24,7 +23,7 @@ public class AccessibleInstanceMethodCollector : ITestMethodCollector
         return true;
     }
 
-    public ITestMethodModel CollectSymbol(MethodCollectionContext context, ISymbol symbol)
+    public TestMethodModelBase CollectSymbol(MethodCollectionContext context, ISymbol symbol)
     {
         var method = (IMethodSymbol)symbol;
 

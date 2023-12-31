@@ -21,7 +21,7 @@ public class TestClassModel : INamespaceCollector
 
     public ITypeValueProvider ValueProvider { get; }
 
-    public IReadOnlyCollection<ITestMethodModel> TestMethods { get; }
+    public IReadOnlyCollection<TestMethodModelBase> TestMethods { get; }
 
     public IMethodSymbol Constructor { get; }
 
@@ -31,7 +31,7 @@ public class TestClassModel : INamespaceCollector
         INamedTypeSymbol type,
         IConstructorResolver constructorResolver,
         ITypeValueProvider valueProvider,
-        IReadOnlyCollection<ITestMethodModel> testMethods)
+        IReadOnlyCollection<TestMethodModelBase> testMethods)
     {
         TestClassName = testClassName;
         TestClassNamespace = testClassNamespace;

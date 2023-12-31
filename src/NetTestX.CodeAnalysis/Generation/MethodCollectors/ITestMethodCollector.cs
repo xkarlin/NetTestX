@@ -7,5 +7,5 @@ public interface ITestMethodCollector
 {
     bool ShouldCollectSymbol(MethodCollectionContext context, ISymbol symbol);
 
-    ITestMethodModel CollectSymbol(MethodCollectionContext context, ISymbol symbol);
+    TestMethodModelBase CollectSymbol(MethodCollectionContext context, ISymbol symbol);
 }

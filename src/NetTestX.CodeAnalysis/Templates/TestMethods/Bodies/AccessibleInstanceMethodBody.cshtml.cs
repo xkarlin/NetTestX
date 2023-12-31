@@ -7,7 +7,7 @@ namespace NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
 
 public record AccessibleInstanceMethodBodyModel(IMethodSymbol Method) : IMethodBodyModel
 {
-    public ITestMethodModel Parent { get; set; }
+    public TestMethodModelBase Parent { get; set; }
 
     public IEnumerable<string> CollectNamespaces()
     {
