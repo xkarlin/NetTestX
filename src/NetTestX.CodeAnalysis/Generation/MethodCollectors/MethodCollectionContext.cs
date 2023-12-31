@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace NetTestX.CodeAnalysis.MethodCollectors;
+namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
 public readonly struct MethodCollectionContext
 {

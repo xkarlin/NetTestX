@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 
-namespace NetTestX.CodeAnalysis.MethodCollectors;
+namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
 public interface ITestMethodCollector
 {

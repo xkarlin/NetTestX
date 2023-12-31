@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NetTestX.CodeAnalysis.MethodCollectors;
+namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
 public static class MethodCollectorLocator
 {

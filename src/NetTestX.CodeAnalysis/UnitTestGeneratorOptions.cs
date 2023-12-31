@@ -1,4 +1,4 @@
-﻿namespace NetTestX.CodeAnalysis.Generation;
+﻿namespace NetTestX.CodeAnalysis;
 
 public class UnitTestGeneratorOptions
 {

@@ -3,7 +3,7 @@ using NetTestX.CodeAnalysis.Templates;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
 
-namespace NetTestX.CodeAnalysis.MethodCollectors;
+namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
 public class AccessibleInstanceMethodCollector : ITestMethodCollector
 {
