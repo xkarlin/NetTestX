@@ -1,8 +1,8 @@
 ﻿@using NetTestX.Razor
-@using NetTestX.CodeAnalysis.Templates
+@using NetTestX.CodeAnalysis.Templates.TestMethods
 @inherits RazorPage<TestMethodModel>
 [Fact]
 public void Test@(Model.Symbol.Name)()
 {
-    
+    @await ImportPageAsync(Model.MethodBodyModel)
 }

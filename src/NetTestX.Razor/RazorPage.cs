@@ -36,8 +36,8 @@ public abstract class RazorPage<TModel> : Microsoft.AspNetCore.Mvc.Razor.RazorPa
 
     public override void WriteLiteral(string value)
     {
-        if (string.IsNullOrWhiteSpace(value))
-            _lastIndentation = value;
+        int indentationLength = value.AsSpan().Length - value.AsSpan().TrimEnd(' ').Length;
+        _lastIndentation = value[(value.Length - indentationLength)..];
 
         base.WriteLiteral(value);
     }

@@ -1,0 +1,31 @@
+﻿@using Microsoft.CodeAnalysis
+@using NetTestX.Razor
+@using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies
+@using static NetTestX.CodeAnalysis.Razor.RazorTemplateHelpers
+@inherits RazorPage<AccessibleInstanceMethodBodyModel>
+// Arrange
+@foreach (var param in Model.Method.Parameters)
+{
+@:@Full(param.Type) @param.Name = default;
+}
+@Full(Model.Method.ContainingType) sot = new();
+
+// Act
+@if (Model.Method.ReturnsVoid)
+{
+@:sot.@(Model.Method.Name)(@Args(Model.Method));
+}
+else if (Model.Method is { IsAsync: true, ReturnType: INamedTypeSymbol { IsGenericType: true } })
+{
+@:var result = await sot.@(Model.Method.Name)(@Args(Model.Method));
+}
+else if (Model.Method.IsAsync)
+{
+@:await sot.@(Model.Method.Name)(@Args(Model.Method));
+}
+else
+{
+@:var result = sot.@(Model.Method.Name)(@Args(Model.Method));
+}
+
+// Assert

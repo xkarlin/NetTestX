@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using NetTestX.CodeAnalysis.MethodCollectors;
 using NetTestX.CodeAnalysis.Templates;
+using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.Razor;
 
 namespace NetTestX.CodeAnalysis.Generation;
@@ -23,17 +23,15 @@ public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
     {
         var testMethods = CollectTestMethods();
 
-        TestClassModel model = new()
-        {
-            TestClassName = context.Options.TestClassName,
-            TestClassNamespace = context.Options.TestClassNamespace,
-            TestMethods = testMethods
-        };
+        TestClassModel model = new(
+            context.Options.TestClassName,
+            context.Options.TestClassNamespace,
+            testMethods);
 
         return model;
     }
 
-    private IEnumerable<TestMethodModel> CollectTestMethods()
+    private IEnumerable<ITestMethodModel> CollectTestMethods()
     {
         var collectors = MethodCollectorLocator.GetAvailableCollectors();
 

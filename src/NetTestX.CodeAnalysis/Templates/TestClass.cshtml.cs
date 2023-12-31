@@ -1,12 +1,9 @@
 using System.Collections.Generic;
+using NetTestX.CodeAnalysis.Templates.TestMethods;
 
 namespace NetTestX.CodeAnalysis.Templates;
 
-public class TestClassModel
-{
-    public string TestClassName { get; set; }
-
-    public string TestClassNamespace { get; set; }
-
-    public IEnumerable<TestMethodModel> TestMethods { get; set; }
-}
+public record TestClassModel(
+    string TestClassName,
+    string TestClassNamespace,
+    IEnumerable<ITestMethodModel> TestMethods);

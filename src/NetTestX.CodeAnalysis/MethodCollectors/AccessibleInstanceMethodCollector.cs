@@ -1,5 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Templates;
+using NetTestX.CodeAnalysis.Templates.TestMethods;
+using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
 
 namespace NetTestX.CodeAnalysis.MethodCollectors;
 
@@ -22,11 +24,15 @@ public class AccessibleInstanceMethodCollector : ITestMethodCollector
         return true;
     }
 
-    public TestMethodModel CollectSymbol(MethodCollectionContext context, ISymbol symbol)
+    public ITestMethodModel CollectSymbol(MethodCollectionContext context, ISymbol symbol)
     {
-        return new TestMethodModel
-        {
-            Symbol = symbol
-        };
+        var method = (IMethodSymbol)symbol;
+
+        var bodyModel = new AccessibleInstanceMethodBodyModel(method);
+
+        if (method.IsAsync)
+            return new AsyncTestMethodModel(symbol, bodyModel);
+
+        return new TestMethodModel(symbol, bodyModel);
     }
 }
