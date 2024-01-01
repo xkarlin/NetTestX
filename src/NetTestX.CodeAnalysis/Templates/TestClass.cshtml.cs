@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Extensions;
 using NetTestX.CodeAnalysis.Generation;
 using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
+using NetTestX.CodeAnalysis.Generation.TestFrameworkModels;
 using NetTestX.CodeAnalysis.Generation.TypeValueProviders;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 
@@ -21,6 +22,8 @@ public class TestClassModel : INamespaceCollector
 
     public ITypeValueProvider ValueProvider { get; }
 
+    public ITestFrameworkModel TestFrameworkModel { get; }
+
     public IReadOnlyCollection<TestMethodModelBase> TestMethods { get; }
 
     public IMethodSymbol Constructor { get; }
@@ -31,6 +34,7 @@ public class TestClassModel : INamespaceCollector
         INamedTypeSymbol type,
         IConstructorResolver constructorResolver,
         ITypeValueProvider valueProvider,
+        ITestFrameworkModel testFrameworkModel,
         IReadOnlyCollection<TestMethodModelBase> testMethods)
     {
         TestClassName = testClassName;
@@ -38,6 +42,7 @@ public class TestClassModel : INamespaceCollector
         Type = type;
         ConstructorResolver = constructorResolver;
         ValueProvider = valueProvider;
+        TestFrameworkModel = testFrameworkModel;
         TestMethods = testMethods;
 
         Constructor = ConstructorResolver.Resolve(type);
@@ -55,6 +60,8 @@ public class TestClassModel : INamespaceCollector
         namespaces = namespaces.Union(Type.CollectNamespaces());
 
         namespaces = namespaces.Union(ValueProvider.CollectNamespaces());
+
+        namespaces = namespaces.Union(TestFrameworkModel.CollectNamespaces());
 
         foreach (var model in TestMethods)
             namespaces = namespaces.Union(model.CollectNamespaces());

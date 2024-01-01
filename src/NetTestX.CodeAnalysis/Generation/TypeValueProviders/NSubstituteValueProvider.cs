@@ -5,10 +5,9 @@ using System.Linq;
 
 namespace NetTestX.CodeAnalysis.Generation.TypeValueProviders;
 
+[TypeValueProvider(MockingLibrary.NSubstitute)]
 public class NSubstituteValueProvider : TypeValueProviderBase
 {
-    public const string NSUBSTITUTE_N = "NSubstitute";
-
     public override string Resolve(ITypeSymbol type)
     {
         if (type.TypeKind == TypeKind.Interface)
@@ -17,5 +16,5 @@ public class NSubstituteValueProvider : TypeValueProviderBase
         return base.Resolve(type);
     }
 
-    public override IEnumerable<string> CollectNamespaces() => base.CollectNamespaces().Union([NSUBSTITUTE_N]);
+    public override IEnumerable<string> CollectNamespaces() => base.CollectNamespaces().Union(["NSubstitute"]);
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
 using NetTestX.CodeAnalysis.Generation.MethodCollectors;
+using NetTestX.CodeAnalysis.Generation.TestFrameworkModels;
 using NetTestX.CodeAnalysis.Generation.TypeValueProviders;
 using NetTestX.CodeAnalysis.Templates;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
@@ -25,12 +26,16 @@ public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
     {
         var testMethods = CollectTestMethods();
 
+        var testValueProvider = TypeValueProviderLocator.LocateValueProvider(context.Options.MockingLibrary);
+        var frameworkModel = TestFrameworkModelLocator.LocateModel(context.Options.TestFramework);
+
         TestClassModel model = new(
             context.Options.TestClassName,
             context.Options.TestClassNamespace,
             context.Type,
             new DummyConstructorResolver(),
-            new NSubstituteValueProvider(),
+            testValueProvider,
+            frameworkModel,
             testMethods);
 
         return model;

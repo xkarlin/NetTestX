@@ -21,5 +21,5 @@ public abstract class TestMethodModelBase : INamespaceCollector
         methodBodyModel.Parent = this;
     }
 
-    public virtual IEnumerable<string> CollectNamespaces() => MethodBodyModel.CollectNamespaces().Union(["Xunit"]);
+    public virtual IEnumerable<string> CollectNamespaces() => MethodBodyModel.CollectNamespaces();
 }

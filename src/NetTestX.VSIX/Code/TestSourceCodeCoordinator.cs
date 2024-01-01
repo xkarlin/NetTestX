@@ -59,7 +59,9 @@ public class TestSourceCodeCoordinator(DTE2 dte)
             Options = new()
             {
                 TestClassName = $"{typeSymbol.Name}Tests",
-                TestClassNamespace = $"{typeSymbol.ContainingNamespace}.Tests"
+                TestClassNamespace = $"{typeSymbol.ContainingNamespace}.Tests",
+                TestFramework = TestFramework.XUnit,
+                MockingLibrary = MockingLibrary.NSubstitute
             }
         };
 
