@@ -2,6 +2,7 @@
 using NetTestX.CodeAnalysis.Common;
 using System;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace NetTestX.CodeAnalysis.Templates.Utils;
 
@@ -14,7 +15,7 @@ public static class RazorTemplateHelpers
         => symbol.ToDisplayString(CommonFormats.ShortNullableFormat);
 
     public static string Args(IMethodSymbol method)
-    => string.Join(", ", method.Parameters.Select(x => Arg(x, x => x)));
+        => string.Join(", ", method.Parameters.Select(x => Arg(x, x => x)));
 
     public static string Args(IMethodSymbol method, Func<string, string> transform)
         => string.Join(", ", method.Parameters.Select(x => Arg(x, transform)));
@@ -36,4 +37,6 @@ public static class RazorTemplateHelpers
     }
 
     public static string Pascal(string value) => char.ToUpper(value[0]) + value[1..];
+
+    public static string TestPascal(string value) => $"test{Pascal(value)}";
 }

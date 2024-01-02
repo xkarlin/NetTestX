@@ -1,11 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
-using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
 
 namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
-public class AccessibleInstanceMethodCollector : ITestMethodCollector
+public class AccessibleStaticMethodCollector : ITestMethodCollector
 {
     public bool ShouldCollectSymbol(MethodCollectionContext context, ISymbol symbol)
     {
@@ -18,7 +17,7 @@ public class AccessibleInstanceMethodCollector : ITestMethodCollector
         if (method.DeclaredAccessibility is not Accessibility.Public)
             return false;
 
-        if (method.IsStatic || method.IsAbstract)
+        if (!method.IsStatic)
             return false;
 
         return true;
@@ -28,10 +27,7 @@ public class AccessibleInstanceMethodCollector : ITestMethodCollector
     {
         var method = (IMethodSymbol)symbol;
 
-        var constructorResolver = new DummyConstructorResolver();
-        var constructor = constructorResolver.Resolve(context.Type);
-
-        var bodyModel = new AccessibleInstanceMethodBodyModel(method, constructor);
+        var bodyModel = new AccessibleStaticMethodBodyModel(method);
 
         if (method.IsAsync)
             return new AsyncTestMethodModel(symbol, bodyModel);

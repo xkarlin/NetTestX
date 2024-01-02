@@ -33,7 +33,6 @@ public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
             context.Options.TestClassName,
             context.Options.TestClassNamespace,
             context.Type,
-            new DummyConstructorResolver(),
             testValueProvider,
             frameworkModel,
             testMethods);

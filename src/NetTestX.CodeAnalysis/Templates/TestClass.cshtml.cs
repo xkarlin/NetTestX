@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Extensions;
 using NetTestX.CodeAnalysis.Generation;
-using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
 using NetTestX.CodeAnalysis.Generation.TestFrameworkModels;
 using NetTestX.CodeAnalysis.Generation.MockValueProviders;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
@@ -18,21 +17,16 @@ public class TestClassModel : INamespaceCollector
 
     public INamedTypeSymbol Type { get; }
 
-    public IConstructorResolver ConstructorResolver { get; }
-
     public IMockValueProvider ValueProvider { get; }
 
     public ITestFrameworkModel TestFrameworkModel { get; }
 
     public IReadOnlyCollection<TestMethodModelBase> TestMethods { get; }
 
-    public IMethodSymbol Constructor { get; }
-
     public TestClassModel(
         string testClassName,
         string testClassNamespace,
         INamedTypeSymbol type,
-        IConstructorResolver constructorResolver,
         IMockValueProvider valueProvider,
         ITestFrameworkModel testFrameworkModel,
         IReadOnlyCollection<TestMethodModelBase> testMethods)
@@ -40,12 +34,9 @@ public class TestClassModel : INamespaceCollector
         TestClassName = testClassName;
         TestClassNamespace = testClassNamespace;
         Type = type;
-        ConstructorResolver = constructorResolver;
         ValueProvider = valueProvider;
         TestFrameworkModel = testFrameworkModel;
         TestMethods = testMethods;
-
-        Constructor = ConstructorResolver.Resolve(type);
         
         foreach (var model in testMethods)
             model.Parent = this;
@@ -65,9 +56,6 @@ public class TestClassModel : INamespaceCollector
 
         foreach (var model in TestMethods)
             namespaces = namespaces.Union(model.CollectNamespaces());
-
-        foreach (var param in Constructor.Parameters)
-            namespaces = namespaces.Union(param.Type.CollectNamespaces());
 
         return namespaces;
     }

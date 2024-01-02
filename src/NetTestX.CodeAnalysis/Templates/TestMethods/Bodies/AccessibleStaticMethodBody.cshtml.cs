@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
 
-public record AccessibleInstanceMethodBodyModel(IMethodSymbol Method, IMethodSymbol Constructor) : IMethodBodyModel
+public record AccessibleStaticMethodBodyModel(IMethodSymbol Method) : IMethodBodyModel
 {
     public TestMethodModelBase Parent { get; set; }
 
@@ -14,9 +14,6 @@ public record AccessibleInstanceMethodBodyModel(IMethodSymbol Method, IMethodSym
     public IEnumerable<string> CollectNamespaces()
     {
         IEnumerable<string> namespaces = [];
-
-        foreach (var param in Constructor.Parameters)
-            namespaces = namespaces.Union(param.Type.CollectNamespaces());
 
         foreach (var param in Method.Parameters)
             namespaces = namespaces.Union(param.Type.CollectNamespaces());

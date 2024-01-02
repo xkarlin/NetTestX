@@ -1,6 +1,6 @@
 ﻿@using NetTestX.Razor
 @using NetTestX.CodeAnalysis.Templates.TestMethods
-@inherits RazorPage<TestMethodModelBase>
+@inherits RazorPage<TestMethodModel>
 [@Model.Parent.TestFrameworkModel.TestMethodAttribute]
 public void Test@(Model.Symbol.Name)()
 {
