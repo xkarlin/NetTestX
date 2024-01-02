@@ -3,7 +3,7 @@ using NetTestX.CodeAnalysis.Common;
 using System;
 using System.Linq;
 
-namespace NetTestX.CodeAnalysis.Generation.Razor;
+namespace NetTestX.CodeAnalysis.Templates.Utils;
 
 public static class RazorTemplateHelpers
 {

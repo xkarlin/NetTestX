@@ -3,9 +3,9 @@ using NetTestX.CodeAnalysis.Common;
 using NetTestX.CodeAnalysis.Extensions;
 using System.Collections.Generic;
 
-namespace NetTestX.CodeAnalysis.Generation.TypeValueProviders;
+namespace NetTestX.CodeAnalysis.Generation.MockValueProviders;
 
-public abstract class TypeValueProviderBase : ITypeValueProvider
+public abstract class MockValueProviderBase : IMockValueProvider
 {
     public virtual string Resolve(ITypeSymbol type) => type switch
     {

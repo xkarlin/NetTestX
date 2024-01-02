@@ -1,7 +1,7 @@
 ﻿@using Microsoft.CodeAnalysis
 @using NetTestX.Razor
 @using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies
-@using static NetTestX.CodeAnalysis.Generation.Razor.RazorTemplateHelpers
+@using static NetTestX.CodeAnalysis.Templates.Utils.RazorTemplateHelpers
 @inherits RazorPage<AccessibleInstanceMethodBodyModel>
 @functions {
     string MethodArg(string name) => $"test{Pascal(name)}";

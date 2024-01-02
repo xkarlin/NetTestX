@@ -5,7 +5,7 @@ using NetTestX.CodeAnalysis.Extensions;
 using NetTestX.CodeAnalysis.Generation;
 using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
 using NetTestX.CodeAnalysis.Generation.TestFrameworkModels;
-using NetTestX.CodeAnalysis.Generation.TypeValueProviders;
+using NetTestX.CodeAnalysis.Generation.MockValueProviders;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 
 namespace NetTestX.CodeAnalysis.Templates;
@@ -20,7 +20,7 @@ public class TestClassModel : INamespaceCollector
 
     public IConstructorResolver ConstructorResolver { get; }
 
-    public ITypeValueProvider ValueProvider { get; }
+    public IMockValueProvider ValueProvider { get; }
 
     public ITestFrameworkModel TestFrameworkModel { get; }
 
@@ -33,7 +33,7 @@ public class TestClassModel : INamespaceCollector
         string testClassNamespace,
         INamedTypeSymbol type,
         IConstructorResolver constructorResolver,
-        ITypeValueProvider valueProvider,
+        IMockValueProvider valueProvider,
         ITestFrameworkModel testFrameworkModel,
         IReadOnlyCollection<TestMethodModelBase> testMethods)
     {
@@ -55,7 +55,7 @@ public class TestClassModel : INamespaceCollector
 
     public IEnumerable<string> CollectNamespaces()
     {
-        IEnumerable<string> namespaces = NamespaceUtilities.DefaultNamespaces;
+        IEnumerable<string> namespaces = NamespaceHelper.DefaultNamespaces;
 
         namespaces = namespaces.Union(Type.CollectNamespaces());
 

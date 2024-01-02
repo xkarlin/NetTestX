@@ -3,10 +3,10 @@ using NetTestX.CodeAnalysis.Common;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NetTestX.CodeAnalysis.Generation.TypeValueProviders;
+namespace NetTestX.CodeAnalysis.Generation.MockValueProviders;
 
-[TypeValueProvider(MockingLibrary.NSubstitute)]
-public class NSubstituteValueProvider : TypeValueProviderBase
+[MockValueProvider(MockingLibrary.NSubstitute)]
+public class NSubstituteValueProvider : MockValueProviderBase
 {
     public override string Resolve(ITypeSymbol type)
     {

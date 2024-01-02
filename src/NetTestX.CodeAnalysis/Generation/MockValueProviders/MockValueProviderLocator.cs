@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using System;
 
-namespace NetTestX.CodeAnalysis.Generation.TypeValueProviders;
+namespace NetTestX.CodeAnalysis.Generation.MockValueProviders;
 
-public static class TypeValueProviderLocator
+public static class MockValueProviderLocator
 {
     private static readonly Dictionary<MockingLibrary, Type> _typeCache = [];
 
-    static TypeValueProviderLocator()
+    static MockValueProviderLocator()
     {
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             OnAssemblyLoaded(assembly);
@@ -17,12 +17,12 @@ public static class TypeValueProviderLocator
         AppDomain.CurrentDomain.AssemblyLoad += (_, args) => OnAssemblyLoaded(args.LoadedAssembly);
     }
 
-    public static ITypeValueProvider LocateValueProvider(MockingLibrary library)
+    public static IMockValueProvider LocateValueProvider(MockingLibrary library)
     {
         if (!_typeCache.TryGetValue(library, out var pageType))
             throw new InvalidOperationException($"Could not find a value provider for {library}");
 
-        var provider = (ITypeValueProvider)Activator.CreateInstance(pageType);
+        var provider = (IMockValueProvider)Activator.CreateInstance(pageType);
         return provider;
     }
 
@@ -33,7 +33,7 @@ public static class TypeValueProviderLocator
 
         foreach (var assemblyType in assembly.GetTypes())
         {
-            if (assemblyType.GetCustomAttribute<TypeValueProviderAttribute>() is { } attribute)
+            if (assemblyType.GetCustomAttribute<MockValueProviderAttribute>() is { } attribute)
                 _typeCache[attribute.Library] = assemblyType;
         }
     }
