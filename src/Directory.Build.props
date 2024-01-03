@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework Condition="$(TargetFramework) == '' And $(TargetFrameworks) == ''">netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
   
@@ -11,6 +11,7 @@
 
   <ItemGroup Condition="'$(UseRazor)' == 'true'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <ProjectReference Condition="'$(MSBuildProjectName)' != 'NetTestX.Razor'" Include="$(MSBuildThisFileDirectory)NetTestX.Razor\NetTestX.Razor.csproj" />
   </ItemGroup>
 
 </Project>

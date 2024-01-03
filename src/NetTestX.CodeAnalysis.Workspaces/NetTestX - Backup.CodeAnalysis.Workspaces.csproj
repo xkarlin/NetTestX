@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <UseRazor>true</UseRazor>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build" Version="17.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NetTestX.CodeAnalysis\NetTestX.CodeAnalysis.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Templates\Testing\" />
+  </ItemGroup>
+
+</Project>

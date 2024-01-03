@@ -1,0 +1,14 @@
+﻿@using NetTestX.CodeAnalysis.Workspaces.Templates
+@using NetTestX.Razor
+@inherits RazorPage<PackageReferenceModel>
+@if (Model.Reference.DevelopmentOnly)
+{
+<PackageReference Include="@Model.Reference.Name" Version="*">
+  <PrivateAssets>all</PrivateAssets>
+  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+</PackageReference>
+}
+else
+{
+<PackageReference Include="@Model.Reference.Name" Version="*" />
+}

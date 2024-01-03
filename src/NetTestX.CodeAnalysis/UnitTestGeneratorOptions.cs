@@ -1,4 +1,4 @@
-﻿using NetTestX.CodeAnalysis.Common;
+﻿using NetTestX.Common;
 
 namespace NetTestX.CodeAnalysis;
 

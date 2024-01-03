@@ -4,27 +4,26 @@ using System.Text;
 using System.Threading.Tasks;
 using Community.VisualStudio.Toolkit;
 using EnvDTE;
-using EnvDTE80;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis;
 using NetTestX.CodeAnalysis.Common;
+using NetTestX.Common;
 using NetTestX.VSIX.Extensions;
 using DTEProject = EnvDTE.Project;
 using RoslynProject = Microsoft.CodeAnalysis.Project;
 
 namespace NetTestX.VSIX.Code;
 
-public class TestSourceCodeCoordinator(DTE2 dte)
+public class TestSourceCodeCoordinator
 {
-    public async Task LoadTestSourceCodeAsync(DTEProject testProject)
+    public async Task LoadTestSourceCodeAsync(TestSourceCodeLoadingContext context)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-        var selectedItem = dte.GetSelectedItemsFromSolutionExplorer()[0];
-        var projectItem = (ProjectItem)selectedItem.Object;
+        var projectItem = (ProjectItem)context.SelectedItems[0].Object;
 
         var workspace = await VS.GetMefServiceAsync<VisualStudioWorkspace>();
 
@@ -35,7 +34,7 @@ public class TestSourceCodeCoordinator(DTE2 dte)
         string testSource = await driver.GenerateTestClassSourceAsync();
         string testFileName = $"{Path.GetFileNameWithoutExtension(projectItem.Name)}Tests.{SourceFileExtensions.CSHARP}";
 
-        await AddSourceFileToProjectAsync(testProject, testSource, testFileName);
+        await AddSourceFileToProjectAsync(context.Project, testSource, testFileName);
     }
 
     private async Task<UnitTestGeneratorDriver> GetGeneratorDriverAsync(RoslynProject project, string fileName)

@@ -6,7 +6,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NetTestX.Razor\NetTestX.Razor.csproj" />
+    <ProjectReference Include="..\NetTestX.Common\NetTestX.Common.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

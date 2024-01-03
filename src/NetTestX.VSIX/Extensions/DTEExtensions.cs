@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using EnvDTE;
+﻿using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 
@@ -13,11 +10,5 @@ public static class DTEExtensions
     {
         ThreadHelper.ThrowIfNotOnUIThread();
         return (UIHierarchyItem[])dte.ToolWindows.SolutionExplorer.SelectedItems;
-    }
-
-    public static IEnumerable<Project> GetSolutionProjects(this DTE2 dte)
-    {
-        ThreadHelper.ThrowIfNotOnUIThread();
-        return dte.Solution.Projects.Cast<Project>();
     }
 }

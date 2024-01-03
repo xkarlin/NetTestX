@@ -46,11 +46,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Code\TestSourceCodeCoordinator.cs" />
+    <Compile Include="Code\TestSourceCodeLoadingContext.cs" />
     <Compile Include="Core\TestGenerationCoordinator.cs" />
     <Compile Include="Extensions\DTEExtensions.cs" />
     <Compile Include="Extensions\DTEProjectExtensions.cs" />
+    <Compile Include="Extensions\DTESolutionExtensions.cs" />
     <Compile Include="Extensions\WorkspaceExtensions.cs" />
     <Compile Include="Projects\TestProjectCoordinator.cs" />
+    <Compile Include="Projects\TestProjectLoadingContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\GenerateTestsCommand.cs" />
     <Compile Include="NetTestXPackage.cs" />
@@ -120,9 +123,17 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NetTestX.CodeAnalysis.Workspaces\NetTestX.CodeAnalysis.Workspaces.csproj">
+      <Project>{88c3c6b2-a709-4ec3-b19a-844bc3426b3a}</Project>
+      <Name>NetTestX.CodeAnalysis.Workspaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NetTestX.CodeAnalysis\NetTestX.CodeAnalysis.csproj">
       <Project>{f3028bf4-e209-4f71-b578-6e41c2a365ff}</Project>
       <Name>NetTestX.CodeAnalysis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NetTestX.Common\NetTestX.Common.csproj">
+      <Project>{01ff04c2-7dda-43a9-a8ff-ac031991330c}</Project>
+      <Name>NetTestX.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\NetTestX.Polyfill\NetTestX.Polyfill.csproj">
       <Project>{b0d7f511-d21c-4abf-8615-4ffdf0685a4e}</Project>

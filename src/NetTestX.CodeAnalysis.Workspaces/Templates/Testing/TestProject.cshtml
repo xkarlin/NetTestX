@@ -1,0 +1,29 @@
+﻿@using NetTestX.CodeAnalysis.Workspaces.Templates
+@using NetTestX.CodeAnalysis.Workspaces.Templates.Testing
+@using NetTestX.Razor
+@inherits RazorPage<TestProjectModel>
+<Project Sdk="Microsoft.NET.Sdk">
+    
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="@Model.OriginalProjectRelativePath" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
+    @foreach (var reference in Model.TestFrameworkModel.PackageReferences)
+    {
+    @:@await ImportPageAsync(new PackageReferenceModel { Reference = reference })
+    }
+    @foreach (var reference in Model.MockingLibraryModel.PackageReferences)
+    {
+    @:@await ImportPageAsync(new PackageReferenceModel { Reference = reference })
+    }
+  </ItemGroup>
+
+</Project>

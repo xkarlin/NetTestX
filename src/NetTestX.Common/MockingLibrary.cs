@@ -1,4 +1,4 @@
-﻿namespace NetTestX.CodeAnalysis.Common;
+﻿namespace NetTestX.Common;
 
 public enum MockingLibrary
 {
