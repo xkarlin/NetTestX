@@ -7,5 +7,5 @@ public readonly struct TestProjectLoadingContext
 {
     public required DTE2 DTE { get; init; }
 
-    public required UIHierarchyItem[] SelectedItems { get; init; }
+    public required Project Project { get; init; }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.VSIX.Code;
@@ -22,7 +23,7 @@ public class TestGenerationCoordinator(DTE2 dte)
         TestProjectLoadingContext projectLoadingContext = new()
         {
             DTE = dte,
-            SelectedItems = selectedItems
+            Project = ((ProjectItem)selectedItems[0].Object).ContainingProject,
         };
 
         var project = await _projectCoordinator.LoadTestProjectAsync(projectLoadingContext);

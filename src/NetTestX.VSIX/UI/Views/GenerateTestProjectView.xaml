@@ -1,0 +1,51 @@
+﻿<Window x:Class="NetTestX.VSIX.UI.Views.GenerateTestProjectView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:toolkit="clr-namespace:Community.VisualStudio.Toolkit;assembly=Community.VisualStudio.Toolkit"
+        toolkit:Themes.UseVsTheme="True"
+        mc:Ignorable="d" 
+        d:DesignHeight="450" d:DesignWidth="800"
+        Title="NetTestX - Generate Test Project">
+    <StackPanel>
+        <TextBlock Text="Generate Test Project" FontSize="24" Padding="10" />
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="Project Name" FontSize="16" />
+            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ProjectName}" />
+
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="Project Directory" FontSize="16" />
+            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding ProjectDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Button Grid.Row="1" Grid.Column="3" Content="..." FontSize="16" Click="ProjectDirectoryButton_Click" />
+
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="Test Framework" FontSize="16" />
+            <ComboBox Grid.Row="2" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding TestFramework}" SelectedValuePath="Content">
+                <ComboBoxItem Content="XUnit" />
+                <ComboBoxItem Content="NUnit" />
+            </ComboBox>
+            
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="Mocking Library" FontSize="16" />
+            <ComboBox Grid.Row="3" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding MockingLibrary}">
+                <ComboBoxItem Content="NSubstitute" />
+            </ComboBox>
+        </Grid>
+
+        <Button Content="Continue" Click="ContinueButton_Click" />
+    </StackPanel>
+</Window>

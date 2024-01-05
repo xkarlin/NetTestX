@@ -8,7 +8,7 @@ public static class TestFrameworkProjectModelLocator
     public static ITestFrameworkProjectModel LocateModel(TestFramework framework) => framework switch
     {
         TestFramework.XUnit => new XUnitProjectModel(),
-        TestFramework.NUnit => throw new NotSupportedException(),
+        TestFramework.NUnit => new NUnitProjectModel(),
         _ => throw new NotSupportedException()
     };
 }
