@@ -24,6 +24,8 @@ internal class GenerateTestProjectCommand : BaseCommand<GenerateTestProjectComma
 
     protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
     {
+        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
         GenerateTestProjectModel model = new();
         GenerateTestProjectView view = new(model);
         bool? result = view.ShowDialog();

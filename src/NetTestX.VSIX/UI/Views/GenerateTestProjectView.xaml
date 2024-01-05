@@ -9,12 +9,14 @@
         d:DesignHeight="450" d:DesignWidth="800"
         Title="NetTestX - Generate Test Project">
     <StackPanel>
-        <TextBlock Text="Generate Test Project" FontSize="24" Padding="10" />
+        <TextBlock Text="Generate Test Project" FontSize="24" Padding="20 5 20 5" />
+
+        <Separator />
 
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20" />
-                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="6*" />
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="20" />
@@ -27,25 +29,25 @@
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="Project Name" FontSize="16" />
-            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ProjectName}" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="Project Name" FontSize="16" Padding="0 10 0 10" />
+            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ProjectName}" FontSize="16" Margin="0 5 0 5" />
 
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="Project Directory" FontSize="16" />
-            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding ProjectDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Grid.Row="1" Grid.Column="3" Content="..." FontSize="16" Click="ProjectDirectoryButton_Click" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="Project Directory" FontSize="16" Padding="0 10 0 10" />
+            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding ProjectDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Margin="0 5 0 5" />
+            <Button Grid.Row="1" Grid.Column="3" Content="..." Click="ProjectDirectoryButton_Click" FontSize="16" Margin="10 5 10 5" />
 
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="Test Framework" FontSize="16" />
-            <ComboBox Grid.Row="2" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding TestFramework}" SelectedValuePath="Content">
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="Test Framework" FontSize="16" Padding="0 10 0 10" />
+            <ComboBox Grid.Row="2" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding TestFramework}" SelectedValuePath="Content" Margin="0 5 0 5">
                 <ComboBoxItem Content="XUnit" />
                 <ComboBoxItem Content="NUnit" />
             </ComboBox>
-            
-            <TextBlock Grid.Row="3" Grid.Column="1" Text="Mocking Library" FontSize="16" />
-            <ComboBox Grid.Row="3" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding MockingLibrary}">
+
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="Mocking Library" FontSize="16" Padding="0 10 0 10" />
+            <ComboBox Grid.Row="3" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding MockingLibrary}" Margin="0 5 0 5">
                 <ComboBoxItem Content="NSubstitute" />
             </ComboBox>
         </Grid>
 
-        <Button Content="Continue" Click="ContinueButton_Click" />
+        <Button HorizontalAlignment="Right" Content="Continue" Click="ContinueButton_Click" FontSize="16" Margin="0 10 25 0" Padding="10 5 10 5" />
     </StackPanel>
 </Window>
