@@ -1,7 +1,8 @@
 ﻿using System;
+using NetTestX.CodeAnalysis.Workspaces.Projects.Testing.TestFrameworks;
 using NetTestX.Common;
 
-namespace NetTestX.CodeAnalysis.Workspaces.Projects.Testing.TestFrameworks;
+namespace NetTestX.CodeAnalysis.Workspaces.Generation.Testing.TestFrameworks;
 
 public static class TestFrameworkProjectModelLocator
 {

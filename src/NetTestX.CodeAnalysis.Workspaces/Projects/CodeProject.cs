@@ -2,6 +2,8 @@
 using Microsoft.Build.Construction;
 using System.Xml;
 using Microsoft.Build.Evaluation;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Projects;
 
@@ -23,4 +25,6 @@ public class CodeProject
     }
 
     public string GetPropertyValue(string name) => _project.GetPropertyValue(name);
+
+    public IEnumerable<CodeProjectItem> GetItems(string name) => _project.GetItems(name).Select(x => new CodeProjectItem(name, x.EvaluatedInclude));
 }

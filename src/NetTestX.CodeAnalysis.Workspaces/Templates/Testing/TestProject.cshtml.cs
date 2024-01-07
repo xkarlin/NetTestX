@@ -1,5 +1,5 @@
-using NetTestX.CodeAnalysis.Workspaces.Projects.Testing.MockingLibraries;
-using NetTestX.CodeAnalysis.Workspaces.Projects.Testing.TestFrameworks;
+using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.MockingLibraries;
+using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.TestFrameworks;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Templates.Testing;
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NetTestX.Common;
 
-namespace NetTestX.CodeAnalysis.Workspaces.Projects.Testing.MockingLibraries;
+namespace NetTestX.CodeAnalysis.Workspaces.Generation.Testing.MockingLibraries;
 
 public interface IMockingLibraryProjectModel
 {

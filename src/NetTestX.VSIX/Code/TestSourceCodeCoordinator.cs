@@ -10,7 +10,8 @@ using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis;
 using NetTestX.CodeAnalysis.Common;
-using NetTestX.Common;
+using NetTestX.CodeAnalysis.Workspaces.Extensions;
+using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.Extensions;
 using DTEProject = EnvDTE.Project;
 using RoslynProject = Microsoft.CodeAnalysis.Project;
@@ -29,7 +30,8 @@ public class TestSourceCodeCoordinator
 
         var selectedProject = workspace.FindProjectByName(projectItem.ContainingProject.Name);
 
-        var driver = await GetGeneratorDriverAsync(selectedProject, projectItem.FileNames[0]);
+        CodeProject targetProject = new(context.Project.FileName);
+        var driver = await GetGeneratorDriverAsync(selectedProject, targetProject, projectItem.FileNames[0]);
 
         string testSource = await driver.GenerateTestClassSourceAsync();
         string testFileName = $"{Path.GetFileNameWithoutExtension(projectItem.Name)}Tests.{SourceFileExtensions.CSHARP}";
@@ -37,7 +39,7 @@ public class TestSourceCodeCoordinator
         await AddSourceFileToProjectAsync(context.Project, testSource, testFileName);
     }
 
-    private async Task<UnitTestGeneratorDriver> GetGeneratorDriverAsync(RoslynProject project, string fileName)
+    private async Task<UnitTestGeneratorDriver> GetGeneratorDriverAsync(RoslynProject project, CodeProject targetProject, string fileName)
     {
         var compilation = await project.GetCompilationAsync();
 
@@ -59,8 +61,8 @@ public class TestSourceCodeCoordinator
             {
                 TestClassName = $"{typeSymbol.Name}Tests",
                 TestClassNamespace = $"{typeSymbol.ContainingNamespace}.Tests",
-                TestFramework = TestFramework.XUnit,
-                MockingLibrary = MockingLibrary.NSubstitute
+                TestFramework = targetProject.GetProjectTestFramework(),
+                MockingLibrary = targetProject.GetProjectMockingLibrary()
             }
         };
 

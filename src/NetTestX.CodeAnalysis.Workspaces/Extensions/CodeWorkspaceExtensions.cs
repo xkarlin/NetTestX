@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.MockingLibraries;
+using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.TestFrameworks;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.CodeAnalysis.Workspaces.Projects.Testing;
-using NetTestX.CodeAnalysis.Workspaces.Projects.Testing.MockingLibraries;
-using NetTestX.CodeAnalysis.Workspaces.Projects.Testing.TestFrameworks;
 using NetTestX.CodeAnalysis.Workspaces.Templates.Testing;
 using NetTestX.Razor;
 

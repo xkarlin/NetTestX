@@ -1,4 +1,4 @@
-using NetTestX.CodeAnalysis.Workspaces.Projects;
+using NetTestX.CodeAnalysis.Workspaces.Generation;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Templates;
 

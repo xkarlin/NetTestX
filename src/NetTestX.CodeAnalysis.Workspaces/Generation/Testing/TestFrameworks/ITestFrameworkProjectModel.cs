@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NetTestX.Common;
 
-namespace NetTestX.CodeAnalysis.Workspaces.Projects.Testing.TestFrameworks;
+namespace NetTestX.CodeAnalysis.Workspaces.Generation.Testing.TestFrameworks;
 
 public interface ITestFrameworkProjectModel
 {
