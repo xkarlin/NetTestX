@@ -9,6 +9,7 @@ public static class TestFrameworkModelLocator
     {
         TestFramework.XUnit => new XUnitFrameworkModel(),
         TestFramework.NUnit => new NUnitFrameworkModel(),
+        TestFramework.MSTest => new MSTestFrameworkModel(),
         _ => throw new NotSupportedException()
     };
 }

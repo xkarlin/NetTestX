@@ -8,6 +8,10 @@
 
 namespace @Model.TestClassNamespace;
 
+@if (Model.TestFrameworkModel.TestClassAttribute is { } attr)
+{
+@:[@attr]
+}
 public class @Model.TestClassName
 {
     @foreach (var method in Model.TestMethods)

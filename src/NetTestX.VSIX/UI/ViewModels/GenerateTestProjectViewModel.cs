@@ -53,12 +53,14 @@ public class GenerateTestProjectViewModel(GenerateTestProjectModel model) : INot
     {
         "XUnit" => Common.TestFramework.XUnit,
         "NUnit" => Common.TestFramework.NUnit,
+        "MSTest" => Common.TestFramework.MSTest,
         _ => throw new ArgumentOutOfRangeException()
     };
 
     private static MockingLibrary GetMockingLibrary(string value) => value switch
     {
         "NSubstitute" => Common.MockingLibrary.NSubstitute,
+        "FakeItEasy" => Common.MockingLibrary.FakeItEasy,
         _ => throw new ArgumentOutOfRangeException()
     };
 }

@@ -40,11 +40,13 @@
             <ComboBox Grid.Row="2" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding TestFramework}" SelectedValuePath="Content" Margin="0 5 0 5">
                 <ComboBoxItem Content="XUnit" />
                 <ComboBoxItem Content="NUnit" />
+                <ComboBoxItem Content="MSTest" />
             </ComboBox>
 
             <TextBlock Grid.Row="3" Grid.Column="1" Text="Mocking Library" FontSize="16" Padding="0 10 0 10" />
-            <ComboBox Grid.Row="3" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding MockingLibrary}" Margin="0 5 0 5">
+            <ComboBox Grid.Row="3" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding MockingLibrary}" SelectedValuePath="Content" Margin="0 5 0 5">
                 <ComboBoxItem Content="NSubstitute" />
+                <ComboBoxItem Content="FakeItEasy" />
             </ComboBox>
         </Grid>
 

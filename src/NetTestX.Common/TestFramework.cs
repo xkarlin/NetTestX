@@ -3,5 +3,6 @@
 public enum TestFramework
 {
     XUnit,
-    NUnit
+    NUnit,
+    MSTest
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using NetTestX.CodeAnalysis.Workspaces.Projects.Testing.TestFrameworks;
 using NetTestX.Common;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Generation.Testing.TestFrameworks;
@@ -10,6 +9,7 @@ public static class TestFrameworkProjectModelLocator
     {
         TestFramework.XUnit => new XUnitProjectModel(),
         TestFramework.NUnit => new NUnitProjectModel(),
+        TestFramework.MSTest => new MSTestProjectModel(),
         _ => throw new NotSupportedException()
     };
 }
