@@ -7,30 +7,29 @@
   <Include href="VSGlobals.vsct"/>
 
   <Commands package="NetTestX">
-
     <Groups>
       <Group guid="NetTestX" id="GenerateTestsGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE" />
       </Group>
 
       <Group guid="NetTestX" id="GenerateTestsListGroup" priority="0x0600">
-        <Parent guid="NetTestX" id="GenerateTestsMenu"/>
+        <Parent guid="NetTestX" id="GenerateTestsMenu" />
       </Group>
-      
-      <Group guid="NetTestX" id="GenerateTestProjectMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
+
+      <Group guid="NetTestX" id="GenerateTestProjectGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE" />
       </Group>
     </Groups>
 
     <Menus>
       <Menu guid="NetTestX" id="GenerateTestsMenu" priority="0x0600" type="Menu">
-        <Parent guid="NetTestX" id="GenerateTestsGroup"/>
+        <Parent guid="NetTestX" id="GenerateTestsGroup" />
         <Strings>
           <ButtonText>Generate Unit Tests</ButtonText>
         </Strings>
       </Menu>
     </Menus>
-    
+
     <!--This section defines the elements the user can interact with, like a menu command or a button
         or combo box in a toolbar. -->
     <Buttons>
@@ -43,9 +42,9 @@
           <LocCanonicalName>.NetTestX.GenerateTestsCommand</LocCanonicalName>
         </Strings>
       </Button>
-      
+
       <Button guid="NetTestX" id="GenerateTestProjectCommand" priority="0x0100" type="Button">
-        <Parent guid="NetTestX" id="GenerateTestProjectMenuGroup" />
+        <Parent guid="NetTestX" id="GenerateTestProjectGroup" />
         <Icon guid="ImageCatalogGuid" id="TestApplication" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
@@ -54,19 +53,19 @@
         </Strings>
       </Button>
     </Buttons>
-    
   </Commands>
 
   <Symbols>
     <GuidSymbol name="NetTestX" value="{57856323-0846-4a1a-a846-ff1b5efe0129}">
       <IDSymbol name="GenerateTestsGroup" value="0x0001" />
       <IDSymbol name="GenerateTestsListGroup" value="0x0002" />
-      <IDSymbol name="GenerateTestProjectMenuGroup" value="0x0003" />
-
+      <IDSymbol name="GenerateTestProjectGroup" value="0x0003" />
+      
       <IDSymbol name="GenerateTestsMenu" value="0x0010" />
       
-      <IDSymbol name="GenerateTestsCommand" value="0x0100" />
-      <IDSymbol name="GenerateTestProjectCommand" value="0x0200" />
+      <IDSymbol name="GenerateTestProjectCommand" value="0x0100" />
+      <IDSymbol name="GenerateTestsCommand" value="0x0200" />
     </GuidSymbol>
   </Symbols>
+  
 </CommandTable>
