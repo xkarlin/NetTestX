@@ -3,6 +3,7 @@ using EnvDTE;
 using EnvDTE80;
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
+using NetTestX.VSIX.Commands.Handlers;
 using NetTestX.VSIX.Extensions;
 using NetTestX.VSIX.Models;
 using NetTestX.VSIX.Projects;
@@ -24,22 +25,7 @@ internal class GenerateTestProjectCommand : BaseCommand<GenerateTestProjectComma
 
     protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
     {
-        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
-        GenerateTestProjectModel model = new();
-        GenerateTestProjectView view = new(model);
-        bool? result = view.ShowDialog();
-
-        if (result != true)
-            return;
-
-        TestProjectLoadingContext context = new()
-        {
-            DTE = _dte,
-            Project = _dte.GetSelectedProjectFromSolutionExplorer()
-        };
-
-        TestProjectFactory testProjectFactory = new();
-        await testProjectFactory.CreateTestProjectAsync(context, model);
+        GenerateTestProjectCommandHandler handler = new(_dte);
+        await handler.ExecuteAsync();
     }
 }

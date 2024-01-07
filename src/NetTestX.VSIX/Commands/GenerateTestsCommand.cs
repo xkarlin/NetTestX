@@ -6,7 +6,7 @@ using EnvDTE80;
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Common;
-using NetTestX.VSIX.Core;
+using NetTestX.VSIX.Commands.Handlers;
 
 namespace NetTestX.VSIX.Commands;
 
@@ -23,8 +23,8 @@ internal sealed class GenerateTestsCommand : BaseCommand<GenerateTestsCommand>
 
     protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
     {
-        TestGenerationCoordinator coordinator = new(_dte);
-        await coordinator.ProcessTestGenerationRequestAsync();
+        GenerateTestsCommandHandler handler = new(_dte);
+        await handler.ExecuteAsync();
     }
 
     protected override void BeforeQueryStatus(EventArgs e)

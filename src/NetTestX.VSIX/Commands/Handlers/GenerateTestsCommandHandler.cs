@@ -1,20 +1,20 @@
-﻿using System.Threading.Tasks;
-using EnvDTE;
+﻿using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.VSIX.Code;
 using NetTestX.VSIX.Extensions;
 using NetTestX.VSIX.Projects;
+using System.Threading.Tasks;
 
-namespace NetTestX.VSIX.Core;
+namespace NetTestX.VSIX.Commands.Handlers;
 
-public class TestGenerationCoordinator(DTE2 dte)
+public class GenerateTestsCommandHandler(DTE2 dte)
 {
     private readonly TestProjectCoordinator _projectCoordinator = new();
 
     private readonly TestSourceCodeCoordinator _codeCoordinator = new();
 
-    public async Task ProcessTestGenerationRequestAsync()
+    public async Task ExecuteAsync()
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
