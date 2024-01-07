@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Community.VisualStudio.Toolkit;
 using EnvDTE;
@@ -6,12 +8,14 @@ using EnvDTE80;
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Common;
+using NetTestX.CodeAnalysis.Workspaces;
+using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.Commands.Handlers;
 
 namespace NetTestX.VSIX.Commands;
 
 [Command(PackageIds.GenerateTestsCommand)]
-internal sealed class GenerateTestsCommand : BaseCommand<GenerateTestsCommand>
+internal sealed class GenerateTestsCommand : BaseDynamicCommand<GenerateTestsCommand, CodeProject>
 {
     private DTE2 _dte;
 
@@ -21,19 +25,38 @@ internal sealed class GenerateTestsCommand : BaseCommand<GenerateTestsCommand>
         Assumes.Present(_dte);
     }
 
-    protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
+    protected override async Task ExecuteAsync(OleMenuCmdEventArgs e, CodeProject item)
     {
-        GenerateTestsCommandHandler handler = new(_dte);
+        GenerateTestsCommandHandler handler = new(_dte, item);
         await handler.ExecuteAsync();
     }
 
-    protected override void BeforeQueryStatus(EventArgs e)
+    protected override void BeforeQueryStatus(OleMenuCommand command, EventArgs e, CodeProject project)
     {
         ThreadHelper.ThrowIfNotOnUIThread();
 
         bool visible = ShouldCommandBeVisible();
 
-        Command.Visible = Command.Enabled = visible;
+        command.Visible = Command.Enabled = visible;
+        
+        if (!visible)
+            return;
+
+        command.Text = project is null ? "Generate Test Project..." : $"In {project.Name}";
+    }
+
+    protected override IReadOnlyList<CodeProject> GetItems()
+    {
+        ThreadHelper.ThrowIfNotOnUIThread();
+
+        List<CodeProject> projects = [null];
+
+        var solution = CodeWorkspace.Open(_dte.Solution.FileName);
+
+        var solutionProjects = solution.Projects.Where(x => x.GetPropertyValue("IsTestProject") == "true").ToArray();
+        projects.AddRange(solutionProjects);
+
+        return projects;
     }
 
     private bool ShouldCommandBeVisible()

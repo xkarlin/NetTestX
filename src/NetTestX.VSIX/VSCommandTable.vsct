@@ -9,29 +9,44 @@
   <Commands package="NetTestX">
 
     <Groups>
-      <Group guid="NetTestX" id="GenerateTestsMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
+      <Group guid="NetTestX" id="GenerateTestsGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE" />
       </Group>
+
+      <Group guid="NetTestX" id="GenerateTestsListGroup" priority="0x0600">
+        <Parent guid="NetTestX" id="GenerateTestsMenu"/>
+      </Group>
+      
       <Group guid="NetTestX" id="GenerateTestProjectMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
       </Group>
     </Groups>
 
+    <Menus>
+      <Menu guid="NetTestX" id="GenerateTestsMenu" priority="0x0600" type="Menu">
+        <Parent guid="NetTestX" id="GenerateTestsGroup"/>
+        <Strings>
+          <ButtonText>Generate Unit Tests</ButtonText>
+        </Strings>
+      </Menu>
+    </Menus>
+    
     <!--This section defines the elements the user can interact with, like a menu command or a button
         or combo box in a toolbar. -->
     <Buttons>
       <Button guid="NetTestX" id="GenerateTestsCommand" priority="0x0100" type="Button">
-        <Parent guid="NetTestX" id="GenerateTestsMenuGroup" />
-        <Icon guid="ImageCatalogGuid" id="StatusInformation" />
-        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Parent guid="NetTestX" id="GenerateTestsListGroup" />
+        <CommandFlag>DynamicItemStart</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
-          <ButtonText>Generate Unit Tests</ButtonText>
+          <ButtonText>Loading...</ButtonText>
           <LocCanonicalName>.NetTestX.GenerateTestsCommand</LocCanonicalName>
         </Strings>
       </Button>
+      
       <Button guid="NetTestX" id="GenerateTestProjectCommand" priority="0x0100" type="Button">
         <Parent guid="NetTestX" id="GenerateTestProjectMenuGroup" />
-        <Icon guid="ImageCatalogGuid" id="StatusInformation" />
+        <Icon guid="ImageCatalogGuid" id="TestApplication" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
           <ButtonText>Generate Test Project...</ButtonText>
@@ -39,15 +54,19 @@
         </Strings>
       </Button>
     </Buttons>
+    
   </Commands>
 
   <Symbols>
     <GuidSymbol name="NetTestX" value="{57856323-0846-4a1a-a846-ff1b5efe0129}">
-      <IDSymbol name="GenerateTestsMenuGroup" value="0x0001" />
-      <IDSymbol name="GenerateTestProjectMenuGroup" value="0x0002" />
+      <IDSymbol name="GenerateTestsGroup" value="0x0001" />
+      <IDSymbol name="GenerateTestsListGroup" value="0x0002" />
+      <IDSymbol name="GenerateTestProjectMenuGroup" value="0x0003" />
+
+      <IDSymbol name="GenerateTestsMenu" value="0x0010" />
       
-      <IDSymbol name="GenerateTestsCommand" value="0x01000" />
-      <IDSymbol name="GenerateTestProjectCommand" value="0x02000" />
+      <IDSymbol name="GenerateTestsCommand" value="0x0100" />
+      <IDSymbol name="GenerateTestProjectCommand" value="0x0200" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

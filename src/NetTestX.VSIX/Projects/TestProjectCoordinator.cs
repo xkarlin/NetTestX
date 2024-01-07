@@ -11,27 +11,28 @@ namespace NetTestX.VSIX.Projects;
 
 public class TestProjectCoordinator
 {
-    public async Task<DTEProject> LoadTestProjectAsync(TestProjectLoadingContext context)
+    public async Task<DTEProject> LoadTestProjectAsync(TestProjectCoordinatorContext context)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-        string originalProjectName = context.Project.Name;
-        string testProjectName = $"{originalProjectName}.Tests";
+        if (context.TestProject is { } testProject)
+            return context.DTE.Solution.FindSolutionProject(testProject.Name);
 
-        if (context.DTE.Solution.FindSolutionProject(testProjectName) is not { } targetProject)
+        GenerateTestProjectModel generateTestModel = new();
+        GenerateTestProjectView generateTestDialog = new(generateTestModel);
+
+        var dialogResult = generateTestDialog.ShowDialog();
+
+        if (dialogResult != true)
+            return null;
+
+        TestProjectFactory factory = new();
+        TestProjectFactoryContext factoryContext = new()
         {
-            GenerateTestProjectModel generateTestModel = new();
-            GenerateTestProjectView generateTestDialog = new(generateTestModel);
+            DTE = context.DTE,
+            Project = context.CurrentProject
+        };
 
-            var dialogResult = generateTestDialog.ShowDialog();
-
-            if (dialogResult != true)
-                return null;
-
-            TestProjectFactory factory = new();
-            targetProject = await factory.CreateTestProjectAsync(context, generateTestModel);
-        }
-
-        return targetProject;
+        return await factory.CreateTestProjectAsync(factoryContext, generateTestModel);
     }
 }

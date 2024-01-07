@@ -11,7 +11,7 @@ namespace NetTestX.VSIX.Projects;
 
 public class TestProjectFactory
 {
-    public async Task<Project> CreateTestProjectAsync(TestProjectLoadingContext context, GenerateTestProjectModel model)
+    public async Task<Project> CreateTestProjectAsync(TestProjectFactoryContext context, GenerateTestProjectModel model)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
@@ -37,7 +37,7 @@ public class TestProjectFactory
         return targetProject;
     }
 
-    private static async Task SaveSolutionAsync(TestProjectLoadingContext context, string testProjectPath)
+    private static async Task SaveSolutionAsync(TestProjectFactoryContext context, string testProjectPath)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
         context.DTE.Solution.AddFromFile(testProjectPath);

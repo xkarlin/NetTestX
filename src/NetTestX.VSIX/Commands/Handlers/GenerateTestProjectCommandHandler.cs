@@ -1,4 +1,5 @@
 ﻿using EnvDTE80;
+using Microsoft.VisualStudio.Shell;
 using NetTestX.VSIX.Extensions;
 using NetTestX.VSIX.Models;
 using NetTestX.VSIX.Projects;
@@ -11,6 +12,8 @@ public class GenerateTestProjectCommandHandler(DTE2 dte)
 {
     public async Task ExecuteAsync()
     {
+        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
         GenerateTestProjectModel model = new();
         GenerateTestProjectView view = new(model);
         bool? result = view.ShowDialog();
@@ -18,7 +21,7 @@ public class GenerateTestProjectCommandHandler(DTE2 dte)
         if (result != true)
             return;
 
-        TestProjectLoadingContext context = new()
+        TestProjectFactoryContext context = new()
         {
             DTE = dte,
             Project = dte.GetSelectedProjectFromSolutionExplorer()

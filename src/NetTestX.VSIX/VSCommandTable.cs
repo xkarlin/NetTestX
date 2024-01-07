@@ -20,9 +20,11 @@ namespace NetTestX.VSIX
     /// </summary>
     internal sealed partial class PackageIds
     {
-        public const int GenerateTestsMenuGroup = 0x0001;
-        public const int GenerateTestProjectMenuGroup = 0x0002;
-        public const int GenerateTestsCommand = 0x1000;
-        public const int GenerateTestProjectCommand = 0x2000;
+        public const int GenerateTestsGroup = 0x0001;
+        public const int GenerateTestsListGroup = 0x0002;
+        public const int GenerateTestProjectMenuGroup = 0x0003;
+        public const int GenerateTestsMenu = 0x0010;
+        public const int GenerateTestsCommand = 0x0100;
+        public const int GenerateTestProjectCommand = 0x0200;
     }
 }
