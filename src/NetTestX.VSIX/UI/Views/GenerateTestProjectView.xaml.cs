@@ -5,7 +5,7 @@ using NetTestX.VSIX.UI.ViewModels;
 
 namespace NetTestX.VSIX.UI.Views;
 
-public partial class GenerateTestProjectView : Window
+public partial class GenerateTestProjectView
 {
     private readonly GenerateTestProjectViewModel _viewModel;
 

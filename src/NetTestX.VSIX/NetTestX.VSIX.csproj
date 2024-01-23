@@ -48,7 +48,9 @@
     <Compile Include="Code\TestSourceCodeCoordinator.cs" />
     <Compile Include="Code\TestSourceCodeLoadingContext.cs" />
     <Compile Include="Commands\GenerateTestProjectCommand.cs" />
+    <Compile Include="Commands\GenerateTestsAdvancedCommand.cs" />
     <Compile Include="Commands\Handlers\GenerateTestProjectCommandHandler.cs" />
+    <Compile Include="Commands\Handlers\GenerateTestsAdvancedCommandHandler.cs" />
     <Compile Include="Commands\Handlers\GenerateTestsCommandHandler.cs" />
     <Compile Include="Extensions\DTEExtensions.cs" />
     <Compile Include="Extensions\DTEProjectExtensions.cs" />
@@ -67,9 +69,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Compile>
+    <Compile Include="UI\Models\GenerateTestsAdvancedModel.cs" />
     <Compile Include="UI\ViewModels\GenerateTestProjectViewModel.cs" />
+    <Compile Include="UI\ViewModels\GenerateTestsAdvancedViewModel.cs" />
     <Compile Include="UI\Views\GenerateTestProjectView.xaml.cs">
       <DependentUpon>GenerateTestProjectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Views\GenerateTestsAdvancedView.xaml.cs">
+      <DependentUpon>GenerateTestsAdvancedView.xaml</DependentUpon>
     </Compile>
     <Compile Include="VSCommandTable.cs">
       <AutoGen>True</AutoGen>
@@ -156,6 +163,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="UI\Views\GenerateTestProjectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Views\GenerateTestsAdvancedView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

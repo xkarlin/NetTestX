@@ -12,6 +12,8 @@ public static class CodeProjectExtensions
 
     public static IEnumerable<CodeProjectItem> GetPackageReferences(this CodeProject project) => project.GetItems(PACKAGE_REFERENCE_ITEM_NAME);
 
+    public static bool IsTestProject(this CodeProject project) => project.GetPropertyValue("IsTestProject") == "true";
+
     public static TestFramework GetProjectTestFramework(this CodeProject project) => TestFrameworkProjectLocator.GetTestFramework(project);
 
     public static MockingLibrary GetProjectMockingLibrary(this CodeProject project) => MockingLibraryProjectLocator.GetMockingLibrary(project);

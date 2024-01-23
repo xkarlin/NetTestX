@@ -15,7 +15,7 @@ public class GenerateTestProjectViewModel(GenerateTestProjectModel model) : INot
         set
         {
             model.ProjectName = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ProjectName)));
+            PropertyChanged?.Invoke(this, new(nameof(ProjectName)));
         }
     }
 
@@ -25,7 +25,7 @@ public class GenerateTestProjectViewModel(GenerateTestProjectModel model) : INot
         set
         {
             model.ProjectDirectory = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ProjectDirectory)));
+            PropertyChanged?.Invoke(this, new(nameof(ProjectDirectory)));
         }
     }
 
@@ -35,7 +35,7 @@ public class GenerateTestProjectViewModel(GenerateTestProjectModel model) : INot
         set
         {
             model.TestFramework = GetTestFramework(value);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TestFramework)));
+            PropertyChanged?.Invoke(this, new(nameof(TestFramework)));
         }
     }
 
@@ -45,7 +45,7 @@ public class GenerateTestProjectViewModel(GenerateTestProjectModel model) : INot
         set
         {
             model.MockingLibrary = GetMockingLibrary(value);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MockingLibrary)));
+            PropertyChanged?.Invoke(this, new(nameof(MockingLibrary)));
         }
     }
 

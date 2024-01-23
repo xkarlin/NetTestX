@@ -9,6 +9,7 @@ using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Common;
 using NetTestX.CodeAnalysis.Workspaces;
+using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.Commands.Handlers;
 
@@ -53,8 +54,8 @@ internal sealed class GenerateTestsCommand : BaseDynamicCommand<GenerateTestsCom
 
         var solution = CodeWorkspace.Open(_dte.Solution.FileName);
 
-        var solutionProjects = solution.Projects.Where(x => x.GetPropertyValue("IsTestProject") == "true").ToArray();
-        projects.AddRange(solutionProjects);
+        var testProjects = solution.GetTestProjects().ToArray();
+        projects.AddRange(testProjects);
 
         return projects;
     }

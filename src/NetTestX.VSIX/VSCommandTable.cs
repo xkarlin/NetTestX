@@ -26,5 +26,6 @@ namespace NetTestX.VSIX
         public const int GenerateTestsMenu = 0x0010;
         public const int GenerateTestProjectCommand = 0x0100;
         public const int GenerateTestsCommand = 0x0200;
+        public const int GenerateTestsAdvancedCommand = 0x0300;
     }
 }

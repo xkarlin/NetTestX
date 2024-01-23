@@ -8,21 +8,21 @@
 
   <Commands package="NetTestX">
     <Groups>
-      <Group guid="NetTestX" id="GenerateTestsGroup" priority="0x0600">
+      <Group guid="NetTestX" id="GenerateTestsGroup" priority="0x0100">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE" />
       </Group>
 
-      <Group guid="NetTestX" id="GenerateTestsListGroup" priority="0x0600">
+      <Group guid="NetTestX" id="GenerateTestsListGroup" priority="0x0100">
         <Parent guid="NetTestX" id="GenerateTestsMenu" />
       </Group>
 
-      <Group guid="NetTestX" id="GenerateTestProjectGroup" priority="0x0600">
+      <Group guid="NetTestX" id="GenerateTestProjectGroup" priority="0x0100">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE" />
       </Group>
     </Groups>
 
     <Menus>
-      <Menu guid="NetTestX" id="GenerateTestsMenu" priority="0x0600" type="Menu">
+      <Menu guid="NetTestX" id="GenerateTestsMenu" priority="0x0100" type="Menu">
         <Parent guid="NetTestX" id="GenerateTestsGroup" />
         <Strings>
           <ButtonText>Generate Unit Tests</ButtonText>
@@ -40,6 +40,14 @@
         <Strings>
           <ButtonText>Loading...</ButtonText>
           <LocCanonicalName>.NetTestX.GenerateTestsCommand</LocCanonicalName>
+        </Strings>
+      </Button>
+        
+      <Button guid="NetTestX" id="GenerateTestsAdvancedCommand" priority="0x0101" type="Button">
+        <Parent guid="NetTestX" id="GenerateTestsGroup" />
+        <Strings>
+            <ButtonText>Generate Unit Tests Advanced...</ButtonText>
+            <LocCanonicalName>.NetTestX.GenerateTestProjectCommand</LocCanonicalName>
         </Strings>
       </Button>
 
@@ -65,6 +73,7 @@
       
       <IDSymbol name="GenerateTestProjectCommand" value="0x0100" />
       <IDSymbol name="GenerateTestsCommand" value="0x0200" />
+      <IDSymbol name="GenerateTestsAdvancedCommand" value="0x0300" />
     </GuidSymbol>
   </Symbols>
   

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.MockingLibraries;
 using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.TestFrameworks;
@@ -34,4 +36,7 @@ public static class CodeWorkspaceExtensions
         var project = await workspace.CreateProjectAsync(context.ProjectFilePath, projectFile, saveCallback);
         return project;
     }
+
+    public static IEnumerable<CodeProject> GetTestProjects(this CodeWorkspace workspace)
+        => workspace.Projects.Where(CodeProjectExtensions.IsTestProject);
 }
