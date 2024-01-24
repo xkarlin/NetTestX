@@ -34,7 +34,8 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject)
         {
             DTE = dte,
             SelectedItems = selectedItems,
-            Project = dteProject
+            Project = dteProject,
+            OptionsProvider = new DefaultTestGeneratorOptionsProvider()
         };
 
         await _codeCoordinator.LoadTestSourceCodeAsync(sourceCodeLoadingContext);

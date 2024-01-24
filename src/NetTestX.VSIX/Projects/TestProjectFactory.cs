@@ -4,8 +4,8 @@ using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Workspaces.Projects.Testing;
 using NetTestX.CodeAnalysis.Workspaces;
 using NetTestX.VSIX.Extensions;
-using NetTestX.VSIX.Models;
 using NetTestX.CodeAnalysis.Workspaces.Extensions;
+using NetTestX.VSIX.UI.Models;
 
 namespace NetTestX.VSIX.Projects;
 

@@ -1,6 +1,6 @@
 ﻿using NetTestX.Common;
 
-namespace NetTestX.VSIX.Models;
+namespace NetTestX.VSIX.UI.Models;
 
 public class GenerateTestProjectModel
 {

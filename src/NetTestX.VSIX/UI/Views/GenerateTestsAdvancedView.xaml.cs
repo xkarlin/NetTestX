@@ -1,9 +1,9 @@
-﻿using NetTestX.VSIX.Models;
-using NetTestX.VSIX.UI.ViewModels;
+﻿using NetTestX.VSIX.UI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using NetTestX.VSIX.UI.Models;
 
 namespace NetTestX.VSIX.UI.Views;
 

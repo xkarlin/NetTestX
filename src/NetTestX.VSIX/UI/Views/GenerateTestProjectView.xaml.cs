@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Forms;
-using NetTestX.VSIX.Models;
+using NetTestX.VSIX.UI.Models;
 using NetTestX.VSIX.UI.ViewModels;
 
 namespace NetTestX.VSIX.UI.Views;

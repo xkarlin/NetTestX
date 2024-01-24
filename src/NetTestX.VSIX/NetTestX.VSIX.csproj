@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Code\CustomTestGeneratorOptionsProvider.cs" />
+    <Compile Include="Code\DefaultTestGeneratorOptionsProvider.cs" />
+    <Compile Include="Code\IUnitTestGeneratorOptionsProvider.cs" />
     <Compile Include="Code\TestSourceCodeCoordinator.cs" />
     <Compile Include="Code\TestSourceCodeLoadingContext.cs" />
     <Compile Include="Commands\GenerateTestProjectCommand.cs" />
@@ -56,6 +59,7 @@
     <Compile Include="Extensions\DTEProjectExtensions.cs" />
     <Compile Include="Extensions\DTESolutionExtensions.cs" />
     <Compile Include="Extensions\WorkspaceExtensions.cs" />
+    <Compile Include="GlobalUsings.cs" />
     <Compile Include="Projects\TestProjectFactory.cs" />
     <Compile Include="Projects\TestProjectCoordinatorContext.cs" />
     <Compile Include="UI\Models\GenerateTestProjectModel.cs" />

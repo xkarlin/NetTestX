@@ -10,4 +10,6 @@ public readonly struct TestSourceCodeLoadingContext
     public required UIHierarchyItem[] SelectedItems { get; init; }
  
     public required Project Project { get; init; }
+
+    public required IUnitTestGeneratorOptionsProvider OptionsProvider { get; init; }
 }

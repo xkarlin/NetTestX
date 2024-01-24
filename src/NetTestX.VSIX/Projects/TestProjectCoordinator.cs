@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.VSIX.Extensions;
-using NetTestX.VSIX.Models;
+using NetTestX.VSIX.UI.Models;
 using NetTestX.VSIX.UI.Views;
-using DTEProject = EnvDTE.Project;
 
 namespace NetTestX.VSIX.Projects;
 

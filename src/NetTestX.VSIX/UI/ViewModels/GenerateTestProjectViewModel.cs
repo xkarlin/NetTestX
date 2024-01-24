@@ -1,7 +1,7 @@
 ﻿using NetTestX.Common;
-using NetTestX.VSIX.Models;
 using System;
 using System.ComponentModel;
+using NetTestX.VSIX.UI.Models;
 
 namespace NetTestX.VSIX.UI.ViewModels;
 

@@ -4,10 +4,6 @@ using EnvDTE80;
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.VSIX.Commands.Handlers;
-using NetTestX.VSIX.Extensions;
-using NetTestX.VSIX.Models;
-using NetTestX.VSIX.Projects;
-using NetTestX.VSIX.UI.Views;
 using System.Threading.Tasks;
 
 namespace NetTestX.VSIX.Commands;

@@ -10,11 +10,8 @@ using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis;
 using NetTestX.CodeAnalysis.Common;
-using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.Extensions;
-using DTEProject = EnvDTE.Project;
-using RoslynProject = Microsoft.CodeAnalysis.Project;
 
 namespace NetTestX.VSIX.Code;
 
@@ -31,7 +28,7 @@ public class TestSourceCodeCoordinator
         var selectedProject = workspace.FindProjectByName(projectItem.ContainingProject.Name);
 
         CodeProject targetProject = new(context.Project.FileName);
-        var driver = await GetGeneratorDriverAsync(selectedProject, targetProject, projectItem.FileNames[0]);
+        var driver = await GetGeneratorDriverAsync(context, selectedProject, targetProject, projectItem.FileNames[0]);
 
         string testSource = await driver.GenerateTestClassSourceAsync();
         string testFileName = $"{Path.GetFileNameWithoutExtension(projectItem.Name)}Tests.{SourceFileExtensions.CSHARP}";
@@ -39,7 +36,7 @@ public class TestSourceCodeCoordinator
         await AddSourceFileToProjectAsync(context.Project, testSource, testFileName);
     }
 
-    private async Task<UnitTestGeneratorDriver> GetGeneratorDriverAsync(RoslynProject project, CodeProject targetProject, string fileName)
+    private async Task<UnitTestGeneratorDriver> GetGeneratorDriverAsync(TestSourceCodeLoadingContext context, RoslynProject project, CodeProject targetProject, string fileName)
     {
         var compilation = await project.GetCompilationAsync();
 
@@ -53,20 +50,14 @@ public class TestSourceCodeCoordinator
 
         var typeSymbol = compilation.GetSemanticModel(syntaxTree).GetDeclaredSymbol(typeDeclaration);
 
-        UnitTestGeneratorContext context = new()
+        UnitTestGeneratorContext generatorContext = new()
         {
             Type = typeSymbol,
             Compilation = compilation,
-            Options = new()
-            {
-                TestClassName = $"{typeSymbol.Name}Tests",
-                TestClassNamespace = $"{typeSymbol.ContainingNamespace}.Tests",
-                TestFramework = targetProject.GetProjectTestFramework(),
-                MockingLibrary = targetProject.GetProjectMockingLibrary()
-            }
+            Options = context.OptionsProvider.GetOptions(targetProject, typeSymbol)
         };
 
-        UnitTestGeneratorDriver driver = new(context);
+        UnitTestGeneratorDriver driver = new(generatorContext);
         return driver;
     }
 
