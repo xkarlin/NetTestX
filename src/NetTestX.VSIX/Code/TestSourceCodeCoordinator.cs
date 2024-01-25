@@ -4,12 +4,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Community.VisualStudio.Toolkit;
 using EnvDTE;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis;
 using NetTestX.CodeAnalysis.Common;
+using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.Extensions;
 
@@ -17,30 +19,46 @@ namespace NetTestX.VSIX.Code;
 
 public class TestSourceCodeCoordinator
 {
-    public async Task LoadTestSourceCodeAsync(TestSourceCodeLoadingContext context)
+    private readonly INamedTypeSymbol _type;
+
+    private readonly Compilation _compilation;
+    
+    public required TestSourceCodeCoordinatorOptions Options { get; init; }
+
+    private TestSourceCodeCoordinator(INamedTypeSymbol type, Compilation compilation)
+    {
+        _type = type;
+        _compilation = compilation;
+    }
+
+    public async Task LoadSourceCodeAsync(DTEProject project)
+    {
+        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+        CodeProject codeProject = new(project.FileName);
+
+        var driver = GetGeneratorDriver(codeProject);
+
+        string testSource = await driver.GenerateTestClassSourceAsync();
+        string testSourceFileName = $"{Options.TestFileName}.{SourceFileExtensions.CSHARP}";
+        
+        await AddSourceFileToProjectAsync(project, testSource, testSourceFileName);
+    }
+
+    public static async Task<TestSourceCodeCoordinator> CreateAsync(TestSourceCodeLoadingContext context)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
         var projectItem = (ProjectItem)context.SelectedItems[0].Object;
 
         var workspace = await VS.GetMefServiceAsync<VisualStudioWorkspace>();
+        var sourceProject = workspace.FindProjectByName(projectItem.ContainingProject.Name);
 
-        var selectedProject = workspace.FindProjectByName(projectItem.ContainingProject.Name);
+        string sourceFileName = projectItem.FileNames[0];
 
-        CodeProject targetProject = new(context.Project.FileName);
-        var driver = await GetGeneratorDriverAsync(context, selectedProject, targetProject, projectItem.FileNames[0]);
+        var compilation = await sourceProject.GetCompilationAsync();
 
-        string testSource = await driver.GenerateTestClassSourceAsync();
-        string testFileName = $"{Path.GetFileNameWithoutExtension(projectItem.Name)}Tests.{SourceFileExtensions.CSHARP}";
-
-        await AddSourceFileToProjectAsync(context.Project, testSource, testFileName);
-    }
-
-    private async Task<UnitTestGeneratorDriver> GetGeneratorDriverAsync(TestSourceCodeLoadingContext context, RoslynProject project, CodeProject targetProject, string fileName)
-    {
-        var compilation = await project.GetCompilationAsync();
-
-        var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == fileName);
+        var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == sourceFileName);
         var syntaxRoot = await syntaxTree.GetRootAsync();
 
         var typeDeclaration = syntaxRoot
@@ -50,11 +68,30 @@ public class TestSourceCodeCoordinator
 
         var typeSymbol = compilation.GetSemanticModel(syntaxTree).GetDeclaredSymbol(typeDeclaration);
 
+        return new(typeSymbol, compilation)
+        {
+            Options = new()
+            {
+                TestFileName = $"{Path.GetFileNameWithoutExtension(sourceFileName)}Tests",
+                TestClassName = $"{typeSymbol.Name}Tests",
+                TestClassNamespace = $"{typeSymbol.ContainingNamespace}.Tests"
+            }
+        };
+    }
+
+    private UnitTestGeneratorDriver GetGeneratorDriver(CodeProject project)
+    {
         UnitTestGeneratorContext generatorContext = new()
         {
-            Type = typeSymbol,
-            Compilation = compilation,
-            Options = context.OptionsProvider.GetOptions(targetProject, typeSymbol)
+            Type = _type,
+            Compilation = _compilation,
+            Options = new()
+            {
+                TestClassName = Options.TestClassName,
+                TestClassNamespace = Options.TestClassNamespace,
+                TestFramework = project.GetProjectTestFramework(),
+                MockingLibrary = project.GetProjectMockingLibrary()
+            }
         };
 
         UnitTestGeneratorDriver driver = new(generatorContext);

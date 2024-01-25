@@ -13,8 +13,6 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject)
 {
     private readonly TestProjectCoordinator _projectCoordinator = new();
 
-    private readonly TestSourceCodeCoordinator _codeCoordinator = new();
-
     public async Task ExecuteAsync()
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -34,10 +32,10 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject)
         {
             DTE = dte,
             SelectedItems = selectedItems,
-            Project = dteProject,
-            OptionsProvider = new DefaultTestGeneratorOptionsProvider()
         };
 
-        await _codeCoordinator.LoadTestSourceCodeAsync(sourceCodeLoadingContext);
+        var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(sourceCodeLoadingContext);
+
+        await codeCoordinator.LoadSourceCodeAsync(dteProject);
     }
 }

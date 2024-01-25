@@ -2,7 +2,7 @@
 
 namespace NetTestX.CodeAnalysis;
 
-public record UnitTestGeneratorOptions
+public class UnitTestGeneratorOptions
 {
     public required string TestClassName { get; init; }
 

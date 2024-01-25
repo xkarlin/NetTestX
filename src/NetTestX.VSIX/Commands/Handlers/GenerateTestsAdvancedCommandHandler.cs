@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Workspaces;
 using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.VSIX.UI.Views;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using NetTestX.VSIX.Code;
@@ -18,10 +17,24 @@ internal class GenerateTestsAdvancedCommandHandler(DTE2 dte)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
+        TestSourceCodeLoadingContext codeLoadingContext = new()
+        {
+            DTE = dte,
+            SelectedItems = dte.GetSelectedItemsFromSolutionExplorer(),
+        };
+
+        var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(codeLoadingContext);
+
+        GenerateTestsAdvancedModel model = new()
+        {
+            TestFileName = codeCoordinator.Options.TestFileName,
+            TestClassName = codeCoordinator.Options.TestClassName,
+            TestClassNamespace = codeCoordinator.Options.TestClassNamespace
+        };
+
         var workspace = CodeWorkspace.Open(dte.Solution.FileName);
         var testProjects = workspace.GetTestProjects();
 
-        GenerateTestsAdvancedModel model = new();
         GenerateTestsAdvancedView view = new(model, testProjects.Select(x => x.Name));
 
         bool? result = view.ShowDialog();
@@ -29,15 +42,12 @@ internal class GenerateTestsAdvancedCommandHandler(DTE2 dte)
         if (result != true)
             return;
 
-        TestSourceCodeCoordinator codeCoordinator = new();
-        TestSourceCodeLoadingContext codeLoadingContext = new()
-        {
-            DTE = dte,
-            Project = dte.Solution.FindSolutionProject(model.TestProject),
-            SelectedItems = dte.GetSelectedItemsFromSolutionExplorer(),
-            OptionsProvider = new CustomTestGeneratorOptionsProvider(model.TestClassName, model.TestClassNamespace)
-        };
+        codeCoordinator.Options.TestFileName = model.TestFileName;
+        codeCoordinator.Options.TestClassName = model.TestClassName;
+        codeCoordinator.Options.TestClassNamespace = model.TestClassNamespace;
 
-        await codeCoordinator.LoadTestSourceCodeAsync(codeLoadingContext);
+        var targetProject = dte.Solution.FindSolutionProject(model.TestProject);
+
+        await codeCoordinator.LoadSourceCodeAsync(targetProject);
     }
 }

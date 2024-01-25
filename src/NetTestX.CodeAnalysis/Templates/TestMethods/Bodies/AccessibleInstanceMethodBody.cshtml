@@ -8,7 +8,7 @@
 {
 @:var @param.Name = @Model.Parent.Parent.Value(param.Type);
 }
-@Short(Model.Type) sot = new(@Args(Model.Constructor));
+@Short(Model.Type) sut = new(@Args(Model.Constructor));
 
 @foreach (var param in Model.Method.Parameters)
 {
@@ -18,19 +18,19 @@
 // Act
 @if (Model.Method.ReturnsVoid)
 {
-@:sot.@(Model.Method.Name)(@Args(Model.Method, TestPascal));
+@:sut.@(Model.Method.Name)(@Args(Model.Method, TestPascal));
 }
 else if (Model.Method is { IsAsync: true, ReturnType: INamedTypeSymbol { IsGenericType: true } })
 {
-@:var result = await sot.@(Model.Method.Name)(@Args(Model.Method, TestPascal));
+@:var result = await sut.@(Model.Method.Name)(@Args(Model.Method, TestPascal));
 }
 else if (Model.Method.IsAsync)
 {
-@:await sot.@(Model.Method.Name)(@Args(Model.Method, TestPascal));
+@:await sut.@(Model.Method.Name)(@Args(Model.Method, TestPascal));
 }
 else
 {
-@:var result = sot.@(Model.Method.Name)(@Args(Model.Method, TestPascal));
+@:var result = sut.@(Model.Method.Name)(@Args(Model.Method, TestPascal));
 }
 
 // Assert

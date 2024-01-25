@@ -45,10 +45,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Code\CustomTestGeneratorOptionsProvider.cs" />
-    <Compile Include="Code\DefaultTestGeneratorOptionsProvider.cs" />
-    <Compile Include="Code\IUnitTestGeneratorOptionsProvider.cs" />
     <Compile Include="Code\TestSourceCodeCoordinator.cs" />
+    <Compile Include="Code\TestSourceCodeCoordinatorOptions.cs" />
     <Compile Include="Code\TestSourceCodeLoadingContext.cs" />
     <Compile Include="Commands\GenerateTestProjectCommand.cs" />
     <Compile Include="Commands\GenerateTestsAdvancedCommand.cs" />

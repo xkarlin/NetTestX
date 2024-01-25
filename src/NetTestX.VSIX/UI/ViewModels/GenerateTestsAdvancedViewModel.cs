@@ -17,6 +17,16 @@ public class GenerateTestsAdvancedViewModel(GenerateTestsAdvancedModel model) : 
         }
     }
 
+    public string TestFileName
+    {
+        get => model.TestFileName;
+        set
+        {
+            model.TestFileName = value;
+            PropertyChanged?.Invoke(this, new(nameof(TestFileName)));
+        }
+    }
+
     public string TestClassName
     {
         get => model.TestClassName;
