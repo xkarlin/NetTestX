@@ -12,5 +12,5 @@ public class GenerateTestProjectModel
 
     public MockingLibrary MockingLibrary { get; set; }
 
-    public bool GenerateInternalsVisibleTo { get; set; } = true;
+    public bool GenerateInternalsVisibleTo { get; set; }
 }

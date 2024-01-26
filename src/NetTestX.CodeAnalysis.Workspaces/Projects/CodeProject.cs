@@ -1,5 +1,5 @@
-﻿using System.IO;
-using Microsoft.Build.Construction;
+﻿using System;
+using System.IO;
 using Microsoft.Build.Evaluation;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +18,7 @@ public class CodeProject
     {
         FilePath = filePath;
 
-        var root = ProjectRootElement.Open(FilePath, new(), true);
-        _project = new(root);
+        _project = ProjectCollection.GlobalProjectCollection.LoadProject(FilePath);
     }
 
     public string GetPropertyValue(string name) => _project.GetPropertyValue(name);

@@ -17,18 +17,28 @@ public class GenerateTestProjectCommandHandler(DTE2 dte)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-        GenerateTestProjectModel model = new();
-        GenerateTestProjectView view = new(model);
-        bool? result = view.ShowDialog();
-
-        if (result != true)
-            return;
-
         TestProjectFactoryContext context = new()
         {
             DTE = dte,
             Project = dte.GetSelectedProjectFromSolutionExplorer()
         };
+
+        var testProjectFactory = await TestProjectFactory.CreateAsync(context);
+
+        GenerateTestProjectModel model = new()
+        {
+            ProjectName = testProjectFactory.Options.ProjectName,
+            ProjectDirectory = testProjectFactory.Options.ProjectDirectory,
+            TestFramework = testProjectFactory.Options.TestFramework,
+            MockingLibrary = testProjectFactory.Options.MockingLibrary,
+            GenerateInternalsVisibleTo = true
+        };
+
+        GenerateTestProjectView view = new(model);
+        bool? result = view.ShowDialog();
+
+        if (result != true)
+            return;
 
         if (model.GenerateInternalsVisibleTo)
         {
@@ -37,7 +47,11 @@ public class GenerateTestProjectCommandHandler(DTE2 dte)
             originalProject.Save();
         }
 
-        TestProjectFactory testProjectFactory = new();
-        await testProjectFactory.CreateTestProjectAsync(context, model);
+        testProjectFactory.Options.ProjectName = model.ProjectName;
+        testProjectFactory.Options.ProjectDirectory = model.ProjectDirectory;
+        testProjectFactory.Options.TestFramework = model.TestFramework;
+        testProjectFactory.Options.MockingLibrary = model.MockingLibrary;
+
+        await testProjectFactory.CreateTestProjectAsync();
     }
 }
