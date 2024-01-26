@@ -49,6 +49,16 @@ public class GenerateTestProjectViewModel(GenerateTestProjectModel model) : INot
         }
     }
 
+    public bool GenerateInternalsVisibleTo
+    {
+        get => model.GenerateInternalsVisibleTo;
+        set
+        {
+            model.GenerateInternalsVisibleTo = value;
+            PropertyChanged?.Invoke(this, new(nameof(GenerateInternalsVisibleTo)));
+        }
+    }
+
     private static TestFramework GetTestFramework(string value) => value switch
     {
         "XUnit" => Common.TestFramework.XUnit,

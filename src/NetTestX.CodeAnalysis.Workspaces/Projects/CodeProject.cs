@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Microsoft.Build.Construction;
-using System.Xml;
 using Microsoft.Build.Evaluation;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +18,15 @@ public class CodeProject
     {
         FilePath = filePath;
 
-        using var xmlReader = XmlReader.Create(File.OpenRead(filePath));
-        var root = ProjectRootElement.Create(xmlReader, new(), true);
+        var root = ProjectRootElement.Open(FilePath, new(), true);
         _project = new(root);
     }
 
     public string GetPropertyValue(string name) => _project.GetPropertyValue(name);
 
+    public void AddItem(string name, string value) => _project.AddItem(name, value);
+    
     public IEnumerable<CodeProjectItem> GetItems(string name) => _project.GetItems(name).Select(x => new CodeProjectItem(name, x.EvaluatedInclude));
+
+    public void Save() => _project.Save(FilePath);
 }
