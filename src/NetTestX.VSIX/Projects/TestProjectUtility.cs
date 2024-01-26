@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.UI.Models;
 using NetTestX.VSIX.UI.Views;
@@ -9,6 +10,8 @@ public static class TestProjectUtility
 {
     public static async Task<DTEProject> CreateTestProjectFromViewAsync(TestProjectFactoryContext context)
     {
+        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
         var testProjectFactory = await TestProjectFactory.CreateAsync(context);
 
         GenerateTestProjectModel model = new()
