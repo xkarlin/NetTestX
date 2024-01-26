@@ -59,10 +59,9 @@
     <Compile Include="Extensions\WorkspaceExtensions.cs" />
     <Compile Include="GlobalUsings.cs" />
     <Compile Include="Projects\TestProjectFactory.cs" />
-    <Compile Include="Projects\TestProjectCoordinatorContext.cs" />
     <Compile Include="Projects\TestProjectFactoryOptions.cs" />
+    <Compile Include="Projects\TestProjectUtility.cs" />
     <Compile Include="UI\Models\GenerateTestProjectModel.cs" />
-    <Compile Include="Projects\TestProjectCoordinator.cs" />
     <Compile Include="Projects\TestProjectFactoryContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\GenerateTestsCommand.cs" />

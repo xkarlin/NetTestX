@@ -1,28 +1,15 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.Shell;
-using NetTestX.VSIX.Extensions;
+﻿using System.Threading.Tasks;
+using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.UI.Models;
 using NetTestX.VSIX.UI.Views;
 
 namespace NetTestX.VSIX.Projects;
 
-public class TestProjectCoordinator
+public static class TestProjectUtility
 {
-    public async Task<DTEProject> LoadTestProjectAsync(TestProjectCoordinatorContext context)
+    public static async Task<DTEProject> CreateTestProjectFromViewAsync(TestProjectFactoryContext context)
     {
-        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
-        if (context.TestProject is { } testProject)
-            return context.DTE.Solution.FindSolutionProject(testProject.Name);
-
-        TestProjectFactoryContext factoryContext = new()
-        {
-            DTE = context.DTE,
-            Project = context.CurrentProject
-        };
-
-        var testProjectFactory = await TestProjectFactory.CreateAsync(factoryContext);
+        var testProjectFactory = await TestProjectFactory.CreateAsync(context);
 
         GenerateTestProjectModel model = new()
         {
@@ -41,15 +28,15 @@ public class TestProjectCoordinator
 
         if (model.GenerateInternalsVisibleTo)
         {
-            context.TestProject.AddItem("InternalsVisibleTo", model.ProjectName);
-            context.TestProject.Save();
+            CodeProject originalProject = new(context.Project.FileName);
+            originalProject.AddItem("InternalsVisibleTo", model.ProjectName);
+            originalProject.Save();
         }
 
         testProjectFactory.Options.ProjectName = model.ProjectName;
         testProjectFactory.Options.ProjectDirectory = model.ProjectDirectory;
         testProjectFactory.Options.TestFramework = model.TestFramework;
         testProjectFactory.Options.MockingLibrary = model.MockingLibrary;
-
 
         return await testProjectFactory.CreateTestProjectAsync();
     }

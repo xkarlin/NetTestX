@@ -11,31 +11,38 @@ namespace NetTestX.VSIX.Commands.Handlers;
 
 public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject)
 {
-    private readonly TestProjectCoordinator _projectCoordinator = new();
-
     public async Task ExecuteAsync()
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-        var selectedItems = dte.GetSelectedItemsFromSolutionExplorer();
-
-        TestProjectCoordinatorContext projectLoadingContext = new()
-        {
-            DTE = dte,
-            CurrentProject = ((ProjectItem)selectedItems[0].Object).ContainingProject,
-            TestProject = testProject
-        };
-
-        var dteProject = await _projectCoordinator.LoadTestProjectAsync(projectLoadingContext);
+        var targetProject = await GetTargetProjectAsync();
 
         TestSourceCodeLoadingContext sourceCodeLoadingContext = new()
         {
             DTE = dte,
-            SelectedItems = selectedItems,
+            SelectedItems = dte.GetSelectedItemsFromSolutionExplorer()
         };
 
         var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(sourceCodeLoadingContext);
 
-        await codeCoordinator.LoadSourceCodeAsync(dteProject);
+        await codeCoordinator.LoadSourceCodeAsync(targetProject);
+    }
+
+    private async Task<DTEProject> GetTargetProjectAsync()
+    {
+        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+        if (testProject is not null)
+            return dte.Solution.FindSolutionProject(testProject.Name);
+
+        var selectedItems = dte.GetSelectedItemsFromSolutionExplorer();
+
+        TestProjectFactoryContext context = new()
+        {
+            DTE = dte,
+            Project = ((ProjectItem)selectedItems[0].Object).ContainingProject
+        };
+
+        return await TestProjectUtility.CreateTestProjectFromViewAsync(context);
     }
 }
