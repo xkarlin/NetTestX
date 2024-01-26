@@ -37,6 +37,8 @@
         <Parent guid="NetTestX" id="GenerateTestsListGroup" />
         <CommandFlag>DynamicItemStart</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>TextChanges</CommandFlag>
+        <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
           <ButtonText>Loading...</ButtonText>
           <LocCanonicalName>.NetTestX.GenerateTestsCommand</LocCanonicalName>
