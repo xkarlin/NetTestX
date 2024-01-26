@@ -45,6 +45,8 @@
         
       <Button guid="NetTestX" id="GenerateTestsAdvancedCommand" priority="0x0101" type="Button">
         <Parent guid="NetTestX" id="GenerateTestsGroup" />
+        <CommandFlag>DynamicItemStart</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
             <ButtonText>Generate Unit Tests Advanced...</ButtonText>
             <LocCanonicalName>.NetTestX.GenerateTestProjectCommand</LocCanonicalName>

@@ -38,7 +38,7 @@ internal sealed class GenerateTestsCommand : BaseDynamicCommand<GenerateTestsCom
 
         bool visible = ShouldCommandBeVisible();
 
-        command.Visible = Command.Enabled = visible;
+        Command.Visible = Command.Enabled = visible;
         
         if (!visible)
             return;
