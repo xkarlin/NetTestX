@@ -15,12 +15,14 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-        var targetProject = await GetTargetProjectAsync();
+        var selectedItems = dte.GetSelectedItemsFromSolutionExplorer();
+
+        var targetProject = await GetTargetProjectAsync(selectedItems);
 
         TestSourceCodeLoadingContext sourceCodeLoadingContext = new()
         {
             DTE = dte,
-            SelectedItems = dte.GetSelectedItemsFromSolutionExplorer()
+            SelectedItems = selectedItems
         };
 
         var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(sourceCodeLoadingContext);
@@ -28,14 +30,12 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject)
         await codeCoordinator.LoadSourceCodeAsync(targetProject);
     }
 
-    private async Task<DTEProject> GetTargetProjectAsync()
+    private async Task<DTEProject> GetTargetProjectAsync(UIHierarchyItem[] selectedItems)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
         if (testProject is not null)
             return dte.Solution.FindSolutionProject(testProject.Name);
-
-        var selectedItems = dte.GetSelectedItemsFromSolutionExplorer();
 
         TestProjectFactoryContext context = new()
         {
