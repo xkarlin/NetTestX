@@ -9,7 +9,7 @@ using NetTestX.VSIX.Code.TypeSymbolProviders;
 
 namespace NetTestX.VSIX.Commands.Handlers;
 
-internal class GenerateTestsAdvancedCommandHandler(DTE2 dte)
+internal class GenerateTestsAdvancedCommandHandler(DTE2 dte) : ICommandHandler
 {
     public async Task ExecuteAsync()
     {

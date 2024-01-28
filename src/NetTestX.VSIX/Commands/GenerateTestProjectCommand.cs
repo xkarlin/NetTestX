@@ -2,14 +2,13 @@
 using EnvDTE;
 using EnvDTE80;
 using Microsoft;
-using Microsoft.VisualStudio.Shell;
 using NetTestX.VSIX.Commands.Handlers;
 using System.Threading.Tasks;
 
 namespace NetTestX.VSIX.Commands;
 
 [Command(PackageIds.GenerateTestProjectCommand)]
-internal class GenerateTestProjectCommand : BaseCommand<GenerateTestProjectCommand>
+internal class GenerateTestProjectCommand : BaseCommand<GenerateTestProjectCommand, GenerateTestProjectCommandHandler>
 {
     private DTE2 _dte;
 
@@ -19,9 +18,5 @@ internal class GenerateTestProjectCommand : BaseCommand<GenerateTestProjectComma
         Assumes.Present(_dte);
     }
 
-    protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
-    {
-        GenerateTestProjectCommandHandler handler = new(_dte);
-        await handler.ExecuteAsync();
-    }
+    protected override GenerateTestProjectCommandHandler CreateHandler() => new(_dte);
 }

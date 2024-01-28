@@ -11,7 +11,7 @@ using NetTestX.VSIX.Code.TypeSymbolProviders;
 
 namespace NetTestX.VSIX.Commands.Handlers;
 
-public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject)
+public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : ICommandHandler
 {
     public async Task ExecuteAsync()
     {

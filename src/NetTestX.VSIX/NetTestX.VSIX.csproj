@@ -52,6 +52,8 @@
     <Compile Include="Code\TypeSymbolProviders\DefaultTypeSymbolProvider.cs" />
     <Compile Include="Code\TypeSymbolProviders\ITypeSymbolProvider.cs" />
     <Compile Include="Code\TypeSymbolProviders\SyntaxTreeTypeSymbolProvider.cs" />
+    <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\BaseDynamicCommand.cs" />
     <Compile Include="Commands\GenerateTestProjectCommand.cs" />
     <Compile Include="Commands\GenerateTestsAdvancedCommand.cs" />
     <Compile Include="Commands\GenerateTestsAdvancedEditorCommand.cs" />
@@ -59,6 +61,7 @@
     <Compile Include="Commands\Handlers\GenerateTestsAdvancedCommandHandler.cs" />
     <Compile Include="Commands\Handlers\GenerateTestsAdvancedEditorCommandHandler.cs" />
     <Compile Include="Commands\Handlers\GenerateTestsCommandHandler.cs" />
+    <Compile Include="Commands\Handlers\ICommandHandler.cs" />
     <Compile Include="Extensions\DTEExtensions.cs" />
     <Compile Include="Extensions\DTEProjectExtensions.cs" />
     <Compile Include="Extensions\DTESolutionExtensions.cs" />

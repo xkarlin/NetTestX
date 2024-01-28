@@ -12,7 +12,7 @@ using NetTestX.VSIX.Extensions;
 namespace NetTestX.VSIX.Commands;
 
 [Command(PackageIds.GenerateTestsAdvancedEditorCommand)]
-internal sealed class GenerateTestsAdvancedEditorCommand : BaseCommand<GenerateTestsAdvancedEditorCommand>
+internal sealed class GenerateTestsAdvancedEditorCommand : BaseCommand<GenerateTestsAdvancedEditorCommand, GenerateTestsAdvancedEditorCommandHandler>
 {
     private DTE2 _dte;
 
@@ -24,11 +24,7 @@ internal sealed class GenerateTestsAdvancedEditorCommand : BaseCommand<GenerateT
         Assumes.Present(_dte);
     }
 
-    protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
-    {
-        GenerateTestsAdvancedEditorCommandHandler handler = new(_dte, _activeTypeSymbol);
-        await handler.ExecuteAsync();
-    }
+    protected override GenerateTestsAdvancedEditorCommandHandler CreateHandler() => new(_dte, _activeTypeSymbol);
 
     protected override void BeforeQueryStatus(EventArgs e)
     {

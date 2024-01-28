@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NetTestX.VSIX.Commands.Handlers;
 
-public class GenerateTestProjectCommandHandler(DTE2 dte)
+public class GenerateTestProjectCommandHandler(DTE2 dte) : ICommandHandler
 {
     public async Task ExecuteAsync()
     {

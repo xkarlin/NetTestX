@@ -16,7 +16,7 @@ using NetTestX.VSIX.Commands.Handlers;
 namespace NetTestX.VSIX.Commands;
 
 [Command(PackageIds.GenerateTestsCommand)]
-internal sealed class GenerateTestsCommand : BaseDynamicCommand<GenerateTestsCommand, CodeProject>
+internal sealed class GenerateTestsCommand : BaseDynamicCommand<GenerateTestsCommand, GenerateTestsCommandHandler, CodeProject>
 {
     private DTE2 _dte;
 
@@ -26,11 +26,7 @@ internal sealed class GenerateTestsCommand : BaseDynamicCommand<GenerateTestsCom
         Assumes.Present(_dte);
     }
 
-    protected override async Task ExecuteAsync(OleMenuCmdEventArgs e, CodeProject item)
-    {
-        GenerateTestsCommandHandler handler = new(_dte, item);
-        await handler.ExecuteAsync();
-    }
+    protected override GenerateTestsCommandHandler CreateHandler(CodeProject item) => new(_dte, item);
 
     protected override void BeforeQueryStatus(OleMenuCommand command, EventArgs e, CodeProject project)
     {

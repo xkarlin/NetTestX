@@ -11,7 +11,7 @@ using NetTestX.CodeAnalysis.Common;
 namespace NetTestX.VSIX.Commands;
 
 [Command(PackageIds.GenerateTestsAdvancedCommand)]
-internal sealed class GenerateTestsAdvancedCommand : BaseCommand<GenerateTestsAdvancedCommand>
+internal sealed class GenerateTestsAdvancedCommand : BaseCommand<GenerateTestsAdvancedCommand, GenerateTestsAdvancedCommandHandler>
 {
     private DTE2 _dte;
 
@@ -21,11 +21,7 @@ internal sealed class GenerateTestsAdvancedCommand : BaseCommand<GenerateTestsAd
         Assumes.Present(_dte);
     }
 
-    protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
-    {
-        GenerateTestsAdvancedCommandHandler handler = new(_dte);
-        await handler.ExecuteAsync();
-    }
+    protected override GenerateTestsAdvancedCommandHandler CreateHandler() => new(_dte);
 
     protected override void BeforeQueryStatus(EventArgs e)
     {
