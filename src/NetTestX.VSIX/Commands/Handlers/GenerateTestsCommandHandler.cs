@@ -5,7 +5,9 @@ using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.Code;
 using NetTestX.VSIX.Extensions;
 using NetTestX.VSIX.Projects;
+using System.Linq;
 using System.Threading.Tasks;
+using NetTestX.VSIX.Code.TypeSymbolProviders;
 
 namespace NetTestX.VSIX.Commands.Handlers;
 
@@ -17,12 +19,19 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject)
 
         var selectedItems = dte.GetSelectedItemsFromSolutionExplorer();
 
+        var projectItem = (ProjectItem)selectedItems[0].Object;
+        var sourceProject = await projectItem.FindRoslynProjectAsync();
+
+        string sourceFileName = projectItem.FileNames[0];
+        var compilation = await sourceProject.GetCompilationAsync();
+        var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == sourceFileName);
+
         var targetProject = await GetTargetProjectAsync(selectedItems);
 
         TestSourceCodeLoadingContext sourceCodeLoadingContext = new()
         {
             DTE = dte,
-            SelectedItems = selectedItems
+            TypeSymbolProvider = new SyntaxTreeTypeSymbolProvider(compilation, syntaxTree)
         };
 
         var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(sourceCodeLoadingContext);

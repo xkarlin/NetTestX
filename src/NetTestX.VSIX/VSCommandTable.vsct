@@ -19,6 +19,10 @@
       <Group guid="NetTestX" id="GenerateTestProjectGroup" priority="0x0100">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE" />
       </Group>
+        
+      <Group guid="NetTestX" id="GenerateTestsEditorGroup" priority="0x0100">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
+      </Group>
     </Groups>
 
     <Menus>
@@ -54,7 +58,7 @@
             <LocCanonicalName>.NetTestX.GenerateTestProjectCommand</LocCanonicalName>
         </Strings>
       </Button>
-
+        
       <Button guid="NetTestX" id="GenerateTestProjectCommand" priority="0x0100" type="Button">
         <Parent guid="NetTestX" id="GenerateTestProjectGroup" />
         <Icon guid="ImageCatalogGuid" id="TestApplication" />
@@ -62,6 +66,16 @@
         <Strings>
           <ButtonText>Generate Test Project...</ButtonText>
           <LocCanonicalName>.NetTestX.GenerateTestProjectCommand</LocCanonicalName>
+        </Strings>
+      </Button>
+
+      <Button guid="NetTestX" id="GenerateTestsAdvancedEditorCommand" priority="0x0100" type="Button">
+        <Parent guid="NetTestX" id="GenerateTestsEditorGroup" />
+        <CommandFlag>DynamicItemStart</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+            <ButtonText>Generate Unit Tests Advanced...</ButtonText>
+            <LocCanonicalName>.NetTestX.GenerateTestsAdvancedEditorCommand</LocCanonicalName>
         </Strings>
       </Button>
     </Buttons>
@@ -72,12 +86,14 @@
       <IDSymbol name="GenerateTestsGroup" value="0x0001" />
       <IDSymbol name="GenerateTestsListGroup" value="0x0002" />
       <IDSymbol name="GenerateTestProjectGroup" value="0x0003" />
+      <IDSymbol name="GenerateTestsEditorGroup" value="0x0004" />
       
       <IDSymbol name="GenerateTestsMenu" value="0x0010" />
       
       <IDSymbol name="GenerateTestProjectCommand" value="0x0100" />
       <IDSymbol name="GenerateTestsCommand" value="0x0200" />
       <IDSymbol name="GenerateTestsAdvancedCommand" value="0x0300" />
+      <IDSymbol name="GenerateTestsAdvancedEditorCommand" value="0x0400" />
     </GuidSymbol>
   </Symbols>
   

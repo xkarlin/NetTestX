@@ -48,7 +48,6 @@ public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
 
         MethodCollectionContext collectionContext = new()
         {
-            Compilation = context.Compilation,
             Type = context.Type
         };
 

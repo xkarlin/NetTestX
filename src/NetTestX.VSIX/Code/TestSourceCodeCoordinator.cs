@@ -2,12 +2,8 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Community.VisualStudio.Toolkit;
 using EnvDTE;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis;
 using NetTestX.CodeAnalysis.Common;
@@ -21,14 +17,11 @@ public class TestSourceCodeCoordinator
 {
     private readonly INamedTypeSymbol _type;
 
-    private readonly Compilation _compilation;
-    
     public required TestSourceCodeCoordinatorOptions Options { get; init; }
 
-    private TestSourceCodeCoordinator(INamedTypeSymbol type, Compilation compilation)
+    private TestSourceCodeCoordinator(INamedTypeSymbol type)
     {
         _type = type;
-        _compilation = compilation;
     }
 
     public async Task LoadSourceCodeAsync(DTEProject project)
@@ -49,30 +42,13 @@ public class TestSourceCodeCoordinator
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-        var projectItem = (ProjectItem)context.SelectedItems[0].Object;
+        var typeSymbol = await context.TypeSymbolProvider.GetTypeSymbolAsync();
 
-        var workspace = await VS.GetMefServiceAsync<VisualStudioWorkspace>();
-        var sourceProject = workspace.FindProjectByName(projectItem.ContainingProject.Name);
-
-        string sourceFileName = projectItem.FileNames[0];
-
-        var compilation = await sourceProject.GetCompilationAsync();
-
-        var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == sourceFileName);
-        var syntaxRoot = await syntaxTree.GetRootAsync();
-
-        var typeDeclaration = syntaxRoot
-            .DescendantNodes(node => node is not TypeDeclarationSyntax)
-            .OfType<TypeDeclarationSyntax>()
-            .First();
-
-        var typeSymbol = compilation.GetSemanticModel(syntaxTree).GetDeclaredSymbol(typeDeclaration);
-
-        return new(typeSymbol, compilation)
+        return new(typeSymbol)
         {
             Options = new()
             {
-                TestFileName = $"{Path.GetFileNameWithoutExtension(sourceFileName)}Tests",
+                TestFileName = $"{typeSymbol.Name}Tests",
                 TestClassName = $"{typeSymbol.Name}Tests",
                 TestClassNamespace = $"{typeSymbol.ContainingNamespace}.Tests"
             }
@@ -84,7 +60,6 @@ public class TestSourceCodeCoordinator
         UnitTestGeneratorContext generatorContext = new()
         {
             Type = _type,
-            Compilation = _compilation,
             Options = new()
             {
                 TestClassName = Options.TestClassName,
