@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Community.VisualStudio.Toolkit;
 using EnvDTE;
 using EnvDTE80;
-using Microsoft.VisualStudio.Shell;
 using Microsoft;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
+using Microsoft.VisualStudio.Shell;
 using NetTestX.VSIX.Commands.Handlers;
 using NetTestX.VSIX.Extensions;
 

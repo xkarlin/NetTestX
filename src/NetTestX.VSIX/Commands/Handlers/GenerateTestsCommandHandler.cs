@@ -1,13 +1,13 @@
-﻿using EnvDTE;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.Code;
+using NetTestX.VSIX.Code.TypeSymbolProviders;
 using NetTestX.VSIX.Extensions;
 using NetTestX.VSIX.Projects;
-using System.Linq;
-using System.Threading.Tasks;
-using NetTestX.VSIX.Code.TypeSymbolProviders;
 
 namespace NetTestX.VSIX.Commands.Handlers;
 

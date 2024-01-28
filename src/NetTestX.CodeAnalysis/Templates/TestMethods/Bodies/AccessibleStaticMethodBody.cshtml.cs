@@ -1,7 +1,7 @@
-using Microsoft.CodeAnalysis;
-using NetTestX.CodeAnalysis.Extensions;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Extensions;
 
 namespace NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
 

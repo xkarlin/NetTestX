@@ -1,8 +1,8 @@
-﻿using EnvDTE80;
+﻿using System.Threading.Tasks;
+using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.VSIX.Extensions;
 using NetTestX.VSIX.Projects;
-using System.Threading.Tasks;
 
 namespace NetTestX.VSIX.Commands.Handlers;
 

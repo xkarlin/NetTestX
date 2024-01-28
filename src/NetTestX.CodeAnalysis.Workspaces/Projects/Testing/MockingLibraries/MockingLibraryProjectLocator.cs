@@ -1,5 +1,5 @@
-﻿using NetTestX.Common;
-using System.Linq;
+﻿using System.Linq;
+using NetTestX.Common;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Projects.Testing.MockingLibraries;
 

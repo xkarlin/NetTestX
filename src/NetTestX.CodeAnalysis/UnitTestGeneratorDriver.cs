@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Generation.MethodCollectors;
-using NetTestX.CodeAnalysis.Generation.TestFrameworkModels;
 using NetTestX.CodeAnalysis.Generation.MockValueProviders;
+using NetTestX.CodeAnalysis.Generation.TestFrameworkModels;
 using NetTestX.CodeAnalysis.Templates;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.Razor;

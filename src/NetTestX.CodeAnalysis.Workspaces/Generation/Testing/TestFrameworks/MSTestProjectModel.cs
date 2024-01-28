@@ -1,5 +1,5 @@
-﻿using NetTestX.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using NetTestX.Common;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Generation.Testing.TestFrameworks;
 

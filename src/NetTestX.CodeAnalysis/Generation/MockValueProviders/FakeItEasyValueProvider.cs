@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
-using NetTestX.CodeAnalysis.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Common;
 
 namespace NetTestX.CodeAnalysis.Generation.MockValueProviders;
 

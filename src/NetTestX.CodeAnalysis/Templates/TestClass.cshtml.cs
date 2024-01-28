@@ -3,8 +3,8 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Extensions;
 using NetTestX.CodeAnalysis.Generation;
-using NetTestX.CodeAnalysis.Generation.TestFrameworkModels;
 using NetTestX.CodeAnalysis.Generation.MockValueProviders;
+using NetTestX.CodeAnalysis.Generation.TestFrameworkModels;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 
 namespace NetTestX.CodeAnalysis.Templates;

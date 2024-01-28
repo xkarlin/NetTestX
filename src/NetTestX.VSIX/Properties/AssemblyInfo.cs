@@ -1,6 +1,6 @@
-﻿using NetTestX.VSIX;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using NetTestX.VSIX;
 
 [assembly: AssemblyTitle(Vsix.Name)]
 [assembly: AssemblyDescription(Vsix.Description)]

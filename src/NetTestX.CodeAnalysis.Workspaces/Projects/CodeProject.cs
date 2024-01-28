@@ -1,7 +1,7 @@
-﻿using System.IO;
-using Microsoft.Build.Evaluation;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Microsoft.Build.Evaluation;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Projects;
 

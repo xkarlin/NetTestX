@@ -1,6 +1,6 @@
-﻿using NetTestX.Common;
-using System;
+﻿using System;
 using System.ComponentModel;
+using NetTestX.Common;
 using NetTestX.VSIX.UI.Models;
 
 namespace NetTestX.VSIX.UI.ViewModels;

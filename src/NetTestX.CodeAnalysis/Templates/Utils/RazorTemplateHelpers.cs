@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
-using NetTestX.CodeAnalysis.Common;
-using System;
+﻿using System;
 using System.Linq;
+using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Common;
 
 namespace NetTestX.CodeAnalysis.Templates.Utils;
 

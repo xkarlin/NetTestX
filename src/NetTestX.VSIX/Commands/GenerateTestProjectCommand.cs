@@ -1,9 +1,9 @@
-﻿using Community.VisualStudio.Toolkit;
+﻿using System.Threading.Tasks;
+using Community.VisualStudio.Toolkit;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft;
 using NetTestX.VSIX.Commands.Handlers;
-using System.Threading.Tasks;
 
 namespace NetTestX.VSIX.Commands;
 

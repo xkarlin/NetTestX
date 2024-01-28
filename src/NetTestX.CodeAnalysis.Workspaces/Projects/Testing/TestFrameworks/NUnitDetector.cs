@@ -1,6 +1,6 @@
-﻿using NetTestX.CodeAnalysis.Workspaces.Extensions;
+﻿using System.Linq;
+using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.Common;
-using System.Linq;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Projects.Testing.TestFrameworks;
 

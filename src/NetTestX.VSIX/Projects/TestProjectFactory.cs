@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
-using NetTestX.CodeAnalysis.Workspaces.Projects.Testing;
 using NetTestX.CodeAnalysis.Workspaces;
-using NetTestX.VSIX.Extensions;
 using NetTestX.CodeAnalysis.Workspaces.Extensions;
+using NetTestX.CodeAnalysis.Workspaces.Projects.Testing;
 using NetTestX.Common;
+using NetTestX.VSIX.Extensions;
 
 namespace NetTestX.VSIX.Projects;
 

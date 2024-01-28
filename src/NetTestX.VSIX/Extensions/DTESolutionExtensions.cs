@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.Shell;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using EnvDTE;
+using Microsoft.VisualStudio.Shell;
 
 namespace NetTestX.VSIX.Extensions;
 
