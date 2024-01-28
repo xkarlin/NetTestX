@@ -1,8 +1,6 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EnvDTE;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis;
