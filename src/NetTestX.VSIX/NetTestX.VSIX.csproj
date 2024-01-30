@@ -57,10 +57,12 @@
     <Compile Include="Commands\GenerateTestProjectCommand.cs" />
     <Compile Include="Commands\GenerateTestsAdvancedCommand.cs" />
     <Compile Include="Commands\GenerateTestsAdvancedEditorCommand.cs" />
+    <Compile Include="Commands\GenerateTestsEditorCommand.cs" />
     <Compile Include="Commands\Handlers\GenerateTestProjectCommandHandler.cs" />
     <Compile Include="Commands\Handlers\GenerateTestsAdvancedCommandHandler.cs" />
     <Compile Include="Commands\Handlers\GenerateTestsAdvancedEditorCommandHandler.cs" />
     <Compile Include="Commands\Handlers\GenerateTestsCommandHandler.cs" />
+    <Compile Include="Commands\Handlers\GenerateTestsEditorCommandHandler.cs" />
     <Compile Include="Commands\Handlers\ICommandHandler.cs" />
     <Compile Include="Extensions\DTEExtensions.cs" />
     <Compile Include="Extensions\DTEProjectExtensions.cs" />

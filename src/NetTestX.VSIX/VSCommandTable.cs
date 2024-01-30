@@ -27,6 +27,7 @@ namespace NetTestX.VSIX
         public const int GenerateTestProjectCommand = 0x0100;
         public const int GenerateTestsCommand = 0x0200;
         public const int GenerateTestsAdvancedCommand = 0x0300;
-        public const int GenerateTestsAdvancedEditorCommand = 0x0400;
+        public const int GenerateTestsEditorCommand = 0x0400;
+        public const int GenerateTestsAdvancedEditorCommand = 0x0500;
     }
 }
