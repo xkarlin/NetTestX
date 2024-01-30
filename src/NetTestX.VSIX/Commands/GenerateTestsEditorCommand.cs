@@ -1,14 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using System;
 using System.Linq;
 using Community.VisualStudio.Toolkit;
-using EnvDTE;
-using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
-using Microsoft;
 using Microsoft.CodeAnalysis;
-using NetTestX.CodeAnalysis.Common;
 using NetTestX.CodeAnalysis.Workspaces;
 using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
@@ -20,17 +15,9 @@ namespace NetTestX.VSIX.Commands;
 [Command(PackageIds.GenerateTestsEditorCommand)]
 public class GenerateTestsEditorCommand : BaseDynamicCommand<GenerateTestsEditorCommand, GenerateTestsEditorCommandHandler, CodeProject>
 {
-    private DTE2 _dte;
-
     private INamedTypeSymbol _activeTypeSymbol;
 
-    protected override async Task InitializeCompletedAsync()
-    {
-        _dte = await Package.GetServiceAsync(typeof(DTE)) as DTE2;
-        Assumes.Present(_dte);
-    }
-
-    protected override GenerateTestsEditorCommandHandler CreateHandler(CodeProject item) => new(_dte, _activeTypeSymbol, item);
+    protected override GenerateTestsEditorCommandHandler CreateHandler(CodeProject item) => new(DTE, _activeTypeSymbol, item);
 
     protected override void BeforeQueryStatus(OleMenuCommand command, EventArgs e, CodeProject project)
     {
@@ -52,7 +39,7 @@ public class GenerateTestsEditorCommand : BaseDynamicCommand<GenerateTestsEditor
 
         List<CodeProject> projects = [null];
 
-        var solution = CodeWorkspace.Open(_dte.Solution.FileName);
+        var solution = CodeWorkspace.Open(DTE.Solution.FileName);
 
         var testProjects = solution.GetTestProjects().ToArray();
         projects.AddRange(testProjects);

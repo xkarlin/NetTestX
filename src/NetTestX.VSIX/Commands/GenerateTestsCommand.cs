@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Community.VisualStudio.Toolkit;
 using EnvDTE;
-using EnvDTE80;
-using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Common;
 using NetTestX.CodeAnalysis.Workspaces;
@@ -18,15 +15,7 @@ namespace NetTestX.VSIX.Commands;
 [Command(PackageIds.GenerateTestsCommand)]
 internal sealed class GenerateTestsCommand : BaseDynamicCommand<GenerateTestsCommand, GenerateTestsCommandHandler, CodeProject>
 {
-    private DTE2 _dte;
-
-    protected override async Task InitializeCompletedAsync()
-    {
-        _dte = await Package.GetServiceAsync(typeof(DTE)) as DTE2;
-        Assumes.Present(_dte);
-    }
-
-    protected override GenerateTestsCommandHandler CreateHandler(CodeProject item) => new(_dte, item);
+    protected override GenerateTestsCommandHandler CreateHandler(CodeProject item) => new(DTE, item);
 
     protected override void BeforeQueryStatus(OleMenuCommand command, EventArgs e, CodeProject project)
     {
@@ -48,7 +37,7 @@ internal sealed class GenerateTestsCommand : BaseDynamicCommand<GenerateTestsCom
 
         List<CodeProject> projects = [null];
 
-        var solution = CodeWorkspace.Open(_dte.Solution.FileName);
+        var solution = CodeWorkspace.Open(DTE.Solution.FileName);
 
         var testProjects = solution.GetTestProjects().ToArray();
         projects.AddRange(testProjects);
@@ -60,7 +49,7 @@ internal sealed class GenerateTestsCommand : BaseDynamicCommand<GenerateTestsCom
     {
         ThreadHelper.ThrowIfNotOnUIThread();
 
-        var selectedItems = (UIHierarchyItem[])_dte.ToolWindows.SolutionExplorer.SelectedItems;
+        var selectedItems = (UIHierarchyItem[])DTE.ToolWindows.SolutionExplorer.SelectedItems;
 
         if (selectedItems.Length != 1)
             return false;

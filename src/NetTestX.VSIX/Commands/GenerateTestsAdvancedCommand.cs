@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Community.VisualStudio.Toolkit;
 using EnvDTE;
-using EnvDTE80;
-using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Common;
 using NetTestX.VSIX.Commands.Handlers;
@@ -13,15 +10,7 @@ namespace NetTestX.VSIX.Commands;
 [Command(PackageIds.GenerateTestsAdvancedCommand)]
 internal sealed class GenerateTestsAdvancedCommand : BaseCommand<GenerateTestsAdvancedCommand, GenerateTestsAdvancedCommandHandler>
 {
-    private DTE2 _dte;
-
-    protected override async Task InitializeCompletedAsync()
-    {
-        _dte = await Package.GetServiceAsync(typeof(DTE)) as DTE2;
-        Assumes.Present(_dte);
-    }
-
-    protected override GenerateTestsAdvancedCommandHandler CreateHandler() => new(_dte);
+    protected override GenerateTestsAdvancedCommandHandler CreateHandler() => new(DTE);
 
     protected override void BeforeQueryStatus(EventArgs e)
     {
@@ -36,7 +25,7 @@ internal sealed class GenerateTestsAdvancedCommand : BaseCommand<GenerateTestsAd
     {
         ThreadHelper.ThrowIfNotOnUIThread();
 
-        var selectedItems = (UIHierarchyItem[])_dte.ToolWindows.SolutionExplorer.SelectedItems;
+        var selectedItems = (UIHierarchyItem[])DTE.ToolWindows.SolutionExplorer.SelectedItems;
 
         if (selectedItems.Length != 1)
             return false;
