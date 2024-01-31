@@ -31,6 +31,9 @@ public static class SymbolHelper
 
     public static bool CanGenerateTestsForTypeSymbol(INamedTypeSymbol typeSymbol)
     {
+        if (typeSymbol.TypeKind is not TypeKind.Class and not TypeKind.Struct)
+            return false;
+
         if (typeSymbol.IsAbstract)
             return false;
 
