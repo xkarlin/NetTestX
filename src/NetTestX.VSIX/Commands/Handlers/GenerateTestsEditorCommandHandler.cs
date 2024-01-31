@@ -3,7 +3,6 @@ using EnvDTE80;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
-using NetTestX.VSIX.Code.TypeSymbolProviders;
 using NetTestX.VSIX.Code;
 using NetTestX.VSIX.Extensions;
 using NetTestX.VSIX.Projects;
@@ -18,13 +17,7 @@ public class GenerateTestsEditorCommandHandler(DTE2 dte, INamedTypeSymbol typeSy
 
         var targetProject = await GetTargetProjectAsync();
 
-        TestSourceCodeLoadingContext sourceCodeLoadingContext = new()
-        {
-            DTE = dte,
-            TypeSymbolProvider = new DefaultTypeSymbolProvider(typeSymbol)
-        };
-
-        var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(sourceCodeLoadingContext);
+        var codeCoordinator = TestSourceCodeCoordinator.Create(typeSymbol);
 
         await codeCoordinator.LoadSourceCodeAsync(targetProject);
     }

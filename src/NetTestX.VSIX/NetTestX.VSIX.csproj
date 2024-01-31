@@ -47,11 +47,7 @@
   <ItemGroup>
     <Compile Include="Code\TestSourceCodeCoordinator.cs" />
     <Compile Include="Code\TestSourceCodeCoordinatorOptions.cs" />
-    <Compile Include="Code\TestSourceCodeLoadingContext.cs" />
     <Compile Include="Code\TestSourceCodeUtility.cs" />
-    <Compile Include="Code\TypeSymbolProviders\DefaultTypeSymbolProvider.cs" />
-    <Compile Include="Code\TypeSymbolProviders\ITypeSymbolProvider.cs" />
-    <Compile Include="Code\TypeSymbolProviders\SyntaxTreeTypeSymbolProvider.cs" />
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\BaseDynamicCommand.cs" />
     <Compile Include="Commands\GenerateTestProjectCommand.cs" />
@@ -64,6 +60,7 @@
     <Compile Include="Commands\Handlers\GenerateTestsCommandHandler.cs" />
     <Compile Include="Commands\Handlers\GenerateTestsEditorCommandHandler.cs" />
     <Compile Include="Commands\Handlers\ICommandHandler.cs" />
+    <Compile Include="Commands\Helpers\SymbolHelper.cs" />
     <Compile Include="Extensions\DTEExtensions.cs" />
     <Compile Include="Extensions\DTEProjectExtensions.cs" />
     <Compile Include="Extensions\DTESolutionExtensions.cs" />

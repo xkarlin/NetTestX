@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using EnvDTE80;
+using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Workspaces;
 using NetTestX.CodeAnalysis.Workspaces.Extensions;
@@ -12,11 +13,11 @@ namespace NetTestX.VSIX.Code;
 
 public static class TestSourceCodeUtility
 {
-    public static async Task LoadSourceCodeFromAdvancedViewAsync(DTE2 dte, TestSourceCodeLoadingContext context)
+    public static async Task LoadSourceCodeFromAdvancedViewAsync(DTE2 dte, INamedTypeSymbol typeSymbol)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-        var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(context);
+        var codeCoordinator = TestSourceCodeCoordinator.Create(typeSymbol);
 
         GenerateTestsAdvancedModel model = new()
         {

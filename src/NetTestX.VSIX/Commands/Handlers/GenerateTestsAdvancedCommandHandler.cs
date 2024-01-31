@@ -4,7 +4,7 @@ using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.VSIX.Code;
-using NetTestX.VSIX.Code.TypeSymbolProviders;
+using NetTestX.VSIX.Commands.Helpers;
 using NetTestX.VSIX.Extensions;
 
 namespace NetTestX.VSIX.Commands.Handlers;
@@ -21,13 +21,10 @@ internal class GenerateTestsAdvancedCommandHandler(DTE2 dte) : ICommandHandler
         string sourceFileName = projectItem.FileNames[0];
         var compilation = await sourceProject.GetCompilationAsync();
         var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == sourceFileName);
+        var syntaxTreeRoot = await syntaxTree.GetRootAsync();
 
-        TestSourceCodeLoadingContext codeLoadingContext = new()
-        {
-            DTE = dte,
-            TypeSymbolProvider = new SyntaxTreeTypeSymbolProvider(compilation, syntaxTree)
-        };
+        var availableTypeSymbols = SymbolHelper.GetAvailableTypeSymbolsForGeneration(syntaxTreeRoot, compilation);
 
-        await TestSourceCodeUtility.LoadSourceCodeFromAdvancedViewAsync(dte, codeLoadingContext);
+        await TestSourceCodeUtility.LoadSourceCodeFromAdvancedViewAsync(dte, availableTypeSymbols.First());
     }
 }

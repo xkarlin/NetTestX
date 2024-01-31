@@ -5,7 +5,7 @@ using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.Code;
-using NetTestX.VSIX.Code.TypeSymbolProviders;
+using NetTestX.VSIX.Commands.Helpers;
 using NetTestX.VSIX.Extensions;
 using NetTestX.VSIX.Projects;
 
@@ -25,17 +25,12 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
         string sourceFileName = projectItem.FileNames[0];
         var compilation = await sourceProject.GetCompilationAsync();
         var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == sourceFileName);
+        var syntaxTreeRoot = await syntaxTree.GetRootAsync();
+
+        var availableTypeSymbols = SymbolHelper.GetAvailableTypeSymbolsForGeneration(syntaxTreeRoot, compilation);
+        var codeCoordinator = TestSourceCodeCoordinator.Create(availableTypeSymbols.First());
 
         var targetProject = await GetTargetProjectAsync(selectedItems);
-
-        TestSourceCodeLoadingContext sourceCodeLoadingContext = new()
-        {
-            DTE = dte,
-            TypeSymbolProvider = new SyntaxTreeTypeSymbolProvider(compilation, syntaxTree)
-        };
-
-        var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(sourceCodeLoadingContext);
-
         await codeCoordinator.LoadSourceCodeAsync(targetProject);
     }
 

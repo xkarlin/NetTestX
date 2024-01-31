@@ -36,12 +36,8 @@ public class TestSourceCodeCoordinator
         await AddSourceFileToProjectAsync(project, testSource, testSourceFileName);
     }
 
-    public static async Task<TestSourceCodeCoordinator> CreateAsync(TestSourceCodeLoadingContext context)
+    public static TestSourceCodeCoordinator Create(INamedTypeSymbol typeSymbol)
     {
-        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
-        var typeSymbol = await context.TypeSymbolProvider.GetTypeSymbolAsync();
-
         return new(typeSymbol)
         {
             Options = new()
