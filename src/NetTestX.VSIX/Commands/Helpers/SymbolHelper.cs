@@ -24,22 +24,22 @@ public static class SymbolHelper
 
         var typeSymbols = typeDeclarations
             .Select(x => semanticModel.GetDeclaredSymbol((TypeDeclarationSyntax)x))
-            .Where(IsTypeSymbolAvailable);
+            .Where(CanGenerateTestsForTypeSymbol);
 
         return typeSymbols;
+    }
+
+    public static bool CanGenerateTestsForTypeSymbol(INamedTypeSymbol typeSymbol)
+    {
+        if (typeSymbol.IsAbstract)
+            return false;
+
+        return true;
     }
 
     public static bool ShowMultipleTypesWarning(ImmutableArray<INamedTypeSymbol> availableTypes)
     {
         string typesString = string.Join("\n", availableTypes.Select(x => x.Name));
         return VS.MessageBox.ShowConfirm("NetTestX - multiple types found", $"The selected file contains multiple types:\n{typesString}\nWould you like to proceed and generate tests for all these types?");
-    }
-
-    private static bool IsTypeSymbolAvailable(INamedTypeSymbol typeSymbol)
-    {
-        if (typeSymbol.IsAbstract)
-            return false;
-
-        return true;
     }
 }

@@ -3,6 +3,7 @@ using Community.VisualStudio.Toolkit;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.VSIX.Commands.Handlers;
+using NetTestX.VSIX.Commands.Helpers;
 using NetTestX.VSIX.Extensions;
 
 namespace NetTestX.VSIX.Commands;
@@ -29,6 +30,6 @@ internal sealed class GenerateTestsAdvancedEditorCommand : BaseCommand<GenerateT
 
         var textView = Package.GetActiveTextView();
 
-        return textView.TryGetActiveTypeSymbol(out _activeTypeSymbol);
+        return textView.TryGetActiveTypeSymbol(out _activeTypeSymbol) && SymbolHelper.CanGenerateTestsForTypeSymbol(_activeTypeSymbol);
     }
 }

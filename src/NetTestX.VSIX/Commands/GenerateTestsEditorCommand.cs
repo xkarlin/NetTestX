@@ -8,6 +8,7 @@ using NetTestX.CodeAnalysis.Workspaces;
 using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.Commands.Handlers;
+using NetTestX.VSIX.Commands.Helpers;
 using NetTestX.VSIX.Extensions;
 
 namespace NetTestX.VSIX.Commands;
@@ -53,6 +54,6 @@ public class GenerateTestsEditorCommand : BaseDynamicCommand<GenerateTestsEditor
 
         var textView = Package.GetActiveTextView();
 
-        return textView.TryGetActiveTypeSymbol(out _activeTypeSymbol);
+        return textView.TryGetActiveTypeSymbol(out _activeTypeSymbol) && SymbolHelper.CanGenerateTestsForTypeSymbol(_activeTypeSymbol);
     }
 }
