@@ -32,7 +32,7 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
 
         var availableTypeSymbols = SymbolHelper.GetAvailableTypeSymbolsForGeneration(syntaxTreeRoot, compilation).ToImmutableArray();
 
-        if (availableTypeSymbols.Length > 1 && !ShowMultipleTypesWarning(availableTypeSymbols))
+        if (availableTypeSymbols.Length > 1 && !SymbolHelper.ShowMultipleTypesWarning(availableTypeSymbols))
             return;
 
         var targetProject = await GetTargetProjectAsync(selectedItems);
@@ -58,11 +58,5 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
         };
 
         return await TestProjectUtility.CreateTestProjectFromViewAsync(context);
-    }
-
-    private static bool ShowMultipleTypesWarning(ImmutableArray<INamedTypeSymbol> availableTypes)
-    {
-        string typesString = string.Join("\n", availableTypes.Select(x => x.Name));
-        return VS.MessageBox.ShowConfirm("NetTestX - multiple types found", $"The selected file contains multiple types:\n{typesString}\nWould you like to proceed and generate tests for all these types?");
     }
 }

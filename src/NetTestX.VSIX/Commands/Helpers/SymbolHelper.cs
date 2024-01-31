@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
+using Community.VisualStudio.Toolkit;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -25,6 +27,12 @@ public static class SymbolHelper
             .Where(IsTypeSymbolAvailable);
 
         return typeSymbols;
+    }
+
+    public static bool ShowMultipleTypesWarning(ImmutableArray<INamedTypeSymbol> availableTypes)
+    {
+        string typesString = string.Join("\n", availableTypes.Select(x => x.Name));
+        return VS.MessageBox.ShowConfirm("NetTestX - multiple types found", $"The selected file contains multiple types:\n{typesString}\nWould you like to proceed and generate tests for all these types?");
     }
 
     private static bool IsTypeSymbolAvailable(INamedTypeSymbol typeSymbol)

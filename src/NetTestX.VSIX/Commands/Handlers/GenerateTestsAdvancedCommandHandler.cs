@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
 using EnvDTE;
 using EnvDTE80;
@@ -23,8 +24,12 @@ internal class GenerateTestsAdvancedCommandHandler(DTE2 dte) : ICommandHandler
         var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == sourceFileName);
         var syntaxTreeRoot = await syntaxTree.GetRootAsync();
 
-        var availableTypeSymbols = SymbolHelper.GetAvailableTypeSymbolsForGeneration(syntaxTreeRoot, compilation);
+        var availableTypeSymbols = SymbolHelper.GetAvailableTypeSymbolsForGeneration(syntaxTreeRoot, compilation).ToImmutableArray();
 
-        await TestSourceCodeUtility.LoadSourceCodeFromAdvancedViewAsync(dte, availableTypeSymbols.First());
+        if (availableTypeSymbols.Length > 1 && !SymbolHelper.ShowMultipleTypesWarning(availableTypeSymbols))
+            return;
+
+        foreach (var typeSymbol in availableTypeSymbols)
+            await TestSourceCodeUtility.LoadSourceCodeFromAdvancedViewAsync(dte, typeSymbol);
     }
 }
