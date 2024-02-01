@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestX.Razor", "src\NetTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestX.Polyfill", "src\NetTestX.Polyfill\NetTestX.Polyfill.csproj", "{B0D7F511-D21C-4ABF-8615-4FFDF0685A4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestX.CodeAnalysis.Workspaces", "src\NetTestX.CodeAnalysis.Workspaces\NetTestX.CodeAnalysis.Workspaces.csproj", "{88C3C6B2-A709-4EC3-B19A-844BC3426B3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestX.CodeAnalysis.Workspaces", "src\NetTestX.CodeAnalysis.Workspaces\NetTestX.CodeAnalysis.Workspaces.csproj", "{88C3C6B2-A709-4EC3-B19A-844BC3426B3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetTestX.Common", "src\NetTestX.Common\NetTestX.Common.csproj", "{01FF04C2-7DDA-43A9-A8FF-AC031991330C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestX.Common", "src\NetTestX.Common\NetTestX.Common.csproj", "{01FF04C2-7DDA-43A9-A8FF-AC031991330C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

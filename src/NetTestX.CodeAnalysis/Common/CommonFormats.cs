@@ -12,9 +12,14 @@ public static class CommonFormats
             SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
 
     public static SymbolDisplayFormat ShortNullableFormat { get; } = new(
-    typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypes,
-    globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
-    genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
-    miscellaneousOptions: SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier |
-        SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
+        typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypes,
+        globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
+        genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
+        miscellaneousOptions: SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier |
+            SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
+
+    public static SymbolDisplayFormat NameOnlyFormat { get; } = new(
+        typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameOnly,
+        globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
+        genericsOptions: SymbolDisplayGenericsOptions.None);
 }

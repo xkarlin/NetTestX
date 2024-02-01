@@ -2,7 +2,7 @@
 @using NetTestX.CodeAnalysis.Templates.TestMethods
 @inherits RazorPage<TestMethodModel>
 [@Model.Parent.TestFrameworkModel.TestMethodAttribute]
-public void Test@(Model.Symbol.Name)()
+public void @(Model.MethodName)()
 {
     @await ImportPageAsync(Model.MethodBodyModel)
 }

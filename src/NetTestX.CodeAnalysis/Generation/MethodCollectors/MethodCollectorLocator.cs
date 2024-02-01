@@ -7,6 +7,7 @@ public static class MethodCollectorLocator
     public static IEnumerable<ITestMethodCollector> GetAvailableCollectors() =>
     [
         new AccessibleInstanceMethodCollector(),
-        new AccessibleStaticMethodCollector()
+        new AccessibleStaticMethodCollector(),
+        new AccessibleIndexerCollector()
     ];
 }

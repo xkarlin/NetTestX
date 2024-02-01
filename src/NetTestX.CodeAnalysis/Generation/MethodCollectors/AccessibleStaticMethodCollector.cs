@@ -11,7 +11,7 @@ public class AccessibleStaticMethodCollector : ITestMethodCollector
         if (symbol is not IMethodSymbol method)
             return false;
 
-        if (method.MethodKind != MethodKind.Ordinary)
+        if (method.MethodKind is not MethodKind.Ordinary)
             return false;
 
         if (method.DeclaredAccessibility is not Accessibility.Public)

@@ -19,6 +19,12 @@ public static class RazorTemplateHelpers
     public static string Args(IMethodSymbol method, Func<string, string> transform)
         => string.Join(", ", method.Parameters.Select(x => Arg(x, transform)));
 
+    public static string Args(IPropertySymbol prop)
+        => string.Join(", ", prop.Parameters.Select(x => Arg(x, x => x)));
+
+    public static string Args(IPropertySymbol prop, Func<string, string> transform)
+        => string.Join(", ", prop.Parameters.Select(x => Arg(x, transform)));
+
     public static string Arg(IParameterSymbol param, Func<string, string> transform)
     {
         if (param.RefKind == RefKind.None)

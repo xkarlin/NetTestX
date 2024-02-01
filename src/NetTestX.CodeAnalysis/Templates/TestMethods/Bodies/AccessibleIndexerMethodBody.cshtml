@@ -1,0 +1,31 @@
+﻿@using NetTestX.Razor
+@using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies
+@using static NetTestX.CodeAnalysis.Templates.Utils.RazorTemplateHelpers
+@inherits RazorPage<AccessibleIndexerMethodBodyModel>
+// Arrange
+@foreach (var param in Model.Constructor.Parameters)
+{
+@:var @param.Name = @Model.Parent.Parent.Value(param.Type);
+}
+@Short(Model.Type) sut = new(@Args(Model.Constructor));
+
+@foreach (var param in Model.Indexer.Parameters)
+{
+@:var @TestPascal(param.Name) = @Model.Parent.Parent.Value(param.Type);
+}
+@if (Model.SetterAccessible)
+{
+@:var toSet = @Model.Parent.Parent.Value(Model.Indexer.Type);
+}
+
+// Act
+@if (Model.SetterAccessible)
+{
+@:sut[@Args(Model.Indexer, TestPascal)] = toSet;
+}
+@if (Model.GetterAccessible)
+{
+@:var result = sut[@Args(Model.Indexer, TestPascal)];
+}
+
+// Assert

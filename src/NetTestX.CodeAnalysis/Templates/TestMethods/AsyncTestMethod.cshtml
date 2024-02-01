@@ -1,4 +1,5 @@
 ﻿@using NetTestX.Razor
+@using NetTestX.CodeAnalysis.Templates.TestMethods
 @inherits RazorPage<AsyncTestMethodModel>
 [@Model.Parent.TestFrameworkModel.TestMethodAttribute]
 public async Task Test@(Model.Symbol.Name)()

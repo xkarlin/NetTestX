@@ -1,24 +1,23 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Linq;
+using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Common;
 using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
 
 namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
-public class AccessibleInstanceMethodCollector : ITestMethodCollector
+public class AccessibleIndexerCollector : ITestMethodCollector
 {
     public bool ShouldCollectSymbol(MethodCollectionContext context, ISymbol symbol)
     {
-        if (symbol is not IMethodSymbol method)
+        if (symbol is not IPropertySymbol { IsIndexer: true } indexer)
             return false;
 
-        if (method.MethodKind is not MethodKind.Ordinary)
+        if (indexer.DeclaredAccessibility is not Accessibility.Public)
             return false;
 
-        if (method.DeclaredAccessibility is not Accessibility.Public)
-            return false;
-
-        if (method.IsStatic || method.IsAbstract)
+        if (indexer.IsAbstract)
             return false;
 
         return true;
@@ -26,16 +25,15 @@ public class AccessibleInstanceMethodCollector : ITestMethodCollector
 
     public TestMethodModelBase CollectSymbol(MethodCollectionContext context, ISymbol symbol)
     {
-        var method = (IMethodSymbol)symbol;
+        var indexer = (IPropertySymbol)symbol;
 
         var constructorResolver = new DummyConstructorResolver();
         var constructor = constructorResolver.Resolve(context.Type);
 
-        var bodyModel = new AccessibleInstanceMethodBodyModel(method, constructor);
+        var bodyModel = new AccessibleIndexerMethodBodyModel(indexer, constructor);
 
-        if (method.IsAsync)
-            return new AsyncTestMethodModel(symbol, bodyModel);
+        string methodName = $"{string.Join("", indexer.Parameters.Select(x => x.Type.ToDisplayString(CommonFormats.NameOnlyFormat)))}Indexer";
 
-        return new TestMethodModel(symbol, bodyModel);
+        return new TestMethodModel(symbol, bodyModel, methodName);
     }
 }

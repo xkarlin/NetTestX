@@ -3,6 +3,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis" Version="4.8.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.8.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Utilities" Version="17.0.31902.203" />
   </ItemGroup>
 
   <ItemGroup>
