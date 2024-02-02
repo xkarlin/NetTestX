@@ -1,7 +1,7 @@
 using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.MockingLibraries;
 using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.TestFrameworks;
 
-namespace NetTestX.CodeAnalysis.Workspaces.Templates.Testing;
+namespace NetTestX.CodeAnalysis.Workspaces.Templates;
 
 public class TestProjectModel
 {

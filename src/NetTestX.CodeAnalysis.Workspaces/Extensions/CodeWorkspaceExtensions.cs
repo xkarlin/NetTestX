@@ -6,7 +6,7 @@ using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.MockingLibraries;
 using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.TestFrameworks;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.CodeAnalysis.Workspaces.Projects.Testing;
-using NetTestX.CodeAnalysis.Workspaces.Templates.Testing;
+using NetTestX.CodeAnalysis.Workspaces.Templates;
 using NetTestX.Razor;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Extensions;
