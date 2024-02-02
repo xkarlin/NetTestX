@@ -23,7 +23,6 @@ else
 @if (Model.IsAsync)
 {
 @:var disposeTask = sut.DisposeAsync();
-@:@Model.Parent.Parent.TestFrameworkModel.AssertTrue("disposeTask.IsCompleted");
 }
 else
 {
@@ -31,3 +30,7 @@ else
 }
 
 // Assert
+@if (Model.IsAsync)
+{
+@:@Model.Parent.Parent.TestFrameworkModel.AssertTrue("disposeTask.IsCompleted");
+}
