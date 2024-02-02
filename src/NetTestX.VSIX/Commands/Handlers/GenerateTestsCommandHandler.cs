@@ -1,10 +1,8 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
-using Community.VisualStudio.Toolkit;
 using EnvDTE;
 using EnvDTE80;
-using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.Code;
@@ -23,10 +21,11 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
         var selectedItems = dte.GetSelectedItemsFromSolutionExplorer();
 
         var projectItem = (ProjectItem)selectedItems[0].Object;
-        var sourceProject = await projectItem.FindRoslynProjectAsync();
+        var sourceProject = projectItem.ContainingProject;
+        var roslynProject = await projectItem.FindRoslynProjectAsync();
 
         string sourceFileName = projectItem.FileNames[0];
-        var compilation = await sourceProject.GetCompilationAsync();
+        var compilation = await roslynProject.GetCompilationAsync();
         var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == sourceFileName);
         var syntaxTreeRoot = await syntaxTree.GetRootAsync();
 
@@ -40,7 +39,7 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
         foreach (var typeSymbol in availableTypeSymbols)
         {
             var codeCoordinator = TestSourceCodeCoordinator.Create(typeSymbol);
-            await codeCoordinator.LoadSourceCodeAsync(targetProject);
+            await codeCoordinator.LoadSourceCodeAsync(sourceProject, targetProject);
         }
     }
 

@@ -22,12 +22,12 @@ public class TestSourceCodeCoordinator
         _type = type;
     }
 
-    public async Task LoadSourceCodeAsync(DTEProject project)
+    public async Task LoadSourceCodeAsync(DTEProject sourceProject, DTEProject targetProject)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-        CodeProject codeProject = new(project.FileName);
-        RoslynProject roslynProject = await project.FindRoslynProjectAsync();
+        CodeProject codeProject = new(targetProject.FileName);
+        RoslynProject roslynProject = await sourceProject.FindRoslynProjectAsync();
         Compilation compilation = await roslynProject.GetCompilationAsync();
 
         var driver = GetGeneratorDriver(codeProject, compilation);
@@ -35,7 +35,7 @@ public class TestSourceCodeCoordinator
         string testSource = await driver.GenerateTestClassSourceAsync();
         string testSourceFileName = $"{Options.TestFileName}.{SourceFileExtensions.CSHARP}";
         
-        await AddSourceFileToProjectAsync(project, testSource, testSourceFileName);
+        await AddSourceFileToProjectAsync(targetProject, testSource, testSourceFileName);
     }
 
     public static TestSourceCodeCoordinator Create(INamedTypeSymbol typeSymbol)

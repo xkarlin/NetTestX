@@ -12,6 +12,8 @@ public class GenerateTestsAdvancedEditorCommandHandler(DTE2 dte, INamedTypeSymbo
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-        await TestSourceCodeUtility.LoadSourceCodeFromAdvancedViewAsync(dte, typeSymbol);
+        var sourceProject = dte.ActiveDocument.ProjectItem.ContainingProject;
+
+        await TestSourceCodeUtility.LoadSourceCodeFromAdvancedViewAsync(dte, sourceProject, typeSymbol);
     }
 }

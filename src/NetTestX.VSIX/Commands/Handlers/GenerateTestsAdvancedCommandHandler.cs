@@ -17,10 +17,11 @@ internal class GenerateTestsAdvancedCommandHandler(DTE2 dte) : ICommandHandler
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
         var projectItem = (ProjectItem)dte.GetSelectedItemsFromSolutionExplorer()[0].Object;
-        var sourceProject = await projectItem.FindRoslynProjectAsync();
+        var sourceProject = projectItem.ContainingProject;
+        var roslynProject = await sourceProject.FindRoslynProjectAsync();
 
         string sourceFileName = projectItem.FileNames[0];
-        var compilation = await sourceProject.GetCompilationAsync();
+        var compilation = await roslynProject.GetCompilationAsync();
         var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == sourceFileName);
         var syntaxTreeRoot = await syntaxTree.GetRootAsync();
 
@@ -30,6 +31,6 @@ internal class GenerateTestsAdvancedCommandHandler(DTE2 dte) : ICommandHandler
             return;
 
         foreach (var typeSymbol in availableTypeSymbols)
-            await TestSourceCodeUtility.LoadSourceCodeFromAdvancedViewAsync(dte, typeSymbol);
+            await TestSourceCodeUtility.LoadSourceCodeFromAdvancedViewAsync(dte, sourceProject, typeSymbol);
     }
 }

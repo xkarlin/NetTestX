@@ -13,7 +13,7 @@ namespace NetTestX.VSIX.Code;
 
 public static class TestSourceCodeUtility
 {
-    public static async Task LoadSourceCodeFromAdvancedViewAsync(DTE2 dte, INamedTypeSymbol typeSymbol)
+    public static async Task LoadSourceCodeFromAdvancedViewAsync(DTE2 dte, DTEProject sourceProject, INamedTypeSymbol typeSymbol)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
@@ -42,6 +42,6 @@ public static class TestSourceCodeUtility
 
         var targetProject = dte.Solution.FindSolutionProject(model.TestProject);
 
-        await codeCoordinator.LoadSourceCodeAsync(targetProject);
+        await codeCoordinator.LoadSourceCodeAsync(sourceProject, targetProject);
     }
 }

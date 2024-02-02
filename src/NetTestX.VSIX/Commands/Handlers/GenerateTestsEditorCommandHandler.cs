@@ -15,11 +15,12 @@ public class GenerateTestsEditorCommandHandler(DTE2 dte, INamedTypeSymbol typeSy
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
+        var sourceProject = dte.ActiveDocument.ProjectItem.ContainingProject;
         var targetProject = await GetTargetProjectAsync();
 
         var codeCoordinator = TestSourceCodeCoordinator.Create(typeSymbol);
 
-        await codeCoordinator.LoadSourceCodeAsync(targetProject);
+        await codeCoordinator.LoadSourceCodeAsync(sourceProject, targetProject);
     }
 
     private async Task<DTEProject> GetTargetProjectAsync()
