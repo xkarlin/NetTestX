@@ -27,8 +27,10 @@ public class TestSourceCodeCoordinator
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
         CodeProject codeProject = new(project.FileName);
+        RoslynProject roslynProject = await project.FindRoslynProjectAsync();
+        Compilation compilation = await roslynProject.GetCompilationAsync();
 
-        var driver = GetGeneratorDriver(codeProject);
+        var driver = GetGeneratorDriver(codeProject, compilation);
 
         string testSource = await driver.GenerateTestClassSourceAsync();
         string testSourceFileName = $"{Options.TestFileName}.{SourceFileExtensions.CSHARP}";
@@ -49,11 +51,12 @@ public class TestSourceCodeCoordinator
         };
     }
 
-    private UnitTestGeneratorDriver GetGeneratorDriver(CodeProject project)
+    private UnitTestGeneratorDriver GetGeneratorDriver(CodeProject project, Compilation compilation)
     {
         UnitTestGeneratorContext generatorContext = new()
         {
             Type = _type,
+            Compilation = compilation,
             Options = new()
             {
                 TestClassName = Options.TestClassName,

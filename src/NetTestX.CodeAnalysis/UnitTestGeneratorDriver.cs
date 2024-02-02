@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Generation.MethodCollectors;
@@ -47,12 +48,21 @@ public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
 
         MethodCollectionContext collectionContext = new()
         {
-            Type = context.Type
+            Type = context.Type,
+            Compilation = context.Compilation
         };
 
-        foreach (var symbol in context.Type.GetMembers())
+        HashSet<ISymbol> excludedSymbols = new(SymbolEqualityComparer.Default);
+
+        foreach (var collector in collectors)
         {
-            if (!ShouldCollectSymbol(symbol))
+            var collectorExcludedSymbols = collector.GetExcludedSymbols(collectionContext);
+            excludedSymbols.UnionWith(collectorExcludedSymbols);
+        }
+
+        foreach (var symbol in context.Type.GetMembers().Append(context.Type))
+        {
+            if (excludedSymbols.Contains(symbol) || !ShouldCollectSymbol(symbol))
                 continue;
 
             foreach (var collector in collectors)
@@ -72,7 +82,7 @@ public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
             if (symbol.IsImplicitlyDeclared)
                 return false;
 
-            if (symbol is ITypeSymbol)
+            if (symbol is ITypeSymbol { ContainingType: not null })
                 return false;
 
             return true;

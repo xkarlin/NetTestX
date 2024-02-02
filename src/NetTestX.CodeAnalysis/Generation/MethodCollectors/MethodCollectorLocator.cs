@@ -8,6 +8,7 @@ public static class MethodCollectorLocator
     [
         new AccessibleInstanceMethodCollector(),
         new AccessibleStaticMethodCollector(),
-        new AccessibleIndexerCollector()
+        new AccessibleIndexerCollector(),
+        new DisposableTypeCollector()
     ];
 }

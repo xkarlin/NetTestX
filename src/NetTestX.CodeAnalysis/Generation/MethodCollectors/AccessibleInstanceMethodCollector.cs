@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
@@ -7,6 +8,8 @@ namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
 public class AccessibleInstanceMethodCollector : ITestMethodCollector
 {
+    public IEnumerable<ISymbol> GetExcludedSymbols(MethodCollectionContext context) => [];
+
     public bool ShouldCollectSymbol(MethodCollectionContext context, ISymbol symbol)
     {
         if (symbol is not IMethodSymbol method)

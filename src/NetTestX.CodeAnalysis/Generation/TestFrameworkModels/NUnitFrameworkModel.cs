@@ -8,5 +8,7 @@ public class NUnitFrameworkModel : ITestFrameworkModel
 
     public string TestMethodAttribute => "Test";
 
+    public string AssertTrue(string expression) => $"Assert.That({expression})";
+
     public IEnumerable<string> CollectNamespaces() => ["NUnit.Framework"];
 }

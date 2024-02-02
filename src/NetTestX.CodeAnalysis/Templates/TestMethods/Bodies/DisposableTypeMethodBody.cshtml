@@ -1,0 +1,33 @@
+﻿@using NetTestX.Razor
+@using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies
+@using static NetTestX.CodeAnalysis.Templates.Utils.RazorTemplateHelpers
+@inherits RazorPage<DisposableTypeMethodBodyModel>
+// Arrange
+@foreach (var param in Model.Constructor.Parameters)
+{
+@:var @param.Name = @Model.Parent.Parent.Value(param.Type);
+}
+@Model.DisposableInterface sut = new @(Short(Model.Type))(@Args(Model.Constructor));
+
+// Act
+@if (Model.IsAsync)
+{
+@:await using (sut) { }
+}
+else
+{
+@:using (sut) { }
+}
+
+// Check that the object ignores all calls to Dispose after the first one (and does not throw)
+@if (Model.IsAsync)
+{
+@:var disposeTask = sut.DisposeAsync();
+@:@Model.Parent.Parent.TestFrameworkModel.AssertTrue("disposeTask.IsCompleted");
+}
+else
+{
+@:sut.Dispose();
+}
+
+// Assert

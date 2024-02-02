@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace NetTestX.CodeAnalysis.Extensions;
@@ -19,6 +20,25 @@ public static class SymbolExtensions
             SpecialType.System_Single or
             SpecialType.System_Double
     };
+
+    public static bool ImplementsInterface<T>(this ITypeSymbol type)
+        where T : class
+    {
+        // naive impl, this is not perfect
+        return type.AllInterfaces.Any(x => x.Name == typeof(T).Name);
+    }
+
+    public static IEnumerable<ISymbol> FindImplementationsForInterfaceMembers<T>(this INamedTypeSymbol typeSymbol, Compilation compilation)
+        where T : class
+    {
+        var ifaceSymbol = compilation.GetNamedSymbol<T>();
+
+        foreach (var member in ifaceSymbol.GetMembers())
+        {
+            if (typeSymbol.FindImplementationForInterfaceMember(member) is { } impl)
+                yield return impl;
+        }
+    }
 
     public static IEnumerable<string> CollectNamespaces(this ISymbol symbol)
     {

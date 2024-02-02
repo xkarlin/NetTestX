@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Common;
 using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
@@ -9,6 +10,8 @@ namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
 public class AccessibleIndexerCollector : ITestMethodCollector
 {
+    public IEnumerable<ISymbol> GetExcludedSymbols(MethodCollectionContext context) => [];
+
     public bool ShouldCollectSymbol(MethodCollectionContext context, ISymbol symbol)
     {
         if (symbol is not IPropertySymbol { IsIndexer: true } indexer)
@@ -32,7 +35,7 @@ public class AccessibleIndexerCollector : ITestMethodCollector
 
         var bodyModel = new AccessibleIndexerMethodBodyModel(indexer, constructor);
 
-        string methodName = $"{string.Join("", indexer.Parameters.Select(x => x.Type.ToDisplayString(CommonFormats.NameOnlyFormat)))}Indexer";
+        string methodName = $"Test{string.Join("", indexer.Parameters.Select(x => x.Type.ToDisplayString(CommonFormats.NameOnlyFormat)))}Indexer";
 
         return new TestMethodModel(symbol, bodyModel, methodName);
     }

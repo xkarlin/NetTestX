@@ -16,7 +16,7 @@ public class CodeProject
     public CodeProject(string filePath)
     {
         FilePath = filePath;
-
+        
         _project = ProjectCollection.GlobalProjectCollection.LoadProject(FilePath);
     }
 
