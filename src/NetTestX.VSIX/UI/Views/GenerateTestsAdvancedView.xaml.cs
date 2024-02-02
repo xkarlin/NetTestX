@@ -31,8 +31,6 @@ public partial class GenerateTestsAdvancedView
     
         TestProjectComboBox.ItemsSource = _testProjects;
         TestProjectComboBox.SelectedIndex = 0;
-
-        _viewModel.TestProject = _testProjects[0];
     }
 
     private void ContinueButton_Click(object sender, RoutedEventArgs e)

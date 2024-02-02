@@ -32,7 +32,7 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="2" Grid.Column="1" Text="Test Project" FontSize="16" Padding="0 10 0 10" />
-            <ComboBox Grid.Row="2" Grid.Column="2" x:Name="TestProjectComboBox" SelectedIndex="0" SelectedValue="{Binding TestProject}" SelectedValuePath="Content" Margin="0 5 0 5">
+            <ComboBox Grid.Row="2" Grid.Column="2" x:Name="TestProjectComboBox" SelectedIndex="0" SelectedValue="{Binding TestProject}" Margin="0 5 0 5">
             </ComboBox>
 
             <TextBlock Grid.Row="3" Grid.Column="1" Text="Test File Name" FontSize="16" Padding="0 10 0 10" />
