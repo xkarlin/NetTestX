@@ -51,11 +51,13 @@ internal sealed class GenerateTestsCommand : BaseDynamicCommand<GenerateTestsCom
 
         var selectedItems = (UIHierarchyItem[])DTE.ToolWindows.SolutionExplorer.SelectedItems;
 
-        if (selectedItems.Length != 1)
+        if (selectedItems.Length == 0)
             return false;
 
-        var projectItem = (ProjectItem)selectedItems[0].Object;
-
-        return projectItem.FileNames[0].EndsWith(SourceFileExtensions.CSHARP_DOT);
+        return selectedItems.All(x =>
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            return x.Object is ProjectItem item && item.FileNames[0].EndsWith(SourceFileExtensions.CSHARP_DOT);
+        });
     }
 }

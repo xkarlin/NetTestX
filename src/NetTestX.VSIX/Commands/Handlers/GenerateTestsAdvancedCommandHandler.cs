@@ -27,7 +27,7 @@ internal class GenerateTestsAdvancedCommandHandler(DTE2 dte) : ICommandHandler
 
         var availableTypeSymbols = SymbolHelper.GetAvailableTypeSymbolsForGeneration(syntaxTreeRoot, compilation).ToImmutableArray();
 
-        if (availableTypeSymbols.Length > 1 && !SymbolHelper.ShowMultipleTypesWarning(availableTypeSymbols))
+        if (availableTypeSymbols.Length > 1 && !SymbolHelper.ShowMultipleTypesWarning(sourceFileName, availableTypeSymbols))
             return;
 
         foreach (var typeSymbol in availableTypeSymbols)

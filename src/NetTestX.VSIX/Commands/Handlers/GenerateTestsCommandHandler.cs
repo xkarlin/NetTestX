@@ -23,23 +23,27 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
         var projectItem = (ProjectItem)selectedItems[0].Object;
         var sourceProject = projectItem.ContainingProject;
         var roslynProject = await projectItem.FindRoslynProjectAsync();
-
-        string sourceFileName = projectItem.FileNames[0];
         var compilation = await roslynProject.GetCompilationAsync();
-        var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == sourceFileName);
-        var syntaxTreeRoot = await syntaxTree.GetRootAsync();
-
-        var availableTypeSymbols = SymbolHelper.GetAvailableTypeSymbolsForGeneration(syntaxTreeRoot, compilation).ToImmutableArray();
-
-        if (availableTypeSymbols.Length > 1 && !SymbolHelper.ShowMultipleTypesWarning(availableTypeSymbols))
-            return;
 
         var targetProject = await GetTargetProjectAsync(selectedItems);
 
-        foreach (var typeSymbol in availableTypeSymbols)
+        foreach (var selectedItem in selectedItems)
         {
-            var codeCoordinator = TestSourceCodeCoordinator.Create(typeSymbol);
-            await codeCoordinator.LoadSourceCodeAsync(sourceProject, targetProject);
+            projectItem = (ProjectItem)selectedItem.Object;
+            string sourceFileName = projectItem.FileNames[0];
+            var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == sourceFileName);
+            var syntaxTreeRoot = await syntaxTree.GetRootAsync();
+
+            var availableTypeSymbols = SymbolHelper.GetAvailableTypeSymbolsForGeneration(syntaxTreeRoot, compilation).ToImmutableArray();
+
+            if (availableTypeSymbols.Length > 1 && !SymbolHelper.ShowMultipleTypesWarning(sourceFileName, availableTypeSymbols))
+                continue;
+
+            foreach (var typeSymbol in availableTypeSymbols)
+            {
+                var codeCoordinator = TestSourceCodeCoordinator.Create(typeSymbol);
+                await codeCoordinator.LoadSourceCodeAsync(sourceProject, targetProject);
+            }
         }
     }
 

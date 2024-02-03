@@ -40,9 +40,9 @@ public static class SymbolHelper
         return true;
     }
 
-    public static bool ShowMultipleTypesWarning(ImmutableArray<INamedTypeSymbol> availableTypes)
+    public static bool ShowMultipleTypesWarning(string fileName, ImmutableArray<INamedTypeSymbol> availableTypes)
     {
         string typesString = string.Join("\n", availableTypes.Select(x => x.Name));
-        return VS.MessageBox.ShowConfirm("NetTestX - multiple types found", $"The selected file contains multiple types:\n{typesString}\nWould you like to proceed and generate tests for all these types?");
+        return VS.MessageBox.ShowConfirm("NetTestX - multiple types found", $"The selected file {fileName} contains multiple types:\n\n{typesString}\n\nWould you like to proceed and generate tests for all these types?");
     }
 }
