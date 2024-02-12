@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Generation;
 using NetTestX.CodeAnalysis.Generation.MethodCollectors;
 using NetTestX.CodeAnalysis.Generation.MockValueProviders;
 using NetTestX.CodeAnalysis.Generation.TestFrameworkModels;
@@ -29,10 +30,12 @@ public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
         var testValueProvider = MockValueProviderLocator.LocateValueProvider(context.Options.MockingLibrary);
         var frameworkModel = TestFrameworkModelLocator.LocateModel(context.Options.TestFramework);
 
+        var resolvedType = TypeSymbolGenerationResolver.Resolve(context.Type, context.Compilation);
+
         TestClassModel model = new(
             context.Options.TestClassName,
             context.Options.TestClassNamespace,
-            context.Type,
+            resolvedType,
             testValueProvider,
             frameworkModel,
             testMethods);

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Common;
 
 namespace NetTestX.CodeAnalysis.Extensions;
 
@@ -40,6 +41,58 @@ public static class SymbolExtensions
         }
     }
 
+    public static bool IsGenericTypeDefinition(this ITypeSymbol type)
+    {
+        if (type.Kind != SymbolKind.NamedType)
+            return false;
+
+        return ((INamedTypeSymbol)type) is { IsGenericType: true } named && SymbolNameComparer.Default.Equals(named, named.OriginalDefinition);
+    }
+
+    public static bool ImplementsInterface(this ITypeSymbol type, INamedTypeSymbol iface)
+    {
+        return type.AllInterfaces.Any(x => SymbolNameComparer.Default.Equals(x, iface));
+    }
+
+    public static bool ImplementsGenericInterface(this ITypeSymbol type, INamedTypeSymbol iface)
+    {
+        return type.AllInterfaces.Any(x => SymbolNameComparer.Default.Equals(x.OriginalDefinition, iface));
+    }
+
+    public static IEnumerable<INamedTypeSymbol> FindAllGenericInterfaceImplementations(this ITypeSymbol type, INamedTypeSymbol iface)
+    {
+        foreach (var candidateIface in type.AllInterfaces)
+        {
+            if (SymbolNameComparer.Default.Equals(candidateIface.OriginalDefinition, iface.OriginalDefinition))
+                yield return candidateIface;
+        }
+    }
+
+    public static bool IsInheritedFrom(this ITypeSymbol type, ITypeSymbol baseType)
+    {
+        if (!type.IsReferenceType)
+            return false;
+
+        if (type is null)
+            return false;
+
+        if (SymbolNameComparer.Default.Equals(type, baseType))
+            return true;
+
+        return IsInheritedFrom(type.BaseType, baseType);
+    }
+
+    public static bool IsInheritedFromGenericType(this ITypeSymbol type, INamedTypeSymbol baseType)
+    {
+        if (type is null)
+            return false;
+
+        if (SymbolNameComparer.Default.Equals(type.OriginalDefinition, baseType))
+            return true;
+
+        return IsInheritedFromGenericType(type.BaseType, baseType);
+    }
+
     public static IEnumerable<string> CollectNamespaces(this ISymbol symbol)
     {
         HashSet<string> namespaces = [];
@@ -50,6 +103,9 @@ public static class SymbolExtensions
 
         void CollectNamespacesInternal(ISymbol current)
         {
+            if (current is ITypeParameterSymbol)
+                return;
+
             if (current.ContainingNamespace is { } containingNs)
                 namespaces.Add(containingNs.ToDisplayString());
 
