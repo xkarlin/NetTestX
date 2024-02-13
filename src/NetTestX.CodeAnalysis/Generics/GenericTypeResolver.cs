@@ -83,6 +83,8 @@ internal static class GenericTypeResolver
         foreach (var candidateType in TypeArgumentSuggester.EnumerateSuggestions(compilation))
         {
             Dictionary<ITypeParameterSymbol, ITypeSymbol> nextResolvedTypeArguments = new(resolvedTypeArguments, SymbolEqualityComparer.Default);
+            Dictionary<ITypeParameterSymbol, ITypeSymbol> resolvedCandidateTypeArguments = new(SymbolEqualityComparer.Default);
+            Dictionary<ITypeParameterSymbol, IConstraint> nextConstraints = new(constraints, SymbolEqualityComparer.Default);
 
             Dictionary<ITypeParameterSymbol, ITypeParameterSymbol> typeParameterMapping = new(SymbolEqualityComparer.Default);
 
@@ -94,7 +96,7 @@ internal static class GenericTypeResolver
 
                 foreach (var candidateIface in candidateType.FindAllGenericInterfaceImplementations(constraintType))
                 {
-                    if (TryResolveCandidateConstraintType(candidateIface, constraintType, nextResolvedTypeArguments, constraints, typeParameterMapping, compilation))
+                    if (TryResolveCandidateConstraintType(candidateIface, constraintType, nextResolvedTypeArguments, resolvedCandidateTypeArguments, nextConstraints, typeParameterMapping, compilation))
                     {
                         constraintTypeResolved = true;
                         break;
@@ -111,7 +113,7 @@ internal static class GenericTypeResolver
             if (!constraintTypesResolved)
                 continue;
 
-            if (!constraints[typeParameter].IsSatisfiedBy(candidateType))
+            if (!nextConstraints[typeParameter].IsSatisfiedBy(candidateType))
                 continue;
 
             if (!candidateType.IsGenericType)
@@ -125,9 +127,14 @@ internal static class GenericTypeResolver
 
             for (int i = 0; i < candidateType.Arity; i++)
             {
+                if (resolvedCandidateTypeArguments.TryGetValue(candidateType.TypeParameters[i], out var resolvedCandidateTypeArgument))
+                {
+                    candidateTypeArguments[candidateType.TypeParameters[i]] = resolvedCandidateTypeArgument;
+                    continue;
+                }
+
                 if (typeParameterMapping.TryGetValue(candidateType.TypeParameters[i], out var mappedArgument))
                 {
-                    candidateTypeConstraints[candidateType.TypeParameters[i]] = constraints[mappedArgument];
                     candidateTypeArguments[candidateType.TypeParameters[i]] = nextResolvedTypeArguments[mappedArgument];
                     continue;
                 }
@@ -149,6 +156,7 @@ internal static class GenericTypeResolver
         INamedTypeSymbol candidateType,
         INamedTypeSymbol constraintType,
         IDictionary<ITypeParameterSymbol, ITypeSymbol> resolvedTypeArguments,
+        IDictionary<ITypeParameterSymbol, ITypeSymbol> resolvedCandidateTypeArguments,
         IDictionary<ITypeParameterSymbol, IConstraint> constraints,
         Dictionary<ITypeParameterSymbol, ITypeParameterSymbol> typeParameterMapping,
         Compilation compilation)
@@ -157,13 +165,23 @@ internal static class GenericTypeResolver
 
         for (int i = 0; i < candidateType.Arity; i++)
         {
+            if (constraintType.TypeArguments[i] is INamedTypeSymbol t)
+            {
+                resolvedCandidateTypeArguments[(ITypeParameterSymbol)candidateType.TypeArguments[i]] = t;
+                continue;
+            }
+
             var currentConstraint = constraints[(ITypeParameterSymbol)constraintType.TypeArguments[i]];
 
             IConstraint candidateConstraint;
 
             if (candidateType.TypeArguments[i] is ITypeParameterSymbol p)
             {
-                if (typeParameterMapping.TryGetValue(p, out var resolvedTypeParameter) && resolvedTypeArguments.TryGetValue(resolvedTypeParameter, out var resolvedTypeArgument1))
+                if (resolvedCandidateTypeArguments.TryGetValue(p, out var resolvedCandidateTypeArgument))
+                {
+                    candidateConstraint = new EqualsTypeConstraint(resolvedCandidateTypeArgument);
+                }
+                else if (typeParameterMapping.TryGetValue(p, out var resolvedTypeParameter) && resolvedTypeArguments.TryGetValue(resolvedTypeParameter, out var resolvedTypeArgument1))
                 {
                     candidateConstraint = new EqualsTypeConstraint(resolvedTypeArgument1);
                 }
