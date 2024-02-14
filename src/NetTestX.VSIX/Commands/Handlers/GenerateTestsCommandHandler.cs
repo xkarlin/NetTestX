@@ -41,8 +41,8 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
 
             foreach (var typeSymbol in availableTypeSymbols)
             {
-                var codeCoordinator = TestSourceCodeCoordinator.Create(typeSymbol);
-                await codeCoordinator.LoadSourceCodeAsync(sourceProject, targetProject);
+                var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(typeSymbol, sourceProject);
+                await codeCoordinator.LoadSourceCodeAsync(targetProject);
             }
         }
     }

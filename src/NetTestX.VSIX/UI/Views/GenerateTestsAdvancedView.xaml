@@ -46,6 +46,12 @@
             <TextBox Grid.Row="5" Grid.Column="2" FontSize="16" Text="{Binding TestClassNamespace}" Padding="0 10 0 10" />
         </Grid>
 
+        <StackPanel Margin="20">
+            <TextBlock Text="Select test methods" FontSize="16" />
+            <StackPanel x:Name="TestMethodsPanel">
+            </StackPanel>
+        </StackPanel>
+
         <Button HorizontalAlignment="Right" Content="Continue" Click="ContinueButton_Click" FontSize="16" Margin="0 10 25 0" Padding="10 5 10 5" />
     </StackPanel>
 </Window>

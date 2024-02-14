@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.VSIX.UI.Models;
 
 namespace NetTestX.VSIX.UI.ViewModels;
@@ -44,6 +46,16 @@ public class GenerateTestsAdvancedViewModel(GenerateTestsAdvancedModel model) : 
         {
             model.TestClassNamespace = value;
             PropertyChanged?.Invoke(this, new(nameof(TestClassNamespace)));
+        }
+    }
+
+    public Dictionary<TestMethodModelBase, bool> TestMethodMap
+    {
+        get => model.TestMethodMap;
+        set
+        {
+            model.TestMethodMap = value;
+            PropertyChanged?.Invoke(this, new(nameof(TestMethodMap)));
         }
     }
 }

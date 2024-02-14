@@ -13,24 +13,17 @@ namespace NetTestX.VSIX.Code;
 
 public class TestSourceCodeCoordinator
 {
-    private readonly INamedTypeSymbol _type;
-
     public required TestSourceCodeCoordinatorOptions Options { get; init; }
 
-    private TestSourceCodeCoordinator(INamedTypeSymbol type)
-    {
-        _type = type;
-    }
+    public required UnitTestGeneratorDriver.Builder DriverBuilder { get; init; }
 
-    public async Task LoadSourceCodeAsync(DTEProject sourceProject, DTEProject targetProject)
+    public async Task LoadSourceCodeAsync(DTEProject targetProject)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
         CodeProject codeProject = new(targetProject.FileName);
-        RoslynProject roslynProject = await sourceProject.FindRoslynProjectAsync();
-        Compilation compilation = await roslynProject.GetCompilationAsync();
 
-        var driver = GetGeneratorDriver(codeProject, compilation);
+        var driver = GetGeneratorDriver(codeProject);
 
         string testSource = await driver.GenerateTestClassSourceAsync();
         string testSourceFileName = $"{Options.TestFileName}.{SourceFileExtensions.CSHARP}";
@@ -38,35 +31,32 @@ public class TestSourceCodeCoordinator
         await AddSourceFileToProjectAsync(targetProject, testSource, testSourceFileName);
     }
 
-    public static TestSourceCodeCoordinator Create(INamedTypeSymbol typeSymbol)
+    public static async Task<TestSourceCodeCoordinator> CreateAsync(INamedTypeSymbol type, DTEProject sourceProject)
     {
-        return new(typeSymbol)
+        RoslynProject roslynProject = await sourceProject.FindRoslynProjectAsync();
+        Compilation compilation = await roslynProject.GetCompilationAsync();
+
+        TestSourceCodeCoordinator coordinator = new()
         {
             Options = new()
             {
-                TestFileName = $"{typeSymbol.Name}Tests",
-                TestClassName = $"{typeSymbol.Name}Tests",
-                TestClassNamespace = $"{typeSymbol.ContainingNamespace}.Tests"
-            }
+                TestFileName = $"{type.Name}Tests"
+            },
+            DriverBuilder = UnitTestGeneratorDriver.CreateBuilder(type, compilation)
         };
+
+        coordinator.DriverBuilder.TestClassName = $"{type.Name}Tests";
+        coordinator.DriverBuilder.TestClassNamespace = $"{type.ContainingNamespace}.Tests";
+
+        return coordinator;
     }
 
-    private UnitTestGeneratorDriver GetGeneratorDriver(CodeProject project, Compilation compilation)
+    private UnitTestGeneratorDriver GetGeneratorDriver(CodeProject project)
     {
-        UnitTestGeneratorContext generatorContext = new()
-        {
-            Type = _type,
-            Compilation = compilation,
-            Options = new()
-            {
-                TestClassName = Options.TestClassName,
-                TestClassNamespace = Options.TestClassNamespace,
-                TestFramework = project.GetProjectTestFramework(),
-                MockingLibrary = project.GetProjectMockingLibrary()
-            }
-        };
+        DriverBuilder.TestFramework = project.GetProjectTestFramework();
+        DriverBuilder.MockingLibrary = project.GetProjectMockingLibrary();
 
-        UnitTestGeneratorDriver driver = new(generatorContext);
+        UnitTestGeneratorDriver driver = DriverBuilder.Build();
         return driver;
     }
 

@@ -12,8 +12,15 @@ using NetTestX.Razor;
 
 namespace NetTestX.CodeAnalysis;
 
-public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
+public partial class UnitTestGeneratorDriver
 {
+    private readonly UnitTestGeneratorContext _context;
+
+    private UnitTestGeneratorDriver(UnitTestGeneratorContext context)
+    {
+        _context = context;
+    }
+
     public async Task<string> GenerateTestClassSourceAsync()
     {
         var model = CreateTestClassModel();
@@ -25,70 +32,19 @@ public class UnitTestGeneratorDriver(UnitTestGeneratorContext context)
 
     private TestClassModel CreateTestClassModel()
     {
-        var testMethods = CollectTestMethods();
+        var testValueProvider = MockValueProviderLocator.LocateValueProvider(_context.Options.MockingLibrary);
+        var frameworkModel = TestFrameworkModelLocator.LocateModel(_context.Options.TestFramework);
 
-        var testValueProvider = MockValueProviderLocator.LocateValueProvider(context.Options.MockingLibrary);
-        var frameworkModel = TestFrameworkModelLocator.LocateModel(context.Options.TestFramework);
-
-        var resolvedType = TypeSymbolGenerationResolver.Resolve(context.Type, context.Compilation);
+        var resolvedType = TypeSymbolGenerationResolver.Resolve(_context.Type, _context.Compilation);
 
         TestClassModel model = new(
-            context.Options.TestClassName,
-            context.Options.TestClassNamespace,
+            _context.Options.TestClassName,
+            _context.Options.TestClassNamespace,
             resolvedType,
             testValueProvider,
             frameworkModel,
-            testMethods);
+            _context.Options.TestMethods);
 
         return model;
-    }
-
-    private IReadOnlyCollection<TestMethodModelBase> CollectTestMethods()
-    {
-        List<TestMethodModelBase> testMethods = [];
-
-        var collectors = MethodCollectorLocator.GetAvailableCollectors();
-
-        MethodCollectionContext collectionContext = new()
-        {
-            Type = context.Type,
-            Compilation = context.Compilation
-        };
-
-        HashSet<ISymbol> excludedSymbols = new(SymbolEqualityComparer.Default);
-
-        foreach (var collector in collectors)
-        {
-            var collectorExcludedSymbols = collector.GetExcludedSymbols(collectionContext);
-            excludedSymbols.UnionWith(collectorExcludedSymbols);
-        }
-
-        foreach (var symbol in context.Type.GetMembers().Append(context.Type))
-        {
-            if (excludedSymbols.Contains(symbol) || !ShouldCollectSymbol(symbol))
-                continue;
-
-            foreach (var collector in collectors)
-            {
-                if (collector.ShouldCollectSymbol(collectionContext, symbol))
-                {
-                    var testMethod = collector.CollectSymbol(collectionContext, symbol);
-                    testMethods.Add(testMethod);
-                }
-            }
-        }
-
-        return testMethods;
-
-        static bool ShouldCollectSymbol(ISymbol symbol)
-        {
-            if (symbol.IsImplicitlyDeclared)
-                return false;
-
-            if (symbol is ITypeSymbol { ContainingType: not null })
-                return false;
-
-            return true;
-        }
     }
 }

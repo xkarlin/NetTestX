@@ -8,6 +8,7 @@ using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.VSIX.Extensions;
 using NetTestX.VSIX.UI.Models;
 using NetTestX.VSIX.UI.Views;
+using NetTestX.Polyfill.Extensions;
 
 namespace NetTestX.VSIX.Code;
 
@@ -17,13 +18,14 @@ public static class TestSourceCodeUtility
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-        var codeCoordinator = TestSourceCodeCoordinator.Create(typeSymbol);
+        var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(typeSymbol, sourceProject);
 
         GenerateTestsAdvancedModel model = new()
         {
             TestFileName = codeCoordinator.Options.TestFileName,
-            TestClassName = codeCoordinator.Options.TestClassName,
-            TestClassNamespace = codeCoordinator.Options.TestClassNamespace
+            TestClassName = codeCoordinator.DriverBuilder.TestClassName,
+            TestClassNamespace = codeCoordinator.DriverBuilder.TestClassNamespace,
+            TestMethodMap = new(codeCoordinator.DriverBuilder.TestMethodMap)
         };
 
         var workspace = CodeWorkspace.Open(dte.Solution.FileName);
@@ -37,11 +39,14 @@ public static class TestSourceCodeUtility
             return;
 
         codeCoordinator.Options.TestFileName = model.TestFileName;
-        codeCoordinator.Options.TestClassName = model.TestClassName;
-        codeCoordinator.Options.TestClassNamespace = model.TestClassNamespace;
+        codeCoordinator.DriverBuilder.TestClassName = model.TestClassName;
+        codeCoordinator.DriverBuilder.TestClassNamespace = model.TestClassNamespace;
+
+        foreach (var (modelBase, enabled) in model.TestMethodMap)
+            codeCoordinator.DriverBuilder.TestMethodMap[modelBase] = enabled;
 
         var targetProject = dte.Solution.FindSolutionProject(model.TestProject);
 
-        await codeCoordinator.LoadSourceCodeAsync(sourceProject, targetProject);
+        await codeCoordinator.LoadSourceCodeAsync(targetProject);
     }
 }

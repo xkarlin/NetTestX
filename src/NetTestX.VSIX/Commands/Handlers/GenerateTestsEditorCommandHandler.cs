@@ -18,9 +18,9 @@ public class GenerateTestsEditorCommandHandler(DTE2 dte, INamedTypeSymbol typeSy
         var sourceProject = dte.ActiveDocument.ProjectItem.ContainingProject;
         var targetProject = await GetTargetProjectAsync();
 
-        var codeCoordinator = TestSourceCodeCoordinator.Create(typeSymbol);
+        var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(typeSymbol, sourceProject);
 
-        await codeCoordinator.LoadSourceCodeAsync(sourceProject, targetProject);
+        await codeCoordinator.LoadSourceCodeAsync(targetProject);
     }
 
     private async Task<DTEProject> GetTargetProjectAsync()
