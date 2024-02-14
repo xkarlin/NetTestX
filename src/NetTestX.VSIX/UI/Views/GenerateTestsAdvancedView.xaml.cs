@@ -69,7 +69,7 @@ public partial class GenerateTestsAdvancedView
         {
             CheckBox box = new()
             {
-                Content = DocumentationCommentId.CreateDeclarationId(testMethod.Symbol),
+                Content = testMethod.MethodBodyModel.GetDisplayName(),
                 DataContext = testMethod,
                 IsChecked = enabled
             };

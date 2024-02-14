@@ -49,6 +49,11 @@ public static class SymbolExtensions
         return ((INamedTypeSymbol)type) is { IsGenericType: true } named && SymbolNameComparer.Default.Equals(named, named.OriginalDefinition);
     }
 
+    public static bool IsGenericMethodDefinition(this IMethodSymbol method)
+    {
+        return method.IsGenericMethod && SymbolNameComparer.Default.Equals(method, method.OriginalDefinition);
+    }
+
     public static bool ImplementsInterface(this ITypeSymbol type, INamedTypeSymbol iface)
     {
         return type.AllInterfaces.Any(x => SymbolNameComparer.Default.Equals(x, iface));

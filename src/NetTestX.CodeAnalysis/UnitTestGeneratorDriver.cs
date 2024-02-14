@@ -35,7 +35,7 @@ public partial class UnitTestGeneratorDriver
         var testValueProvider = MockValueProviderLocator.LocateValueProvider(_context.Options.MockingLibrary);
         var frameworkModel = TestFrameworkModelLocator.LocateModel(_context.Options.TestFramework);
 
-        var resolvedType = TypeSymbolGenerationResolver.Resolve(_context.Type, _context.Compilation);
+        var resolvedType = SymbolGenerationResolver.Resolve(_context.Type, _context.Compilation);
 
         TestClassModel model = new(
             _context.Options.TestClassName,

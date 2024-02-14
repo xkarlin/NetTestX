@@ -16,7 +16,15 @@ namespace NetTestX.CodeAnalysis.Generics;
 
 internal static class GenericTypeResolver
 {
-    private static readonly ConditionalWeakTable<Compilation, INamedTypeSymbol[]> _wellKnownTypesCache = new();
+    public static IMethodSymbol Resolve(IMethodSymbol method, Compilation compilation)
+    {
+        if (!method.IsGenericMethodDefinition())
+            return method;
+
+        var typeArguments = ResolveGenericTypeArguments(method.TypeParameters, compilation);
+        method = ConstructGenericMethod(method, typeArguments);
+        return method;
+    }
 
     public static ITypeSymbol Resolve(ITypeSymbol type, Compilation compilation)
         => type.Kind == SymbolKind.NamedType ? Resolve((INamedTypeSymbol)type, compilation) : type;
@@ -26,25 +34,25 @@ internal static class GenericTypeResolver
         if (!type.IsGenericTypeDefinition())
             return type;
 
-        var typeArguments = ResolveGenericTypeArguments(type, compilation);
+        var typeArguments = ResolveGenericTypeArguments(type.TypeParameters, compilation);
         type = ConstructGenericType(type, typeArguments);
         return type;
     }
 
-    private static IReadOnlyDictionary<ITypeParameterSymbol, ITypeSymbol> ResolveGenericTypeArguments(INamedTypeSymbol type, Compilation compilation)
+    private static IReadOnlyDictionary<ITypeParameterSymbol, ITypeSymbol> ResolveGenericTypeArguments(ImmutableArray<ITypeParameterSymbol> typeParameters, Compilation compilation)
     {
         Dictionary<ITypeParameterSymbol, ITypeSymbol> resolvedTypeArguments = new(SymbolEqualityComparer.Default);
         Dictionary<ITypeParameterSymbol, IConstraint> defaultConstraints = new(SymbolNameComparer.Default);
 
-        foreach (var typeParameter in type.TypeParameters)
+        foreach (var typeParameter in typeParameters)
         {
             CompositeConstraint constraint = new(ConstraintHelper.GetTypeParameterConstraintsWithoutTypes(typeParameter));
             defaultConstraints.Add(typeParameter, constraint);
         }
 
-        ResolveGenericTypeArgumentsInternal(resolvedTypeArguments, defaultConstraints, type, compilation);
+        ResolveGenericTypeArgumentsInternal(resolvedTypeArguments, defaultConstraints, typeParameters, compilation);
 
-        foreach (var typeParameter in type.TypeParameters)
+        foreach (var typeParameter in typeParameters)
         {
             if (!resolvedTypeArguments.ContainsKey(typeParameter))
                 resolvedTypeArguments.Add(typeParameter, compilation.GetSpecialType(SpecialType.System_Void));
@@ -53,18 +61,22 @@ internal static class GenericTypeResolver
         return resolvedTypeArguments;
     }
     
-    private static void ResolveGenericTypeArgumentsInternal(Dictionary<ITypeParameterSymbol, ITypeSymbol> resolvedTypeArguments, Dictionary<ITypeParameterSymbol, IConstraint> constraints, INamedTypeSymbol type, Compilation compilation)
+    private static void ResolveGenericTypeArgumentsInternal(
+        Dictionary<ITypeParameterSymbol, ITypeSymbol> resolvedTypeArguments, 
+       Dictionary<ITypeParameterSymbol, IConstraint> constraints, 
+      ImmutableArray<ITypeParameterSymbol> typeParameters, 
+     Compilation compilation)
     {
         HashSet<ITypeParameterSymbol> visited = new(SymbolEqualityComparer.Default);
 
-        for (int i = 0; i < type.Arity; i++)
+        for (int i = 0; i < typeParameters.Length; i++)
         {
             Dictionary<ITypeParameterSymbol, ITypeSymbol> resolvedArguments = new(resolvedTypeArguments, SymbolEqualityComparer.Default);
 
-            if (!visited.Add(type.TypeParameters[i]))
+            if (!visited.Add(typeParameters[i]))
                 continue;
 
-            if (ResolveGenericTypeArgumentInternal(type.TypeParameters[i], resolvedArguments, constraints, compilation) is { } nextResolvedArguments)
+            if (ResolveGenericTypeArgumentInternal(typeParameters[i], resolvedArguments, constraints, compilation) is { } nextResolvedArguments)
             {
                 foreach (var (p, r) in nextResolvedArguments)
                 {
@@ -143,7 +155,7 @@ internal static class GenericTypeResolver
                 candidateTypeConstraints[candidateType.TypeParameters[i]] = constraint;
             }
 
-            ResolveGenericTypeArgumentsInternal(candidateTypeArguments, candidateTypeConstraints, candidateType, compilation);
+            ResolveGenericTypeArgumentsInternal(candidateTypeArguments, candidateTypeConstraints, candidateType.TypeParameters, compilation);
             var constructedCandidateType = ConstructGenericType(candidateType, candidateTypeArguments);
             nextResolvedTypeArguments[typeParameter] = constructedCandidateType;
             return nextResolvedTypeArguments;
@@ -225,5 +237,20 @@ internal static class GenericTypeResolver
 
         type = type.Construct(typeArgumentsOrdered);
         return type;
+    }
+
+    private static IMethodSymbol ConstructGenericMethod(IMethodSymbol method, IReadOnlyDictionary<ITypeParameterSymbol, ITypeSymbol> typeArguments)
+    {
+        var typeArgumentsOrdered = new ITypeSymbol[method.Arity];
+
+        for (int i = 0; i < method.Arity; i++)
+        {
+            var typeParameter = method.TypeParameters[i];
+            var typeArgument = typeArguments[typeParameter];
+            typeArgumentsOrdered[i] = typeArgument;
+        }
+
+        method = method.Construct(typeArgumentsOrdered);
+        return method;
     }
 }

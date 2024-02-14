@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Common;
 using NetTestX.CodeAnalysis.Extensions;
 
 namespace NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
@@ -27,4 +28,6 @@ public record AccessibleIndexerMethodBodyModel(IPropertySymbol Indexer, IMethodS
 
         return namespaces;
     }
+
+    public string GetDisplayName() => Indexer.ToDisplayString(CommonFormats.ShortNullableFormat);
 }

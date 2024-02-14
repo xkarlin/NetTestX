@@ -12,7 +12,8 @@ public static class MethodCollectorHelper
         new AccessibleInstanceMethodCollector(),
         new AccessibleStaticMethodCollector(),
         new AccessibleIndexerCollector(),
-        new DisposableTypeCollector()
+        new DisposableTypeCollector(),
+        new AsyncDisposableTypeCollector()
     ];
 
     public static IReadOnlyList<TestMethodModelBase> CollectTestMethods(INamedTypeSymbol type, Compilation compilation)

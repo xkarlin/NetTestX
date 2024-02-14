@@ -18,19 +18,19 @@
 // Act
 @if (Model.Method.ReturnsVoid)
 {
-@:sut.@(Model.Method.Name)(@Args(Model.Method, TestPascal));
+@:sut.@(Short(Model.Method))(@Args(Model.Method, TestPascal));
 }
 else if (Model.Method is { IsAsync: true, ReturnType: INamedTypeSymbol { IsGenericType: true } })
 {
-@:var result = await sut.@(Model.Method.Name)(@Args(Model.Method, TestPascal));
+@:var result = await sut.@(Short(Model.Method))(@Args(Model.Method, TestPascal));
 }
 else if (Model.Method.IsAsync)
 {
-@:await sut.@(Model.Method.Name)(@Args(Model.Method, TestPascal));
+@:await sut.@(Short(Model.Method))(@Args(Model.Method, TestPascal));
 }
 else
 {
-@:var result = sut.@(Model.Method.Name)(@Args(Model.Method, TestPascal));
+@:var result = sut.@(Short(Model.Method))(@Args(Model.Method, TestPascal));
 }
 
 // Assert

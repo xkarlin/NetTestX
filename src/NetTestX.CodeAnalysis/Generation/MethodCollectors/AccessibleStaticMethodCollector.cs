@@ -29,6 +29,7 @@ public class AccessibleStaticMethodCollector : ITestMethodCollector
     public TestMethodModelBase CollectSymbol(MethodCollectionContext context, ISymbol symbol)
     {
         var method = (IMethodSymbol)symbol;
+        method = SymbolGenerationResolver.Resolve(method, context.Compilation);
 
         var bodyModel = new AccessibleStaticMethodBodyModel(method);
 

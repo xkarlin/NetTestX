@@ -13,4 +13,6 @@ public record DisposableTypeMethodBodyModel(IMethodSymbol Constructor, bool IsAs
     public string DisposableInterface => IsAsync ? nameof(IAsyncDisposable) : nameof(IDisposable);
 
     public IEnumerable<string> CollectNamespaces() => [typeof(IDisposable).Namespace];
+
+    public string GetDisplayName() => $"{DisposableInterface} interface";
 }
