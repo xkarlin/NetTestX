@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Code\TestSourceCodeCoordinator.cs" />
     <Compile Include="Code\TestSourceCodeCoordinatorOptions.cs" />
+    <Compile Include="Code\TestSourceCodeDiagnosticReporter.cs" />
     <Compile Include="Code\TestSourceCodeUtility.cs" />
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\BaseDynamicCommand.cs" />

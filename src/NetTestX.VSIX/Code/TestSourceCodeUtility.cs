@@ -18,7 +18,8 @@ public static class TestSourceCodeUtility
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-        var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(typeSymbol, sourceProject);
+        TestSourceCodeDiagnosticReporter reporter = new();
+        var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(typeSymbol, sourceProject, reporter);
 
         GenerateTestsAdvancedModel model = new()
         {
@@ -31,7 +32,7 @@ public static class TestSourceCodeUtility
         var workspace = CodeWorkspace.Open(dte.Solution.FileName);
         var testProjects = workspace.GetTestProjects();
 
-        GenerateTestsAdvancedView view = new(model, testProjects.Select(x => x.Name));
+        GenerateTestsAdvancedView view = new(model, reporter, testProjects.Select(x => x.Name));
 
         bool? result = view.ShowDialog();
 

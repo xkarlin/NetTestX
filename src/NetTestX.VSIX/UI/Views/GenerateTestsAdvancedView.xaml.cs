@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.VSIX.UI.Models;
 using NetTestX.VSIX.UI.ViewModels;
 using NetTestX.Polyfill.Extensions;
+using NetTestX.VSIX.Code;
 
 namespace NetTestX.VSIX.UI.Views;
 
@@ -16,12 +16,20 @@ namespace NetTestX.VSIX.UI.Views;
 /// </summary>
 public partial class GenerateTestsAdvancedView
 {
+    private const int MAX_DIAGNOSTICS_TO_SHOW = 10;
+
+    private readonly TestSourceCodeDiagnosticReporter _reporter;
+
     private readonly GenerateTestsAdvancedViewModel _viewModel;
 
     private readonly IReadOnlyList<string> _testProjects;
 
-    public GenerateTestsAdvancedView(GenerateTestsAdvancedModel model, IEnumerable<string> testProjects)
+    public GenerateTestsAdvancedView(
+        GenerateTestsAdvancedModel model,
+        TestSourceCodeDiagnosticReporter reporter,
+        IEnumerable<string> testProjects)
     {
+        _reporter = reporter;
         DataContext = _viewModel = new(model);
         
         _testProjects = testProjects.ToList();
@@ -32,7 +40,9 @@ public partial class GenerateTestsAdvancedView
     protected override void OnInitialized(EventArgs e)
     {
         base.OnInitialized(e);
+
         InitializeTestProjectComboBox();
+        InitializeDiagnosticsPanel();
         InitializeTestMethodsPanel();
     }
 
@@ -63,15 +73,42 @@ public partial class GenerateTestsAdvancedView
         TestProjectComboBox.SelectedIndex = 0;
     }
 
+    private void InitializeDiagnosticsPanel()
+    {
+        foreach (var (severity, message) in _reporter.Diagnostics.OrderByDescending(x => x.Severity).Take(MAX_DIAGNOSTICS_TO_SHOW))
+        {
+            TextBlock block = new()
+            {
+                Text = message,
+                FontSize = 16
+            };
+
+            CodeDiagnosticsPanel.Children.Add(block);
+        }
+    }
+
     private void InitializeTestMethodsPanel()
     {
+        if (_viewModel.TestMethodMap.Count == 0)
+        {
+            TextBlock noMethodsBlock = new()
+            {
+                Text = "No test methods available for generation.",
+                FontSize = 16
+            };
+
+            TestMethodsPanel.Children.Add(noMethodsBlock);
+            return;
+        }
+
         foreach (var (testMethod, enabled) in _viewModel.TestMethodMap)
         {
             CheckBox box = new()
             {
                 Content = testMethod.MethodBodyModel.GetDisplayName(),
                 DataContext = testMethod,
-                IsChecked = enabled
+                IsChecked = enabled,
+                FontSize = 16
             };
 
             box.Checked += TestMethodCheckBox_Checked;

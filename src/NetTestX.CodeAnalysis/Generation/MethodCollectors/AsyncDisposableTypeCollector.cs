@@ -20,6 +20,9 @@ public class AsyncDisposableTypeCollector : ITestMethodCollector
         if (symbol is not INamedTypeSymbol namedType)
             return false;
 
+        if (!namedType.HasAccessibleConstructor())
+            return false;
+
         if (namedType.DeclaredAccessibility is not Accessibility.Public)
             return false;
 

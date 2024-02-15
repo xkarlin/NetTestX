@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Extensions;
 using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
@@ -13,6 +14,9 @@ public class AccessibleInstanceMethodCollector : ITestMethodCollector
     public bool ShouldCollectSymbol(MethodCollectionContext context, ISymbol symbol)
     {
         if (symbol is not IMethodSymbol method)
+            return false;
+
+        if (!symbol.ContainingType.HasAccessibleConstructor())
             return false;
 
         if (method.MethodKind is not MethodKind.Ordinary)

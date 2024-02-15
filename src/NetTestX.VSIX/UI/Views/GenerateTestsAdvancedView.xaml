@@ -8,18 +8,18 @@
         mc:Ignorable="d" 
         d:DesignHeight="450" d:DesignWidth="800"
         Title="NetTestX - Generate Unit Tests Advanced">
-    <StackPanel>
-        <TextBlock Text="Generate Unit Tests Advanced" FontSize="24" Padding="20 5 20 5" />
+    <StackPanel Margin="20 0">
+        <TextBlock Text="Generate Unit Tests Advanced" FontSize="24" Padding="0 10" />
 
         <Separator />
 
+        <TextBlock Text="General" FontSize="20" FontWeight="DemiBold" Padding="0 5" />
+
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20" />
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="6*" />
                 <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="20" />
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
@@ -31,23 +31,28 @@
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="Test Project" FontSize="16" Padding="0 10 0 10" />
-            <ComboBox Grid.Row="2" Grid.Column="2" x:Name="TestProjectComboBox" SelectedIndex="0" SelectedValue="{Binding TestProject}" Margin="0 5 0 5">
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Test Project" FontSize="16" Padding="0 10 0 10" />
+            <ComboBox Grid.Row="2" Grid.Column="1" x:Name="TestProjectComboBox" SelectedIndex="0" SelectedValue="{Binding TestProject}" Margin="0 5 0 5">
             </ComboBox>
 
-            <TextBlock Grid.Row="3" Grid.Column="1" Text="Test File Name" FontSize="16" Padding="0 10 0 10" />
-            <TextBox Grid.Row="3" Grid.Column="2" FontSize="16" Text="{Binding TestFileName}" Padding="0 10 0 10" />
-            <TextBlock Grid.Row="3" Grid.Column="3" Text=".cs" FontSize="16" Padding="0 10 0 10" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Test File Name" FontSize="16" Padding="0 10 0 10" />
+            <TextBox Grid.Row="3" Grid.Column="1" FontSize="16" Text="{Binding TestFileName}" Padding="0 10 0 10" />
+            <TextBlock Grid.Row="3" Grid.Column="2" Text=".cs" FontSize="16" Padding="0 10 0 10" />
 
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="Test Class Name" FontSize="16" Padding="0 10 0 10" />
-            <TextBox Grid.Row="4" Grid.Column="2" FontSize="16" Text="{Binding TestClassName}" Padding="0 10 0 10" />
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Test Class Name" FontSize="16" Padding="0 10 0 10" />
+            <TextBox Grid.Row="4" Grid.Column="1" FontSize="16" Text="{Binding TestClassName}" Padding="0 10 0 10" />
 
-            <TextBlock Grid.Row="5" Grid.Column="1" Text="Test Class Namespace" FontSize="16" Padding="0 10 0 10" />
-            <TextBox Grid.Row="5" Grid.Column="2" FontSize="16" Text="{Binding TestClassNamespace}" Padding="0 10 0 10" />
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Test Class Namespace" FontSize="16" Padding="0 10 0 10" />
+            <TextBox Grid.Row="5" Grid.Column="1" FontSize="16" Text="{Binding TestClassNamespace}" Padding="0 10 0 10" />
         </Grid>
 
-        <StackPanel Margin="20">
-            <TextBlock Text="Select test methods" FontSize="16" />
+        <TextBlock Text="Code" FontSize="20" FontWeight="DemiBold" Padding="0 5" />
+
+        <StackPanel x:Name="CodeDiagnosticsPanel">
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock Text="Select test methods" FontSize="16" FontWeight="DemiBold" Padding="0 5" />
             <StackPanel x:Name="TestMethodsPanel">
             </StackPanel>
         </StackPanel>

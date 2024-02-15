@@ -98,6 +98,11 @@ public static class SymbolExtensions
         return IsInheritedFromGenericType(type.BaseType, baseType);
     }
 
+    public static bool HasAccessibleConstructor(this INamedTypeSymbol type, Accessibility accessibility = Accessibility.Public)
+    {
+        return type.Constructors.Any(x => x.DeclaredAccessibility >= accessibility);
+    }
+
     public static IEnumerable<string> CollectNamespaces(this ISymbol symbol)
     {
         HashSet<string> namespaces = [];

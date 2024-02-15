@@ -7,6 +7,7 @@ using NetTestX.CodeAnalysis;
 using NetTestX.CodeAnalysis.Common;
 using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
+using NetTestX.Common.Diagnostics;
 using NetTestX.VSIX.Extensions;
 
 namespace NetTestX.VSIX.Code;
@@ -31,7 +32,7 @@ public class TestSourceCodeCoordinator
         await AddSourceFileToProjectAsync(targetProject, testSource, testSourceFileName);
     }
 
-    public static async Task<TestSourceCodeCoordinator> CreateAsync(INamedTypeSymbol type, DTEProject sourceProject)
+    public static async Task<TestSourceCodeCoordinator> CreateAsync(INamedTypeSymbol type, DTEProject sourceProject, IDiagnosticReporter reporter = null)
     {
         RoslynProject roslynProject = await sourceProject.FindRoslynProjectAsync();
         Compilation compilation = await roslynProject.GetCompilationAsync();
@@ -42,7 +43,7 @@ public class TestSourceCodeCoordinator
             {
                 TestFileName = $"{type.Name}Tests"
             },
-            DriverBuilder = UnitTestGeneratorDriver.CreateBuilder(type, compilation)
+            DriverBuilder = UnitTestGeneratorDriver.CreateBuilder(type, compilation, reporter)
         };
 
         coordinator.DriverBuilder.TestClassName = $"{type.Name}Tests";

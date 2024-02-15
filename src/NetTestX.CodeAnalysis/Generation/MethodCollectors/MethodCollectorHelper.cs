@@ -2,6 +2,9 @@
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using System.Collections.Generic;
 using System.Linq;
+using NetTestX.CodeAnalysis.Extensions;
+using NetTestX.Common.Diagnostics;
+using NetTestX.Common.Extensions;
 
 namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
@@ -16,8 +19,10 @@ public static class MethodCollectorHelper
         new AsyncDisposableTypeCollector()
     ];
 
-    public static IReadOnlyList<TestMethodModelBase> CollectTestMethods(INamedTypeSymbol type, Compilation compilation)
+    public static IReadOnlyList<TestMethodModelBase> CollectTestMethods(INamedTypeSymbol type, Compilation compilation, IDiagnosticReporter reporter = null)
     {
+        CheckTypeDiagnostics(type, reporter);
+
         List<TestMethodModelBase> testMethods = [];
 
         var collectors = GetAvailableCollectors();
@@ -63,5 +68,14 @@ public static class MethodCollectorHelper
 
             return true;
         }
+    }
+
+    private static void CheckTypeDiagnostics(INamedTypeSymbol type, IDiagnosticReporter reporter)
+    {
+        if (reporter is null)
+            return;
+
+        if (!type.HasAccessibleConstructor())
+            reporter.ReportWarning($"The type {type.Name} does not expose any accessible instance constructor. Some members are not available for generation.");
     }
 }

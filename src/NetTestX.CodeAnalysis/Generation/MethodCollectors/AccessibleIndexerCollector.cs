@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Common;
+using NetTestX.CodeAnalysis.Extensions;
 using NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
@@ -15,6 +16,9 @@ public class AccessibleIndexerCollector : ITestMethodCollector
     public bool ShouldCollectSymbol(MethodCollectionContext context, ISymbol symbol)
     {
         if (symbol is not IPropertySymbol { IsIndexer: true } indexer)
+            return false;
+
+        if (!symbol.ContainingType.HasAccessibleConstructor())
             return false;
 
         if (indexer.DeclaredAccessibility is not Accessibility.Public)
