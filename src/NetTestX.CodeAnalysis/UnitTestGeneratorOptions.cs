@@ -14,5 +14,5 @@ public class UnitTestGeneratorOptions
 
     public required MockingLibrary MockingLibrary { get; init; }
 
-    public required IReadOnlyCollection<TestMethodModelBase> TestMethods { get; init; }
+    public AdvancedGeneratorOptions AdvancedOptions { get; init; } = AdvancedGeneratorOptions.Default;
 }

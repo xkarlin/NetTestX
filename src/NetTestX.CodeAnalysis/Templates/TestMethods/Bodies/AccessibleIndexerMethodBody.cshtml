@@ -2,7 +2,10 @@
 @using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies
 @using static NetTestX.CodeAnalysis.Templates.Utils.RazorTemplateHelpers
 @inherits RazorPage<AccessibleIndexerMethodBodyModel>
-// Arrange
+@if (Model.Parent.IncludeAAAComments)
+{
+@:// Arrange
+}
 @foreach (var param in Model.Constructor.Parameters)
 {
 @:var @param.Name = @Model.Parent.Parent.Value(param.Type);
@@ -18,7 +21,10 @@
 @:var toSet = @Model.Parent.Parent.Value(Model.Indexer.Type);
 }
 
-// Act
+@if (Model.Parent.IncludeAAAComments)
+{
+@:// Act
+}
 @if (Model.SetterAccessible)
 {
 @:sut[@Args(Model.Indexer, TestPascal)] = toSet;
@@ -28,4 +34,7 @@
 @:var result = sut[@Args(Model.Indexer, TestPascal)];
 }
 
-// Assert
+@if (Model.Parent.IncludeAAAComments)
+{
+@:// Assert
+}

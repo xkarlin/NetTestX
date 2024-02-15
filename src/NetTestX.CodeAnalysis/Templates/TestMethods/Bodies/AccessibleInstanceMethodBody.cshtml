@@ -3,7 +3,10 @@
 @using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies
 @using static NetTestX.CodeAnalysis.Templates.Utils.RazorTemplateHelpers
 @inherits RazorPage<AccessibleInstanceMethodBodyModel>
-// Arrange
+@if (Model.Parent.IncludeAAAComments)
+{
+@:// Arrange
+}
 @foreach (var param in Model.Constructor.Parameters)
 {
 @:var @param.Name = @Model.Parent.Parent.Value(param.Type);
@@ -15,7 +18,10 @@
 @:var @TestPascal(param.Name) = @Model.Parent.Parent.Value(param.Type);
 }
 
-// Act
+@if (Model.Parent.IncludeAAAComments)
+{
+@:// Act
+}
 @if (Model.Method.ReturnsVoid)
 {
 @:sut.@(Short(Model.Method))(@Args(Model.Method, TestPascal));
@@ -33,4 +39,7 @@ else
 @:var result = sut.@(Short(Model.Method))(@Args(Model.Method, TestPascal));
 }
 
-// Assert
+@if (Model.Parent.IncludeAAAComments)
+{
+@:// Assert
+}

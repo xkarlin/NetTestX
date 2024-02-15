@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using NetTestX.CodeAnalysis;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.VSIX.UI.Models;
 
@@ -56,6 +57,16 @@ public class GenerateTestsAdvancedViewModel(GenerateTestsAdvancedModel model) : 
         {
             model.TestMethodMap = value;
             PropertyChanged?.Invoke(this, new(nameof(TestMethodMap)));
+        }
+    }
+
+    public AdvancedGeneratorOptions AdvancedOptions
+    {
+        get => model.AdvancedOptions;
+        set
+        {
+            model.AdvancedOptions = value;
+            PropertyChanged?.Invoke(this, new(nameof(AdvancedOptions)));
         }
     }
 }

@@ -15,6 +15,8 @@ public abstract class TestMethodModelBase : INamespaceCollector
 
     public TestClassModel Parent { get; set; }
 
+    public bool IncludeAAAComments => (Parent.AdvancedOptions & AdvancedGeneratorOptions.IncludeAAAComments) != 0;
+
     protected TestMethodModelBase(ISymbol symbol, IMethodBodyModel methodBodyModel, string methodName)
     {
         Symbol = symbol;

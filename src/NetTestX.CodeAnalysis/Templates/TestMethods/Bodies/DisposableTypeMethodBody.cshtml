@@ -2,14 +2,20 @@
 @using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies
 @using static NetTestX.CodeAnalysis.Templates.Utils.RazorTemplateHelpers
 @inherits RazorPage<DisposableTypeMethodBodyModel>
-// Arrange
+@if (Model.Parent.IncludeAAAComments)
+{
+@:// Arrange
+}
 @foreach (var param in Model.Constructor.Parameters)
 {
 @:var @param.Name = @Model.Parent.Parent.Value(param.Type);
 }
 @Model.DisposableInterface sut = new @(Short(Model.Type))(@Args(Model.Constructor));
 
-// Act
+@if (Model.Parent.IncludeAAAComments)
+{
+@:// Act
+}
 @if (Model.IsAsync)
 {
 @:await using (sut) { }
@@ -29,7 +35,10 @@ else
 @:sut.Dispose();
 }
 
-// Assert
+@if (Model.Parent.IncludeAAAComments)
+{
+@:// Assert
+}
 @if (Model.IsAsync)
 {
 @:@Model.Parent.Parent.TestFrameworkModel.AssertTrue("disposeTask.IsCompleted");

@@ -11,34 +11,25 @@ namespace NetTestX.CodeAnalysis.Templates;
 
 public class TestClassModel : INamespaceCollector
 {
-    public string TestClassName { get; }
+    public required string TestClassName { get; init; }
 
-    public string TestClassNamespace { get; }
+    public required string TestClassNamespace { get; init; }
 
-    public INamedTypeSymbol Type { get; }
+    public required INamedTypeSymbol Type { get; init; }
 
-    public IMockValueProvider ValueProvider { get; }
+    public required IMockValueProvider ValueProvider { get; init; }
 
-    public ITestFrameworkModel TestFrameworkModel { get; }
+    public required ITestFrameworkModel TestFrameworkModel { get; init; }
+
+    public AdvancedGeneratorOptions AdvancedOptions { get; init; } = AdvancedGeneratorOptions.Default;
 
     public IReadOnlyCollection<TestMethodModelBase> TestMethods { get; }
 
-    public TestClassModel(
-        string testClassName,
-        string testClassNamespace,
-        INamedTypeSymbol type,
-        IMockValueProvider valueProvider,
-        ITestFrameworkModel testFrameworkModel,
-        IReadOnlyCollection<TestMethodModelBase> testMethods)
+    public TestClassModel(IReadOnlyCollection<TestMethodModelBase> testMethods)
     {
-        TestClassName = testClassName;
-        TestClassNamespace = testClassNamespace;
-        Type = type;
-        ValueProvider = valueProvider;
-        TestFrameworkModel = testFrameworkModel;
         TestMethods = testMethods;
-        
-        foreach (var model in testMethods)
+
+        foreach (var model in TestMethods)
             model.Parent = this;
     }
 

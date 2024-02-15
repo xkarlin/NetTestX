@@ -1,13 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.CodeAnalysis;
+﻿using System.Threading.Tasks;
 using NetTestX.CodeAnalysis.Generation;
-using NetTestX.CodeAnalysis.Generation.MethodCollectors;
 using NetTestX.CodeAnalysis.Generation.MockValueProviders;
 using NetTestX.CodeAnalysis.Generation.TestFrameworkModels;
 using NetTestX.CodeAnalysis.Templates;
-using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.Razor;
 
 namespace NetTestX.CodeAnalysis;
@@ -37,13 +32,15 @@ public partial class UnitTestGeneratorDriver
 
         var resolvedType = SymbolGenerationResolver.Resolve(_context.Type, _context.Compilation);
 
-        TestClassModel model = new(
-            _context.Options.TestClassName,
-            _context.Options.TestClassNamespace,
-            resolvedType,
-            testValueProvider,
-            frameworkModel,
-            _context.Options.TestMethods);
+        TestClassModel model = new(_context.TestMethods)
+        {
+            TestClassName = _context.Options.TestClassName,
+            TestClassNamespace = _context.Options.TestClassNamespace,
+            Type = resolvedType,
+            ValueProvider = testValueProvider,
+            TestFrameworkModel = frameworkModel,
+            AdvancedOptions = _context.Options.AdvancedOptions
+        };
 
         return model;
     }

@@ -26,7 +26,8 @@ public static class TestSourceCodeUtility
             TestFileName = codeCoordinator.Options.TestFileName,
             TestClassName = codeCoordinator.DriverBuilder.TestClassName,
             TestClassNamespace = codeCoordinator.DriverBuilder.TestClassNamespace,
-            TestMethodMap = new(codeCoordinator.DriverBuilder.TestMethodMap)
+            TestMethodMap = new(codeCoordinator.DriverBuilder.TestMethodMap),
+            AdvancedOptions = codeCoordinator.DriverBuilder.AdvancedOptions
         };
 
         var workspace = CodeWorkspace.Open(dte.Solution.FileName);
@@ -42,6 +43,7 @@ public static class TestSourceCodeUtility
         codeCoordinator.Options.TestFileName = model.TestFileName;
         codeCoordinator.DriverBuilder.TestClassName = model.TestClassName;
         codeCoordinator.DriverBuilder.TestClassNamespace = model.TestClassNamespace;
+        codeCoordinator.DriverBuilder.AdvancedOptions = model.AdvancedOptions;
 
         foreach (var (modelBase, enabled) in model.TestMethodMap)
             codeCoordinator.DriverBuilder.TestMethodMap[modelBase] = enabled;

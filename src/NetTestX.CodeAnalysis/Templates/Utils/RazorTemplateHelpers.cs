@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Common;
+using NetTestX.CodeAnalysis.Templates.TestMethods;
 
 namespace NetTestX.CodeAnalysis.Templates.Utils;
 

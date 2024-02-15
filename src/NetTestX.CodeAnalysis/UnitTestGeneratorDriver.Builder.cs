@@ -10,7 +10,7 @@ namespace NetTestX.CodeAnalysis;
 
 public partial class UnitTestGeneratorDriver
 {
-    public static Builder CreateBuilder(INamedTypeSymbol type, Compilation compilation, IDiagnosticReporter? reporter = null)
+    public static Builder CreateBuilder(INamedTypeSymbol type, Compilation compilation, IDiagnosticReporter reporter = null)
         => new(type, compilation, reporter);
 
     public class Builder
@@ -28,6 +28,8 @@ public partial class UnitTestGeneratorDriver
         public TestFramework TestFramework { get; set; }
 
         public MockingLibrary MockingLibrary { get; set; }
+
+        public AdvancedGeneratorOptions AdvancedOptions { get; set; } = AdvancedGeneratorOptions.Default;
 
         public IReadOnlyList<TestMethodModelBase> AllTestMethods { get; }
 
@@ -48,13 +50,14 @@ public partial class UnitTestGeneratorDriver
             {
                 Type = Type,
                 Compilation = Compilation,
+                TestMethods = TestMethodMap.Where(x => x.Value).Select(x => x.Key).ToArray(),
                 Options = new()
                 { 
                     TestClassName = TestClassName,
                     TestClassNamespace = TestClassNamespace,
                     MockingLibrary = MockingLibrary,
                     TestFramework = TestFramework,
-                    TestMethods = TestMethodMap.Where(x => x.Value).Select(x => x.Key).ToArray()
+                    AdvancedOptions = AdvancedOptions
                 }
             };
 
