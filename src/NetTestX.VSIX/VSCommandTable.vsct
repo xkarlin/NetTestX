@@ -66,6 +66,7 @@
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DynamicItemStart</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
             <ButtonText>Generate Unit Tests Advanced...</ButtonText>
             <LocCanonicalName>.NetTestX.GenerateTestProjectCommand</LocCanonicalName>
@@ -100,6 +101,7 @@
         <CommandFlag>IconIsMoniker</CommandFlag>
         <CommandFlag>DynamicItemStart</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
           <ButtonText>Generate Unit Tests Advanced...</ButtonText>
           <LocCanonicalName>.NetTestX.GenerateTestsAdvancedEditorCommand</LocCanonicalName>

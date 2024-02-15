@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Linq;
 using Community.VisualStudio.Toolkit;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Common;
+using NetTestX.CodeAnalysis.Workspaces;
+using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.VSIX.Commands.Handlers;
+using NetTestX.VSIX.Extensions;
 
 namespace NetTestX.VSIX.Commands;
 
@@ -16,22 +20,31 @@ internal sealed class GenerateTestsAdvancedCommand : BaseCommand<GenerateTestsAd
     {
         ThreadHelper.ThrowIfNotOnUIThread();
 
-        bool visible = ShouldCommandBeVisible();
+        var (visible, enabled) = ShouldCommandBeVisible();
 
-        Command.Visible = Command.Enabled = visible;
+        Command.Visible = visible;
+        Command.Enabled = enabled;
     }
 
-    private bool ShouldCommandBeVisible()
+    private (bool Visible, bool Enabled) ShouldCommandBeVisible()
     {
         ThreadHelper.ThrowIfNotOnUIThread();
 
         var selectedItems = (UIHierarchyItem[])DTE.ToolWindows.SolutionExplorer.SelectedItems;
 
         if (selectedItems.Length != 1)
-            return false;
+            return (false, false);
 
         var projectItem = (ProjectItem)selectedItems[0].Object;
 
-        return projectItem.FileNames[0].EndsWith(SourceFileExtensions.CSHARP_DOT);
+        if (!projectItem.FileNames[0].EndsWith(SourceFileExtensions.CSHARP_DOT))
+            return (false, false);
+
+        var workspace = CodeWorkspace.Open(DTE.Solution.FileName);
+
+        if (!workspace.GetTestProjects().Any())
+            return (true, false);
+
+        return (true, true);
     }
 }
