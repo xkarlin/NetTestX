@@ -7,7 +7,6 @@ using NetTestX.CodeAnalysis.Common;
 using NetTestX.CodeAnalysis.Workspaces;
 using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.VSIX.Commands.Handlers;
-using NetTestX.VSIX.Extensions;
 
 namespace NetTestX.VSIX.Commands;
 
@@ -32,12 +31,13 @@ internal sealed class GenerateTestsAdvancedCommand : BaseCommand<GenerateTestsAd
 
         var selectedItems = (UIHierarchyItem[])DTE.ToolWindows.SolutionExplorer.SelectedItems;
 
-        if (selectedItems.Length != 1)
-            return (false, false);
+        bool itemsValid = selectedItems.All(x =>
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            return x.Object is ProjectItem item && item.FileNames[0].EndsWith(SourceFileExtensions.CSHARP_DOT);
+        });
 
-        var projectItem = (ProjectItem)selectedItems[0].Object;
-
-        if (!projectItem.FileNames[0].EndsWith(SourceFileExtensions.CSHARP_DOT))
+        if (selectedItems.Length == 0 || !itemsValid)
             return (false, false);
 
         var workspace = CodeWorkspace.Open(DTE.Solution.FileName);
