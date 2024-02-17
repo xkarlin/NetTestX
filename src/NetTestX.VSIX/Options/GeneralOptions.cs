@@ -7,10 +7,10 @@ namespace NetTestX.VSIX.Options;
 internal partial class OptionsProvider
 {
     [ComVisible(true)]
-    public class GeneralOptions : BaseOptionPage<General> { }
+    public class GeneralOptionsPage : BaseOptionPage<GeneralOptions> { }
 }
 
-public class General : BaseOptionModel<General>
+public class GeneralOptions : BaseOptionModel<GeneralOptions>
 {
     [Category("General")]
     [DisplayName("Test File Name")]

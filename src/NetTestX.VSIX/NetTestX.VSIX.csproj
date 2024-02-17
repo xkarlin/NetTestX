@@ -71,8 +71,9 @@
     <Compile Include="Extensions\TextViewExtensions.cs" />
     <Compile Include="Extensions\WorkspaceExtensions.cs" />
     <Compile Include="GlobalUsings.cs" />
-    <Compile Include="Options\Advanced.cs" />
-    <Compile Include="Options\General.cs" />
+    <Compile Include="Options\AdvancedOptions.cs" />
+    <Compile Include="Options\CodeOptions.cs" />
+    <Compile Include="Options\GeneralOptions.cs" />
     <Compile Include="Options\Parsing\GeneralOptionsVariablesProvider.cs" />
     <Compile Include="Options\Parsing\IParsingVariablesProvider.cs" />
     <Compile Include="Options\Parsing\OptionResolver.cs" />

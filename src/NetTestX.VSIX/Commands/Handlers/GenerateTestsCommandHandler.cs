@@ -28,7 +28,7 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
 
         var targetProject = await GetTargetProjectAsync(selectedItems);
 
-        var advancedOptions = await Advanced.GetLiveInstanceAsync();
+        var advancedOptions = await AdvancedOptions.GetLiveInstanceAsync();
 
         foreach (var selectedItem in selectedItems)
         {

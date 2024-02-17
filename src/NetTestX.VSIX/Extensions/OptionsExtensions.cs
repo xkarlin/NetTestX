@@ -5,7 +5,7 @@ namespace NetTestX.VSIX.Extensions;
 
 public static class OptionsExtensions
 {
-    public static AdvancedGeneratorOptions GetAdvancedGeneratorOptions(this Advanced options)
+    public static AdvancedGeneratorOptions GetAdvancedGeneratorOptions(this CodeOptions options)
     {
         var flags = AdvancedGeneratorOptions.None;
 

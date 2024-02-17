@@ -22,7 +22,7 @@ internal class GenerateTestsAdvancedCommandHandler(DTE2 dte) : ICommandHandler
         var sourceProject = ((ProjectItem)projectItems[0].Object).ContainingProject;
         var roslynProject = await sourceProject.FindRoslynProjectAsync();
 
-        var advancedOptions = await Advanced.GetLiveInstanceAsync();
+        var advancedOptions = await AdvancedOptions.GetLiveInstanceAsync();
 
         foreach (var projectItem in projectItems)
         {
