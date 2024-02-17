@@ -8,6 +8,7 @@ using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.Code;
 using NetTestX.VSIX.Commands.Helpers;
 using NetTestX.VSIX.Extensions;
+using NetTestX.VSIX.Options;
 using NetTestX.VSIX.Projects;
 
 namespace NetTestX.VSIX.Commands.Handlers;
@@ -27,6 +28,8 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
 
         var targetProject = await GetTargetProjectAsync(selectedItems);
 
+        var advancedOptions = await Advanced.GetLiveInstanceAsync();
+
         foreach (var selectedItem in selectedItems)
         {
             projectItem = (ProjectItem)selectedItem.Object;
@@ -36,7 +39,9 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
 
             var availableTypeSymbols = SymbolHelper.GetAvailableTypeSymbolsForGeneration(syntaxTreeRoot, compilation).ToImmutableArray();
 
-            if (availableTypeSymbols.Length > 1 && !SymbolHelper.ShowMultipleTypesWarning(sourceFileName, availableTypeSymbols))
+            bool shouldShowWarning = advancedOptions.ShowMultipleTypeWarning && availableTypeSymbols.Length > 1;
+
+            if (shouldShowWarning && !SymbolHelper.ShowMultipleTypesWarning(sourceFileName, availableTypeSymbols))
                 continue;
 
             foreach (var typeSymbol in availableTypeSymbols)

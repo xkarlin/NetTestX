@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.Shell;
 using NetTestX.VSIX.Code;
 using NetTestX.VSIX.Commands.Helpers;
 using NetTestX.VSIX.Extensions;
+using NetTestX.VSIX.Options;
 using ProjectItem = EnvDTE.ProjectItem;
 
 namespace NetTestX.VSIX.Commands.Handlers;
@@ -21,6 +22,8 @@ internal class GenerateTestsAdvancedCommandHandler(DTE2 dte) : ICommandHandler
         var sourceProject = ((ProjectItem)projectItems[0].Object).ContainingProject;
         var roslynProject = await sourceProject.FindRoslynProjectAsync();
 
+        var advancedOptions = await Advanced.GetLiveInstanceAsync();
+
         foreach (var projectItem in projectItems)
         {
             string sourceFileName = ((ProjectItem)projectItem.Object).FileNames[0];
@@ -30,7 +33,9 @@ internal class GenerateTestsAdvancedCommandHandler(DTE2 dte) : ICommandHandler
 
             var availableTypeSymbols = SymbolHelper.GetAvailableTypeSymbolsForGeneration(syntaxTreeRoot, compilation).ToImmutableArray();
 
-            if (availableTypeSymbols.Length > 1 && !SymbolHelper.ShowMultipleTypesWarning(sourceFileName, availableTypeSymbols))
+            bool shouldShowWarning = advancedOptions.ShowMultipleTypeWarning && availableTypeSymbols.Length > 1;
+
+            if (shouldShowWarning && !SymbolHelper.ShowMultipleTypesWarning(sourceFileName, availableTypeSymbols))
                 continue;
 
             foreach (var typeSymbol in availableTypeSymbols)
