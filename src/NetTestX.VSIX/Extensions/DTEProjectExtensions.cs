@@ -17,11 +17,9 @@ public static class DTEProjectExtensions
         return sourceProject;
     }
 
-    public static async Task CreateProjectFileAsync(this DTEProject project, Stream stream, string fileName)
+    public static async Task CreateProjectFileAsync(this DTEProject project, Stream stream, string filePath)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
-        string filePath = $"{Path.GetDirectoryName(project.FullName)}/{fileName}";
 
         using (var fs = File.Create(filePath))
             await stream.CopyToAsync(fs);

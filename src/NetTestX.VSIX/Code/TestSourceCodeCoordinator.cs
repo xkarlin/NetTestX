@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
@@ -14,9 +15,16 @@ namespace NetTestX.VSIX.Code;
 
 public class TestSourceCodeCoordinator
 {
+    private readonly DTEProject _sourceProject;
+
     public required TestSourceCodeCoordinatorOptions Options { get; init; }
 
     public required UnitTestGeneratorDriver.Builder DriverBuilder { get; init; }
+
+    private TestSourceCodeCoordinator(DTEProject sourceProject)
+    {
+        _sourceProject = sourceProject;
+    }
 
     public async Task LoadSourceCodeAsync(DTEProject targetProject)
     {
@@ -27,9 +35,10 @@ public class TestSourceCodeCoordinator
         var driver = GetGeneratorDriver(codeProject);
 
         string testSource = await driver.GenerateTestClassSourceAsync();
-        string testSourceFileName = $"{Options.TestFileName}.{SourceFileExtensions.CSHARP}";
-        
-        await AddSourceFileToProjectAsync(targetProject, testSource, testSourceFileName);
+
+        string targetFilePath = GetTargetFilePath(targetProject);
+
+        await AddSourceFileToProjectAsync(targetProject, testSource, targetFilePath);
     }
 
     public static async Task<TestSourceCodeCoordinator> CreateAsync(INamedTypeSymbol type, DTEProject sourceProject, IDiagnosticReporter reporter = null)
@@ -37,7 +46,7 @@ public class TestSourceCodeCoordinator
         RoslynProject roslynProject = await sourceProject.FindRoslynProjectAsync();
         Compilation compilation = await roslynProject.GetCompilationAsync();
 
-        TestSourceCodeCoordinator coordinator = new()
+        TestSourceCodeCoordinator coordinator = new(sourceProject)
         {
             Options = new()
             {
@@ -64,6 +73,25 @@ public class TestSourceCodeCoordinator
     private async Task AddSourceFileToProjectAsync(DTEProject project, string sourceText, string fileName)
     {
         MemoryStream ms = new(Encoding.UTF8.GetBytes(sourceText));
+
+        var targetFolder = Path.GetDirectoryName(fileName);
+        Directory.CreateDirectory(targetFolder);
+
         await project.CreateProjectFileAsync(ms, fileName);
+    }
+
+    private string GetTargetFilePath(DTEProject targetProject)
+    {
+        ThreadHelper.ThrowIfNotOnUIThread();
+
+        string testSourceFileName = $"{Options.TestFileName}.{SourceFileExtensions.CSHARP}";
+        
+        string sourceFileDirectory = Path.GetDirectoryName(DriverBuilder.Type.DeclaringSyntaxReferences[0].SyntaxTree.FilePath);
+        string sourceProjectDirectory = Path.GetDirectoryName(_sourceProject.FileName);
+        string targetProjectDirectory = Path.GetDirectoryName(targetProject.FileName);
+
+        string targetFileDirectory = TestSourceCodeUtility.CopyRelativePath(sourceFileDirectory, sourceProjectDirectory, targetProjectDirectory);
+
+        return Path.Combine(targetFileDirectory, testSourceFileName);
     }
 }

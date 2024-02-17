@@ -9,6 +9,8 @@ using NetTestX.VSIX.Extensions;
 using NetTestX.VSIX.UI.Models;
 using NetTestX.VSIX.UI.Views;
 using NetTestX.Polyfill.Extensions;
+using System;
+using System.IO;
 
 namespace NetTestX.VSIX.Code;
 
@@ -51,5 +53,18 @@ public static class TestSourceCodeUtility
         var targetProject = dte.Solution.FindSolutionProject(model.TestProject);
 
         await codeCoordinator.LoadSourceCodeAsync(targetProject);
+    }
+
+    public static string CopyRelativePath(string sourcePath, string relativeBase, string targetBase)
+    {
+        if (!sourcePath.EndsWith("/") && !sourcePath.EndsWith("\\"))
+            sourcePath += "/";
+
+        if (!relativeBase.EndsWith("/") && !relativeBase.EndsWith("\\"))
+            relativeBase += "/";
+
+        var relativePathUri = new Uri(relativeBase, UriKind.Absolute).MakeRelativeUri(new(sourcePath));
+        string relativePath = relativePathUri.ToString();
+        return Path.Combine(targetBase, relativePath);
     }
 }
