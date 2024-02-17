@@ -1,6 +1,4 @@
-﻿using NetTestX.CodeAnalysis.Templates.TestMethods;
-using NetTestX.Common;
-using System.Collections.Generic;
+﻿using NetTestX.Common;
 
 namespace NetTestX.CodeAnalysis;
 
@@ -14,5 +12,5 @@ public class UnitTestGeneratorOptions
 
     public required MockingLibrary MockingLibrary { get; init; }
 
-    public AdvancedGeneratorOptions AdvancedOptions { get; init; } = AdvancedGeneratorOptions.Default;
+    public AdvancedGeneratorOptions AdvancedOptions { get; init; }
 }

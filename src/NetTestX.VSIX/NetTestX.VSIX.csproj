@@ -65,11 +65,13 @@
     <Compile Include="Extensions\DTEExtensions.cs" />
     <Compile Include="Extensions\DTEProjectExtensions.cs" />
     <Compile Include="Extensions\DTESolutionExtensions.cs" />
+    <Compile Include="Extensions\OptionsExtensions.cs" />
     <Compile Include="Extensions\ProjectItemExtensions.cs" />
     <Compile Include="Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="Extensions\TextViewExtensions.cs" />
     <Compile Include="Extensions\WorkspaceExtensions.cs" />
     <Compile Include="GlobalUsings.cs" />
+    <Compile Include="Options\Advanced.cs" />
     <Compile Include="Projects\TestProjectFactory.cs" />
     <Compile Include="Projects\TestProjectFactoryOptions.cs" />
     <Compile Include="Projects\TestProjectUtility.cs" />

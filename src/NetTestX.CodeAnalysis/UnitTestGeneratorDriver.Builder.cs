@@ -29,7 +29,7 @@ public partial class UnitTestGeneratorDriver
 
         public MockingLibrary MockingLibrary { get; set; }
 
-        public AdvancedGeneratorOptions AdvancedOptions { get; set; } = AdvancedGeneratorOptions.Default;
+        public AdvancedGeneratorOptions AdvancedOptions { get; set; }
 
         public IReadOnlyList<TestMethodModelBase> AllTestMethods { get; }
 

@@ -21,7 +21,7 @@ public class TestClassModel : INamespaceCollector
 
     public required ITestFrameworkModel TestFrameworkModel { get; init; }
 
-    public AdvancedGeneratorOptions AdvancedOptions { get; init; } = AdvancedGeneratorOptions.Default;
+    public AdvancedGeneratorOptions AdvancedOptions { get; init; }
 
     public IReadOnlyCollection<TestMethodModelBase> TestMethods { get; }
 

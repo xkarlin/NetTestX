@@ -5,7 +5,7 @@ namespace NetTestX.CodeAnalysis;
 [Flags]
 public enum AdvancedGeneratorOptions
 {
-    IncludeAAAComments = 1 << 0,
+    None = 0,
 
-    Default = IncludeAAAComments
+    IncludeAAAComments = 1 << 0
 }

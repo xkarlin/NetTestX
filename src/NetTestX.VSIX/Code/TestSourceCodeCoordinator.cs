@@ -46,6 +46,8 @@ public class TestSourceCodeCoordinator
         RoslynProject roslynProject = await sourceProject.FindRoslynProjectAsync();
         Compilation compilation = await roslynProject.GetCompilationAsync();
 
+        var advancedOptions = await Advanced.GetLiveInstanceAsync();
+
         TestSourceCodeCoordinator coordinator = new(sourceProject)
         {
             Options = new()
@@ -57,6 +59,7 @@ public class TestSourceCodeCoordinator
 
         coordinator.DriverBuilder.TestClassName = $"{type.Name}Tests";
         coordinator.DriverBuilder.TestClassNamespace = $"{type.ContainingNamespace}.Tests";
+        coordinator.DriverBuilder.AdvancedOptions = advancedOptions.GetAdvancedGeneratorOptions();
 
         return coordinator;
     }
