@@ -99,8 +99,12 @@ public static class SymbolExtensions
     }
 
     public static bool HasAccessibleConstructor(this INamedTypeSymbol type, Accessibility accessibility = Accessibility.Public)
+        => TryGetAccessibleConstructor(type, accessibility, out _);
+
+    public static bool TryGetAccessibleConstructor(this INamedTypeSymbol type, Accessibility accessibility, out IMethodSymbol constructor)
     {
-        return type.Constructors.Any(x => x.DeclaredAccessibility >= accessibility);
+        constructor = type.Constructors.FirstOrDefault(x => x.DeclaredAccessibility >= accessibility);
+        return constructor is not null;
     }
 
     public static IEnumerable<string> CollectNamespaces(this ISymbol symbol)

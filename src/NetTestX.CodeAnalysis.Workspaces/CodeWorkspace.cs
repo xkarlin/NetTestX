@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Build.Construction;
+using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 
 namespace NetTestX.CodeAnalysis.Workspaces;
@@ -14,7 +15,7 @@ public class CodeWorkspace
 
     private SolutionFile _solution;
 
-    public IEnumerable<CodeProject> Projects => _solution.ProjectsInOrder.Select(x => new CodeProject(x.AbsolutePath));
+    public IEnumerable<CodeProject> Projects => _solution.GetSolutionProjects().Select(x => new CodeProject(x.AbsolutePath));
 
     private CodeWorkspace(SolutionFile solution, string solutionFilePath)
     {
