@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Community.VisualStudio.Toolkit;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
+using NetTestX.VSIX.Options;
 
 namespace NetTestX.VSIX;
 
@@ -15,6 +16,7 @@ namespace NetTestX.VSIX;
 [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionHasSingleProject_string, PackageAutoLoadFlags.BackgroundLoad)]
 [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionHasMultipleProjects_string, PackageAutoLoadFlags.BackgroundLoad)]
 [ProvideOptionPage(typeof(OptionsProvider.AdvancedOptions), "NetTestX", "Advanced", 0, 0, true, SupportsProfiles = true)]
+[ProvideOptionPage(typeof(OptionsProvider.GeneralOptions), "NetTestX", "General", 0, 0, true, SupportsProfiles = true)]
 public sealed class NetTestXPackage : ToolkitPackage
 {
     protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)

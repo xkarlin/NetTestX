@@ -10,6 +10,8 @@ using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.Common.Diagnostics;
 using NetTestX.VSIX.Extensions;
+using NetTestX.VSIX.Options;
+using NetTestX.VSIX.Options.Parsing;
 
 namespace NetTestX.VSIX.Code;
 
@@ -46,19 +48,20 @@ public class TestSourceCodeCoordinator
         RoslynProject roslynProject = await sourceProject.FindRoslynProjectAsync();
         Compilation compilation = await roslynProject.GetCompilationAsync();
 
+        var generalOptions = await General.GetLiveInstanceAsync();
         var advancedOptions = await Advanced.GetLiveInstanceAsync();
 
         TestSourceCodeCoordinator coordinator = new(sourceProject)
         {
             Options = new()
             {
-                TestFileName = $"{type.Name}Tests"
+                TestFileName = OptionResolverHelper.ResolveGeneralOption(generalOptions.TestFileName, type)
             },
             DriverBuilder = UnitTestGeneratorDriver.CreateBuilder(type, compilation, reporter)
         };
 
-        coordinator.DriverBuilder.TestClassName = $"{type.Name}Tests";
-        coordinator.DriverBuilder.TestClassNamespace = $"{type.ContainingNamespace}.Tests";
+        coordinator.DriverBuilder.TestClassName = OptionResolverHelper.ResolveGeneralOption(generalOptions.TestClassName, type);
+        coordinator.DriverBuilder.TestClassNamespace = OptionResolverHelper.ResolveGeneralOption(generalOptions.TestClassNamespace, type);
         coordinator.DriverBuilder.AdvancedOptions = advancedOptions.GetAdvancedGeneratorOptions();
 
         return coordinator;

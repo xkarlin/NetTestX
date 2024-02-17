@@ -1,4 +1,5 @@
 ﻿using NetTestX.CodeAnalysis;
+using NetTestX.VSIX.Options;
 
 namespace NetTestX.VSIX.Extensions;
 

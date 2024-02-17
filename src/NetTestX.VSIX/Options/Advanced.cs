@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
-namespace NetTestX.VSIX;
+namespace NetTestX.VSIX.Options;
 
 internal partial class OptionsProvider
 {

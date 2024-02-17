@@ -72,6 +72,11 @@
     <Compile Include="Extensions\WorkspaceExtensions.cs" />
     <Compile Include="GlobalUsings.cs" />
     <Compile Include="Options\Advanced.cs" />
+    <Compile Include="Options\General.cs" />
+    <Compile Include="Options\Parsing\GeneralOptionsVariablesProvider.cs" />
+    <Compile Include="Options\Parsing\IParsingVariablesProvider.cs" />
+    <Compile Include="Options\Parsing\OptionResolver.cs" />
+    <Compile Include="Options\Parsing\OptionResolverHelper.cs" />
     <Compile Include="Projects\TestProjectFactory.cs" />
     <Compile Include="Projects\TestProjectFactoryOptions.cs" />
     <Compile Include="Projects\TestProjectUtility.cs" />
