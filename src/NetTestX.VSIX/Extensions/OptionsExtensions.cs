@@ -12,6 +12,9 @@ public static class OptionsExtensions
         if (options.IncludeAAAComments)
             flags |= AdvancedGeneratorOptions.IncludeAAAComments;
 
+        if (options.UseSmartGenerics)
+            flags |= AdvancedGeneratorOptions.UseSmartGenerics;
+
         return flags;
     }
 }

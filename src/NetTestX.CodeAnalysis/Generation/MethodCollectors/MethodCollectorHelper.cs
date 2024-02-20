@@ -19,7 +19,11 @@ public static class MethodCollectorHelper
         new AsyncDisposableTypeCollector()
     ];
 
-    public static IReadOnlyList<TestMethodModelBase> CollectTestMethods(INamedTypeSymbol type, Compilation compilation, IDiagnosticReporter reporter = null)
+    public static IReadOnlyList<TestMethodModelBase> CollectTestMethods(
+        INamedTypeSymbol type,
+        Compilation compilation,
+        AdvancedGeneratorOptions advancedOptions,
+        IDiagnosticReporter reporter = null)
     {
         CheckTypeDiagnostics(type, reporter);
 
@@ -30,7 +34,8 @@ public static class MethodCollectorHelper
         MethodCollectionContext collectionContext = new()
         {
             Type = type,
-            Compilation = compilation
+            Compilation = compilation,
+            AdvancedOptions = advancedOptions
         };
 
         HashSet<ISymbol> excludedSymbols = new(SymbolEqualityComparer.Default);

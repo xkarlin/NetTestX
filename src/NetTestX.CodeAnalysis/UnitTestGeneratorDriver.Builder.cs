@@ -5,13 +5,19 @@ using NetTestX.Common;
 using System.Collections.Generic;
 using System.Linq;
 using NetTestX.Common.Diagnostics;
+using NetTestX.CodeAnalysis.Generics;
+using NetTestX.CodeAnalysis.Generation;
 
 namespace NetTestX.CodeAnalysis;
 
 public partial class UnitTestGeneratorDriver
 {
-    public static Builder CreateBuilder(INamedTypeSymbol type, Compilation compilation, IDiagnosticReporter reporter = null)
-        => new(type, compilation, reporter);
+    public static Builder CreateBuilder(
+        INamedTypeSymbol type,
+        Compilation compilation,
+        AdvancedGeneratorOptions advancedOptions = AdvancedGeneratorOptions.None,
+        IDiagnosticReporter reporter = null)
+        => new(type, compilation, advancedOptions, reporter);
 
     public class Builder
     {
@@ -35,12 +41,12 @@ public partial class UnitTestGeneratorDriver
 
         public Dictionary<TestMethodModelBase, bool> TestMethodMap { get; }
 
-        internal Builder(INamedTypeSymbol type, Compilation compilation, IDiagnosticReporter reporter)
+        internal Builder(INamedTypeSymbol type, Compilation compilation, AdvancedGeneratorOptions advancedOptions, IDiagnosticReporter reporter)
         {
             _reporter = reporter;
-            Type = type;
+            Type = SymbolGenerationResolver.Resolve(type, compilation, advancedOptions);
             Compilation = compilation;
-            AllTestMethods = MethodCollectorHelper.CollectTestMethods(Type, Compilation, _reporter);
+            AllTestMethods = MethodCollectorHelper.CollectTestMethods(Type, Compilation, advancedOptions, _reporter);
             TestMethodMap = AllTestMethods.ToDictionary(x => x, _ => true);
         }
 

@@ -6,17 +6,17 @@ namespace NetTestX.CodeAnalysis.Generation;
 
 internal static class SymbolGenerationResolver
 {
-    public static INamedTypeSymbol Resolve(INamedTypeSymbol type, Compilation compilation)
+    public static INamedTypeSymbol Resolve(INamedTypeSymbol type, Compilation compilation, AdvancedGeneratorOptions advancedOptions)
     {
-        if (type.IsGenericTypeDefinition())
+        if ((advancedOptions & AdvancedGeneratorOptions.UseSmartGenerics) != 0 && type.IsGenericTypeDefinition())
             type = GenericTypeResolver.Resolve(type, compilation);
 
         return type;
     }
 
-    public static IMethodSymbol Resolve(IMethodSymbol method, Compilation compilation)
+    public static IMethodSymbol Resolve(IMethodSymbol method, Compilation compilation, AdvancedGeneratorOptions advancedOptions)
     {
-        if (method.IsGenericMethodDefinition())
+        if ((advancedOptions & AdvancedGeneratorOptions.UseSmartGenerics) != 0 && method.IsGenericMethodDefinition())
             method = GenericTypeResolver.Resolve(method, compilation);
 
         return method;

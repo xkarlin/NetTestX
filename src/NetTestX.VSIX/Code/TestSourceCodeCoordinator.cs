@@ -57,7 +57,7 @@ public class TestSourceCodeCoordinator
             {
                 TestFileName = OptionResolverHelper.ResolveGeneralOption(generalOptions.TestFileName, type)
             },
-            DriverBuilder = UnitTestGeneratorDriver.CreateBuilder(type, compilation, reporter)
+            DriverBuilder = UnitTestGeneratorDriver.CreateBuilder(type, compilation, codeOptions.GetAdvancedGeneratorOptions(), reporter)
         };
 
         coordinator.DriverBuilder.TestClassName = OptionResolverHelper.ResolveGeneralOption(generalOptions.TestClassName, type);

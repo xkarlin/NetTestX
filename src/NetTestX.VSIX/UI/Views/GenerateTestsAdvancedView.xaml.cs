@@ -45,7 +45,6 @@ public partial class GenerateTestsAdvancedView
         InitializeTestProjectComboBox();
         InitializeDiagnosticsPanel();
         InitializeTestMethodsPanel();
-        InitializeAdvancedOptionsCheckBoxes();
     }
 
     private void ContinueButton_Click(object sender, RoutedEventArgs e)
@@ -67,16 +66,6 @@ public partial class GenerateTestsAdvancedView
         var testMethod = (TestMethodModelBase)checkBox.DataContext;
 
         _viewModel.TestMethodMap[testMethod] = false;
-    }
-
-    private void IncludeAAACommentsCheckBox_Checked(object sender, RoutedEventArgs e)
-    {
-        _viewModel.AdvancedOptions |= AdvancedGeneratorOptions.IncludeAAAComments;
-    }
-
-    private void IncludeAAACommentsCheckBox_Unchecked(object sender, RoutedEventArgs e)
-    {
-        _viewModel.AdvancedOptions &= ~AdvancedGeneratorOptions.IncludeAAAComments;
     }
 
     private void InitializeTestProjectComboBox()
@@ -128,10 +117,5 @@ public partial class GenerateTestsAdvancedView
 
             TestMethodsPanel.Children.Add(box);
         }
-    }
-
-    private void InitializeAdvancedOptionsCheckBoxes()
-    {
-        IncludeAAACommentsCheckBox.IsChecked = (_viewModel.AdvancedOptions & AdvancedGeneratorOptions.IncludeAAAComments) != 0;
     }
 }
