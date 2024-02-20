@@ -71,6 +71,7 @@ public class GenerateTestProjectViewModel(GenerateTestProjectModel model) : INot
     {
         "NSubstitute" => Common.MockingLibrary.NSubstitute,
         "FakeItEasy" => Common.MockingLibrary.FakeItEasy,
+        "Moq" => Common.MockingLibrary.Moq,
         _ => throw new ArgumentOutOfRangeException()
     };
 }

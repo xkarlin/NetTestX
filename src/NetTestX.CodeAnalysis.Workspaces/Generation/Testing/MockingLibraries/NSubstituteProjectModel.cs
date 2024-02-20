@@ -7,5 +7,5 @@ public class NSubstituteProjectModel : IMockingLibraryProjectModel
 {
     public MockingLibrary Library => MockingLibrary.NSubstitute;
 
-    public IEnumerable<PackageReference> PackageReferences => [new("NSubstitute")];
+    public IEnumerable<PackageReference> PackageReferences { get; } = [new("NSubstitute")];
 }

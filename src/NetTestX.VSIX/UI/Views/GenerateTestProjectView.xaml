@@ -48,6 +48,7 @@
             <ComboBox Grid.Row="3" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding MockingLibrary}" SelectedValuePath="Content" Margin="0 5 0 5">
                 <ComboBoxItem Content="NSubstitute" />
                 <ComboBoxItem Content="FakeItEasy" />
+                <ComboBoxItem Content="Moq" />
             </ComboBox>
 
             <TextBlock Grid.Row="4" Grid.Column="1" Text="Set InternalsVisibleTo" FontSize="16" Padding="0 10 0 10" />

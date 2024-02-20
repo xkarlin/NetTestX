@@ -9,6 +9,7 @@ public static class MockingLibraryProjectModelLocator
     {
         MockingLibrary.NSubstitute => new NSubstituteProjectModel(),
         MockingLibrary.FakeItEasy => new FakeItEasyProjectModel(),
+        MockingLibrary.Moq => new MoqProjectModel(),
         _ => throw new NotSupportedException()
     };
 }

@@ -7,8 +7,5 @@ internal class FakeItEasyProjectModel : IMockingLibraryProjectModel
 {
     public MockingLibrary Library => MockingLibrary.FakeItEasy;
 
-    public IEnumerable<PackageReference> PackageReferences { get; } =
-    [
-        new("FakeItEasy")
-    ];
+    public IEnumerable<PackageReference> PackageReferences { get; } = [new("FakeItEasy")];
 }

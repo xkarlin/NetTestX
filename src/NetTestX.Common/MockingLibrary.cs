@@ -3,5 +3,6 @@
 public enum MockingLibrary
 {
     NSubstitute,
-    FakeItEasy
+    FakeItEasy,
+    Moq
 }

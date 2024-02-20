@@ -9,6 +9,7 @@ public static class MockValueProviderLocator
     {
         MockingLibrary.NSubstitute => new NSubstituteValueProvider(),
         MockingLibrary.FakeItEasy => new FakeItEasyValueProvider(),
+        MockingLibrary.Moq => new MoqValueProvider(),
         _ => throw new NotSupportedException()
     };
 }
