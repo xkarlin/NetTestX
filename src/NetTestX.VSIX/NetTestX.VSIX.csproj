@@ -65,7 +65,6 @@
     <Compile Include="Extensions\DTEExtensions.cs" />
     <Compile Include="Extensions\DTEProjectExtensions.cs" />
     <Compile Include="Extensions\DTESolutionExtensions.cs" />
-    <Compile Include="Extensions\OptionsExtensions.cs" />
     <Compile Include="Extensions\ProjectItemExtensions.cs" />
     <Compile Include="Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="Extensions\TextViewExtensions.cs" />
@@ -74,6 +73,7 @@
     <Compile Include="Options\AdvancedOptions.cs" />
     <Compile Include="Options\CodeOptions.cs" />
     <Compile Include="Options\GeneralOptions.cs" />
+    <Compile Include="Options\OptionsUtility.cs" />
     <Compile Include="Options\Parsing\GeneralOptionsVariablesProvider.cs" />
     <Compile Include="Options\Parsing\IParsingVariablesProvider.cs" />
     <Compile Include="Options\Parsing\OptionResolver.cs" />

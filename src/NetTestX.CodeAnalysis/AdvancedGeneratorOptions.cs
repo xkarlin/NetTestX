@@ -9,5 +9,7 @@ public enum AdvancedGeneratorOptions
 
     IncludeAAAComments = 1 << 0,
 
-    UseSmartGenerics = 1 << 1
+    UseSmartGenerics = 1 << 1,
+
+    IncludeInternalMembers = 1 << 2
 }

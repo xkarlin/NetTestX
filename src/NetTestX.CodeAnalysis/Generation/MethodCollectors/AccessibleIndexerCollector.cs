@@ -18,10 +18,10 @@ public class AccessibleIndexerCollector : ITestMethodCollector
         if (symbol is not IPropertySymbol { IsIndexer: true } indexer)
             return false;
 
-        if (!symbol.ContainingType.HasAccessibleConstructor())
+        if (!symbol.ContainingType.HasAccessibleConstructor(context.EffectiveVisibility))
             return false;
 
-        if (indexer.DeclaredAccessibility is not Accessibility.Public)
+        if (indexer.GetEffectiveAccessibility() < context.EffectiveVisibility)
             return false;
 
         if (indexer.IsAbstract)

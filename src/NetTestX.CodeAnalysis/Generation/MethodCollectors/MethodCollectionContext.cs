@@ -9,4 +9,6 @@ public readonly struct MethodCollectionContext
     public required Compilation Compilation { get; init; }
 
     public AdvancedGeneratorOptions AdvancedOptions { get; init; }
+
+    public Accessibility EffectiveVisibility => (AdvancedOptions & AdvancedGeneratorOptions.IncludeInternalMembers) != 0 ? Accessibility.Internal : Accessibility.Public;
 }

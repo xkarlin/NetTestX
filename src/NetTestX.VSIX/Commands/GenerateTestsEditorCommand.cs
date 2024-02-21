@@ -24,12 +24,10 @@ public class GenerateTestsEditorCommand : BaseDynamicCommand<GenerateTestsEditor
     {
         ThreadHelper.ThrowIfNotOnUIThread();
 
-        bool visible = ShouldCommandBeVisible();
+        var (visible, enabled) = ShouldCommandBeVisible();
 
-        Command.Visible = Command.Enabled = visible;
-
-        if (!visible)
-            return;
+        Command.Visible = visible;
+        Command.Enabled = enabled;
 
         command.Text = project is null ? "Generate Test Project..." : $"In {project.Name}";
     }
@@ -40,20 +38,31 @@ public class GenerateTestsEditorCommand : BaseDynamicCommand<GenerateTestsEditor
 
         List<CodeProject> projects = [null];
 
-        var solution = CodeWorkspace.Open(DTE.Solution.FileName);
+        var (_, enabled) = ShouldCommandBeVisible();
 
-        var testProjects = solution.GetTestProjects().ToArray();
-        projects.AddRange(testProjects);
+        if (enabled)
+        {
+            var solution = CodeWorkspace.Open(DTE.Solution.FileName);
+
+            var testProjects = solution.GetTestProjects().ToArray();
+            projects.AddRange(testProjects);
+        }
 
         return projects;
     }
 
-    private bool ShouldCommandBeVisible()
+    private (bool Visible, bool Enabled) ShouldCommandBeVisible()
     {
         ThreadHelper.ThrowIfNotOnUIThread();
 
         var textView = Package.GetActiveTextView();
 
-        return textView.TryGetActiveTypeSymbol(out _activeTypeSymbol) && SymbolHelper.CanGenerateTestsForTypeSymbol(_activeTypeSymbol);
+        if (!textView.TryGetActiveTypeSymbol(out _activeTypeSymbol))
+            return (false, false);
+
+        if (SymbolHelper.CanGenerateTestsForTypeSymbol(_activeTypeSymbol))
+            return (true, true);
+
+        return (true, false);
     }
 }

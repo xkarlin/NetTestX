@@ -16,13 +16,13 @@ public class AccessibleInstanceMethodCollector : ITestMethodCollector
         if (symbol is not IMethodSymbol method)
             return false;
 
-        if (!symbol.ContainingType.HasAccessibleConstructor())
+        if (!symbol.ContainingType.HasAccessibleConstructor(context.EffectiveVisibility))
             return false;
 
         if (method.MethodKind is not MethodKind.Ordinary)
             return false;
 
-        if (method.DeclaredAccessibility is not Accessibility.Public)
+        if (method.GetEffectiveAccessibility() < context.EffectiveVisibility)
             return false;
 
         if (method.IsStatic || method.IsAbstract)

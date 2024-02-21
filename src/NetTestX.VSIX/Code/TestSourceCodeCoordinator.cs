@@ -1,17 +1,20 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis;
 using NetTestX.CodeAnalysis.Common;
+using NetTestX.CodeAnalysis.Extensions;
 using NetTestX.CodeAnalysis.Workspaces.Extensions;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.Common.Diagnostics;
 using NetTestX.VSIX.Extensions;
 using NetTestX.VSIX.Options;
 using NetTestX.VSIX.Options.Parsing;
+using NetTestX.VSIX.Projects;
 
 namespace NetTestX.VSIX.Code;
 
@@ -32,6 +35,12 @@ public class TestSourceCodeCoordinator
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
+        bool typeInternal = DriverBuilder.Type.GetEffectiveAccessibility() == Accessibility.Internal;
+        bool anySymbolInternal = DriverBuilder.TestMethodMap.Where(x => x.Value).Any(x => x.Key.Symbol.GetEffectiveAccessibility() == Accessibility.Internal);
+
+        if (typeInternal || anySymbolInternal)
+            TestProjectUtility.AddInternalsVisibleTo(_sourceProject, targetProject.Name);
+
         CodeProject codeProject = new(targetProject.FileName);
 
         var driver = GetGeneratorDriver(codeProject);
@@ -49,7 +58,8 @@ public class TestSourceCodeCoordinator
         Compilation compilation = await roslynProject.GetCompilationAsync();
 
         var generalOptions = await GeneralOptions.GetLiveInstanceAsync();
-        var codeOptions = await CodeOptions.GetLiveInstanceAsync();
+        
+        var advancedGeneratorOptions = await OptionsUtility.GetAdvancedGeneratorOptionsAsync();
 
         TestSourceCodeCoordinator coordinator = new(sourceProject)
         {
@@ -57,12 +67,12 @@ public class TestSourceCodeCoordinator
             {
                 TestFileName = OptionResolverHelper.ResolveGeneralOption(generalOptions.TestFileName, type)
             },
-            DriverBuilder = UnitTestGeneratorDriver.CreateBuilder(type, compilation, codeOptions.GetAdvancedGeneratorOptions(), reporter)
+            DriverBuilder = UnitTestGeneratorDriver.CreateBuilder(type, compilation, advancedGeneratorOptions, reporter)
         };
 
         coordinator.DriverBuilder.TestClassName = OptionResolverHelper.ResolveGeneralOption(generalOptions.TestClassName, type);
         coordinator.DriverBuilder.TestClassNamespace = OptionResolverHelper.ResolveGeneralOption(generalOptions.TestClassNamespace, type);
-        coordinator.DriverBuilder.AdvancedOptions = codeOptions.GetAdvancedGeneratorOptions();
+        coordinator.DriverBuilder.AdvancedOptions = advancedGeneratorOptions;
 
         return coordinator;
     }

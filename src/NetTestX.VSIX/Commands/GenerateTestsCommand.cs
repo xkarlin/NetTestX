@@ -25,9 +25,6 @@ internal sealed class GenerateTestsCommand : BaseDynamicCommand<GenerateTestsCom
 
         Command.Visible = Command.Enabled = visible;
         
-        if (!visible)
-            return;
-
         command.Text = project is null ? "Generate Test Project..." : $"In {project.Name}";
     }
 
@@ -37,10 +34,13 @@ internal sealed class GenerateTestsCommand : BaseDynamicCommand<GenerateTestsCom
 
         List<CodeProject> projects = [null];
 
-        var solution = CodeWorkspace.Open(DTE.Solution.FileName);
+        if (ShouldCommandBeVisible())
+        {
+            var solution = CodeWorkspace.Open(DTE.Solution.FileName);
 
-        var testProjects = solution.GetTestProjects().ToArray();
-        projects.AddRange(testProjects);
+            var testProjects = solution.GetTestProjects().ToArray();
+            projects.AddRange(testProjects);
+        }
 
         return projects;
     }

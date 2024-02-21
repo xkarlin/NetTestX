@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using NetTestX.CodeAnalysis.Common;
@@ -105,6 +106,25 @@ public static class SymbolExtensions
     {
         constructor = type.Constructors.FirstOrDefault(x => x.DeclaredAccessibility >= accessibility);
         return constructor is not null;
+    }
+
+    public static Accessibility GetEffectiveAccessibility(this ISymbol symbol)
+    {
+        var accessibility = symbol.DeclaredAccessibility switch
+        {
+            Accessibility.NotApplicable => Accessibility.Private,
+            var x => x
+        };
+
+        if (symbol.ContainingType is { } containingType)
+        {
+            var parentAccessibility = containingType.GetEffectiveAccessibility();
+
+            if (parentAccessibility < accessibility)
+                accessibility = parentAccessibility;
+        }
+
+        return accessibility;
     }
 
     public static IEnumerable<string> CollectNamespaces(this ISymbol symbol)

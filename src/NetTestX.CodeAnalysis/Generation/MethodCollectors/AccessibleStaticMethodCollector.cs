@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
+using NetTestX.CodeAnalysis.Extensions;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
 
@@ -17,7 +18,7 @@ public class AccessibleStaticMethodCollector : ITestMethodCollector
         if (method.MethodKind is not MethodKind.Ordinary)
             return false;
 
-        if (method.DeclaredAccessibility is not Accessibility.Public)
+        if (method.GetEffectiveAccessibility() < context.EffectiveVisibility)
             return false;
 
         if (!method.IsStatic)

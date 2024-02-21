@@ -20,10 +20,10 @@ public class AsyncDisposableTypeCollector : ITestMethodCollector
         if (symbol is not INamedTypeSymbol namedType)
             return false;
 
-        if (!namedType.HasAccessibleConstructor())
+        if (!namedType.HasAccessibleConstructor(context.EffectiveVisibility))
             return false;
 
-        if (namedType.DeclaredAccessibility is not Accessibility.Public)
+        if (namedType.GetEffectiveAccessibility() < context.EffectiveVisibility)
             return false;
 
         return namedType.ImplementsInterface<IAsyncDisposable>();

@@ -5,6 +5,8 @@ using Community.VisualStudio.Toolkit;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using NetTestX.CodeAnalysis.Extensions;
+using NetTestX.VSIX.Options;
 
 namespace NetTestX.VSIX.Commands.Helpers;
 
@@ -31,6 +33,13 @@ public static class SymbolHelper
 
     public static bool CanGenerateTestsForTypeSymbol(INamedTypeSymbol typeSymbol)
     {
+        var generalOptions = GeneralOptions.Instance;
+
+        Accessibility targetAccessibility = generalOptions.TestInternalMembers ? Accessibility.Internal : Accessibility.Public;
+
+        if (typeSymbol.GetEffectiveAccessibility() < targetAccessibility)
+            return false;
+
         if (typeSymbol.TypeKind is not TypeKind.Class and not TypeKind.Struct)
             return false;
 

@@ -19,17 +19,24 @@ internal sealed class GenerateTestsAdvancedEditorCommand : BaseCommand<GenerateT
     {
         ThreadHelper.ThrowIfNotOnUIThread();
 
-        bool visible = ShouldCommandBeVisible();
+        var (visible, enabled) = ShouldCommandBeVisible();
 
-        Command.Visible = Command.Enabled = visible;
+        Command.Visible = visible;
+        Command.Enabled = enabled;
     }
 
-    private bool ShouldCommandBeVisible()
+    private (bool Visible, bool Enabled) ShouldCommandBeVisible()
     {
         ThreadHelper.ThrowIfNotOnUIThread();
 
         var textView = Package.GetActiveTextView();
 
-        return textView.TryGetActiveTypeSymbol(out _activeTypeSymbol) && SymbolHelper.CanGenerateTestsForTypeSymbol(_activeTypeSymbol);
+        if (!textView.TryGetActiveTypeSymbol(out _activeTypeSymbol))
+            return (false, false);
+
+        if (SymbolHelper.CanGenerateTestsForTypeSymbol(_activeTypeSymbol))
+            return (true, true);
+
+        return (true, false);
     }
 }

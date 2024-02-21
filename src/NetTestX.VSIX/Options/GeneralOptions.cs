@@ -29,4 +29,10 @@ public class GeneralOptions : BaseOptionModel<GeneralOptions>
     [Description("The namespace of the test class.")]
     [DefaultValue("{TypeNamespace}.Tests")]
     public string TestClassNamespace { get; set; } = "{TypeNamespace}.Tests";
+
+    [Category("General")]
+    [DisplayName("Test Internal Members")]
+    [Description("Whether to test internal members of types.")]
+    [DefaultValue(false)]
+    public bool TestInternalMembers { get; set; } = false;
 }

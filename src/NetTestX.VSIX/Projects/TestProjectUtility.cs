@@ -8,6 +8,8 @@ namespace NetTestX.VSIX.Projects;
 
 public static class TestProjectUtility
 {
+    private const string INTERNALS_VISIBLE_TO_ITEM_NAME = "InternalsVisibleTo";
+
     public static async Task<DTEProject> CreateTestProjectFromViewAsync(TestProjectFactoryContext context)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -20,7 +22,7 @@ public static class TestProjectUtility
             ProjectDirectory = testProjectFactory.Options.ProjectDirectory,
             TestFramework = testProjectFactory.Options.TestFramework,
             MockingLibrary = testProjectFactory.Options.MockingLibrary,
-            GenerateInternalsVisibleTo = true
+            GenerateInternalsVisibleTo = false
         };
 
         GenerateTestProjectView view = new(model);
@@ -30,11 +32,7 @@ public static class TestProjectUtility
             return null;
 
         if (model.GenerateInternalsVisibleTo)
-        {
-            CodeProject originalProject = new(context.Project.FileName);
-            originalProject.AddItem("InternalsVisibleTo", model.ProjectName);
-            originalProject.Save();
-        }
+            AddInternalsVisibleTo(context.Project, model.ProjectName);
 
         testProjectFactory.Options.ProjectName = model.ProjectName;
         testProjectFactory.Options.ProjectDirectory = model.ProjectDirectory;
@@ -42,5 +40,14 @@ public static class TestProjectUtility
         testProjectFactory.Options.MockingLibrary = model.MockingLibrary;
 
         return await testProjectFactory.CreateTestProjectAsync();
+    }
+
+    public static void AddInternalsVisibleTo(DTEProject sourceProject, string visibleTo)
+    {
+        ThreadHelper.ThrowIfNotOnUIThread();
+
+        CodeProject codeProject = new(sourceProject.FileName);
+        codeProject.AddItem(INTERNALS_VISIBLE_TO_ITEM_NAME, visibleTo);
+        codeProject.Save();
     }
 }
