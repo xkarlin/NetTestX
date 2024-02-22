@@ -13,26 +13,26 @@ internal partial class OptionsProvider
 public class GeneralOptions : BaseOptionModel<GeneralOptions>
 {
     [Category("General")]
+    [DisplayName("Test Internal Members")]
+    [Description("Whether to test internal members of types.")]
+    [DefaultValue(false)]
+    public bool TestInternalMembers { get; set; } = false;
+
+    [Category("Naming")]
     [DisplayName("Test File Name")]
     [Description("The file name of the test class.")]
     [DefaultValue("{TypeName}Tests")]
     public string TestFileName { get; set; } = "{TypeName}Tests";
 
-    [Category("General")]
+    [Category("Naming")]
     [DisplayName("Test Class Name")]
     [Description("The name of the test class.")]
     [DefaultValue("{TypeName}Tests")]
     public string TestClassName { get; set; } = "{TypeName}Tests";
 
-    [Category("General")]
+    [Category("Naming")]
     [DisplayName("Test Class Namespace")]
     [Description("The namespace of the test class.")]
     [DefaultValue("{TypeNamespace}.Tests")]
     public string TestClassNamespace { get; set; } = "{TypeNamespace}.Tests";
-
-    [Category("General")]
-    [DisplayName("Test Internal Members")]
-    [Description("Whether to test internal members of types.")]
-    [DefaultValue(false)]
-    public bool TestInternalMembers { get; set; } = false;
 }
