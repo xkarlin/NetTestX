@@ -34,7 +34,7 @@ public class AccessibleIndexerCollector : ITestMethodCollector
     {
         var indexer = (IPropertySymbol)symbol;
 
-        var constructorResolver = new DummyConstructorResolver();
+        var constructorResolver = new DummyConstructorResolver(context.EffectiveVisibility);
         var constructor = constructorResolver.Resolve(context.Type);
 
         var bodyModel = new AccessibleIndexerMethodBodyModel(indexer, constructor);

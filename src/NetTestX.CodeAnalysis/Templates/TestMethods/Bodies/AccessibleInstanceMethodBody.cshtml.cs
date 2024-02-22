@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
-using NetTestX.CodeAnalysis.Common;
 using NetTestX.CodeAnalysis.Extensions;
+using NetTestX.CodeAnalysis.Utils;
 
 namespace NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
 
@@ -25,5 +25,5 @@ public record AccessibleInstanceMethodBodyModel(IMethodSymbol Method, IMethodSym
         return namespaces;
     }
 
-    public string GetDisplayName() => Method.ToDisplayString(CommonFormats.ShortNullableFormat);
+    public string GetDisplayName() => SymbolUtility.GetDisplayName(Method);
 }

@@ -36,7 +36,7 @@ public class AccessibleInstanceMethodCollector : ITestMethodCollector
         var method = (IMethodSymbol)symbol;
         method = SymbolGenerationResolver.Resolve(method, context.Compilation, context.AdvancedOptions);
 
-        var constructorResolver = new DummyConstructorResolver();
+        var constructorResolver = new DummyConstructorResolver(context.EffectiveVisibility);
         var constructor = constructorResolver.Resolve(context.Type);
 
         var bodyModel = new AccessibleInstanceMethodBodyModel(method, constructor);

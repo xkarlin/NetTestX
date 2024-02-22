@@ -31,7 +31,7 @@ public class DisposableTypeCollector : ITestMethodCollector
 
     public TestMethodModelBase CollectSymbol(MethodCollectionContext context, ISymbol symbol)
     {
-        var constructorResolver = new DummyConstructorResolver();
+        var constructorResolver = new DummyConstructorResolver(context.EffectiveVisibility);
         var constructor = constructorResolver.Resolve(context.Type);
 
         DisposableTypeMethodBodyModel model = new(constructor, false);

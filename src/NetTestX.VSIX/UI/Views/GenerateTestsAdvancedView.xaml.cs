@@ -9,6 +9,7 @@ using NetTestX.VSIX.UI.Models;
 using NetTestX.VSIX.UI.ViewModels;
 using NetTestX.Polyfill.Extensions;
 using NetTestX.VSIX.Code;
+using NetTestX.CodeAnalysis.Extensions;
 
 namespace NetTestX.VSIX.UI.Views;
 
@@ -102,7 +103,11 @@ public partial class GenerateTestsAdvancedView
             return;
         }
 
-        foreach (var (testMethod, enabled) in _viewModel.TestMethodMap)
+        var orderedMethods = _viewModel.TestMethodMap
+            .OrderBy(x => x.Key.Symbol.Kind)
+            .ThenByDescending(x => x.Key.Symbol.GetEffectiveAccessibility());
+
+        foreach (var (testMethod, enabled) in orderedMethods)
         {
             CheckBox box = new()
             {

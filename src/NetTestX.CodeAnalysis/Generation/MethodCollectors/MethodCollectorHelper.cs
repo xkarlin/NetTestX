@@ -25,7 +25,7 @@ public static class MethodCollectorHelper
         AdvancedGeneratorOptions advancedOptions,
         IDiagnosticReporter reporter = null)
     {
-        CheckTypeDiagnostics(type, reporter);
+        CheckTypeDiagnostics(type, advancedOptions, reporter);
 
         List<TestMethodModelBase> testMethods = [];
 
@@ -75,12 +75,14 @@ public static class MethodCollectorHelper
         }
     }
 
-    private static void CheckTypeDiagnostics(INamedTypeSymbol type, IDiagnosticReporter reporter)
+    private static void CheckTypeDiagnostics(INamedTypeSymbol type, AdvancedGeneratorOptions advancedOptions, IDiagnosticReporter reporter)
     {
         if (reporter is null)
             return;
 
-        if (!type.HasAccessibleConstructor())
+        var accessibility = (advancedOptions & AdvancedGeneratorOptions.IncludeInternalMembers) != 0 ? Accessibility.Internal : Accessibility.Public;
+
+        if (!type.HasAccessibleConstructor(accessibility))
             reporter.ReportWarning($"The type {type.Name} does not expose any accessible instance constructor. Some members are not available for generation.");
     }
 }

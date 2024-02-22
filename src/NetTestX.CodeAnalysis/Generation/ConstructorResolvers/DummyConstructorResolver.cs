@@ -4,11 +4,11 @@ using NetTestX.CodeAnalysis.Extensions;
 
 namespace NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
 
-public class DummyConstructorResolver : IConstructorResolver
+public class DummyConstructorResolver(Accessibility accessibility) : IConstructorResolver
 {
     public IMethodSymbol Resolve(INamedTypeSymbol type)
     {
-        if (!type.TryGetAccessibleConstructor(Accessibility.Public, out var constructor))
+        if (!type.TryGetAccessibleConstructor(accessibility, out var constructor))
             throw new InvalidOperationException($"Could not find any constructor for the type {type.Name}");
 
         return constructor;
