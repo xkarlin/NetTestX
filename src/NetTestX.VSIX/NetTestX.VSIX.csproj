@@ -78,6 +78,9 @@
     <Compile Include="Options\Parsing\IParsingVariablesProvider.cs" />
     <Compile Include="Options\Parsing\OptionResolver.cs" />
     <Compile Include="Options\Parsing\OptionResolverHelper.cs" />
+    <Compile Include="Options\Validation\IValidation.cs" />
+    <Compile Include="Options\Validation\Validation.cs" />
+    <Compile Include="Options\Validation\ProjectNameValidation.cs" />
     <Compile Include="Projects\TestProjectFactory.cs" />
     <Compile Include="Projects\TestProjectFactoryOptions.cs" />
     <Compile Include="Projects\TestProjectUtility.cs" />

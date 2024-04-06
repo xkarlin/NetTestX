@@ -31,30 +31,30 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Grid.Column="1" Text="Project Name" FontSize="16" Padding="0 10 0 10" />
-            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ProjectName}" FontSize="16" Margin="0 5 0 5" />
+            <TextBox Name="ProjectNameInput" Grid.Row="0" Grid.Column="2" Text="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Margin="0 5 0 5" />
 
             <TextBlock Grid.Row="1" Grid.Column="1" Text="Project Directory" FontSize="16" Padding="0 10 0 10" />
-            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding ProjectDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Margin="0 5 0 5" />
+            <TextBox Name="ProjectDirectoryInput" Grid.Row="1" Grid.Column="2" Text="{Binding ProjectDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Margin="0 5 0 5" />
             <Button Grid.Row="1" Grid.Column="3" Content="..." Click="ProjectDirectoryButton_Click" FontSize="16" Margin="10 5 10 5" />
 
             <TextBlock Grid.Row="2" Grid.Column="1" Text="Test Framework" FontSize="16" Padding="0 10 0 10" />
-            <ComboBox Grid.Row="2" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding TestFramework}" SelectedValuePath="Content" Margin="0 5 0 5">
+            <ComboBox Name="TestFrameworkInput" Grid.Row="2" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding TestFramework}" SelectedValuePath="Content" Margin="0 5 0 5">
                 <ComboBoxItem Content="XUnit" />
                 <ComboBoxItem Content="NUnit" />
                 <ComboBoxItem Content="MSTest" />
             </ComboBox>
 
             <TextBlock Grid.Row="3" Grid.Column="1" Text="Mocking Library" FontSize="16" Padding="0 10 0 10" />
-            <ComboBox Grid.Row="3" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding MockingLibrary}" SelectedValuePath="Content" Margin="0 5 0 5">
+            <ComboBox Name="MockingLibraryInput" Grid.Row="3" Grid.Column="2" SelectedIndex="0" SelectedValue="{Binding MockingLibrary}" SelectedValuePath="Content" Margin="0 5 0 5">
                 <ComboBoxItem Content="NSubstitute" />
                 <ComboBoxItem Content="FakeItEasy" />
                 <ComboBoxItem Content="Moq" />
             </ComboBox>
 
             <TextBlock Grid.Row="4" Grid.Column="1" Text="Set InternalsVisibleTo" FontSize="16" Padding="0 10 0 10" />
-            <CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding GenerateInternalsVisibleTo}" Margin="0 5 0 5" />
+            <CheckBox Name="GenerateInternalsVisibleToInput" Grid.Row="4" Grid.Column="2" IsChecked="{Binding GenerateInternalsVisibleTo}" Margin="0 5 0 5" />
         </Grid>
 
-        <Button HorizontalAlignment="Right" Content="Continue" Click="ContinueButton_Click" FontSize="16" Margin="0 10 25 0" Padding="10 5 10 5" />
+        <Button Name="ContinueButton" HorizontalAlignment="Right" Content="Continue" Click="ContinueButton_Click" FontSize="16" Margin="0 10 25 0" Padding="10 5 10 5" />
     </StackPanel>
 </Window>
