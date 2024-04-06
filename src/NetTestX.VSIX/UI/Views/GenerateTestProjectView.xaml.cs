@@ -29,12 +29,12 @@ public partial class GenerateTestProjectView
 
         InitializeComponent();
         
-        _viewModel.PropertyChanged += ValidateViewModelOnPropertyChanged;
-
         _propertyControls = new Dictionary<string, Control>
         {
             { nameof(GenerateTestProjectViewModel.ProjectName), ProjectNameInput }
         };
+     
+        _viewModel.PropertyChanged += ValidateViewModelOnPropertyChanged;
     }
 
     private void ValidateViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs args)
@@ -46,17 +46,17 @@ public partial class GenerateTestProjectView
 
         var element = _propertyControls[args.PropertyName];
         
-        if (!validation.Validate(value))
-        {
-            _invalidProperties.Add(args.PropertyName);
-            
-            element.BorderBrush = new SolidColorBrush(Colors.Red);
-        }
-        else
+        if (validation.Validate(value))
         {
             _invalidProperties.Remove(args.PropertyName);
 
             element.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0x99, 0x99));
+        }
+        else
+        {
+            _invalidProperties.Add(args.PropertyName);
+
+            element.BorderBrush = new SolidColorBrush(Colors.Red);
         }
 
         ContinueButton.IsEnabled = _invalidProperties.Count == 0;

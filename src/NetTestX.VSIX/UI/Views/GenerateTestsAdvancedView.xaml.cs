@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using NetTestX.CodeAnalysis;
 using NetTestX.CodeAnalysis.Templates.TestMethods;
 using NetTestX.VSIX.UI.Models;
 using NetTestX.VSIX.UI.ViewModels;
 using NetTestX.Polyfill.Extensions;
 using NetTestX.VSIX.Code;
 using NetTestX.CodeAnalysis.Extensions;
+using NetTestX.VSIX.Options.Validation;
+using System.Windows.Media;
 
 namespace NetTestX.VSIX.UI.Views;
 
@@ -20,6 +22,17 @@ public partial class GenerateTestsAdvancedView
 {
     private const int MAX_DIAGNOSTICS_TO_SHOW = 10;
 
+    private static readonly IReadOnlyDictionary<string, IValidation> _validators = new Dictionary<string, IValidation>
+    {
+        { nameof(GenerateTestsAdvancedViewModel.TestClassName), new TestClassNameValidation() },
+        { nameof(GenerateTestsAdvancedViewModel.TestClassNamespace), new TestClassNamespaceValidation() },
+        { nameof(GenerateTestsAdvancedViewModel.TestFileName), new TestFileNameValidation() }
+    };
+
+    private readonly IReadOnlyDictionary<string, Control> _propertyControls;
+    
+    private readonly HashSet<string> _invalidProperties = [];
+    
     private readonly TestSourceCodeDiagnosticReporter _reporter;
 
     private readonly GenerateTestsAdvancedViewModel _viewModel;
@@ -37,6 +50,40 @@ public partial class GenerateTestsAdvancedView
         _testProjects = testProjects.ToList();
         
         InitializeComponent();
+
+        _propertyControls = new Dictionary<string, Control>
+        {
+            { nameof(GenerateTestsAdvancedViewModel.TestClassName), TestClassNameInput },
+            { nameof(GenerateTestsAdvancedViewModel.TestClassNamespace), TestClassNamespaceInput },
+            { nameof(GenerateTestsAdvancedViewModel.TestFileName), TestFileNameInput }
+        };
+        
+        _viewModel.PropertyChanged+= ValidateViewModelOnPropertyChanged;
+    }
+
+    private void ValidateViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs args)
+    {
+        if (!_validators.TryGetValue(args.PropertyName, out var validation))
+            return;
+
+        object value = typeof(GenerateTestsAdvancedViewModel).GetProperty(args.PropertyName)!.GetValue(_viewModel);
+
+        var element = _propertyControls[args.PropertyName];
+
+        if (validation.Validate(value))
+        {
+            _invalidProperties.Remove(args.PropertyName);
+
+            element.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0x99, 0x99, 0x99));
+        }
+        else
+        {
+            _invalidProperties.Add(args.PropertyName);
+
+            element.BorderBrush = new SolidColorBrush(Colors.Red);
+        }
+
+        ContinueButton.IsEnabled = _invalidProperties.Count == 0;
     }
 
     protected override void OnInitialized(EventArgs e)

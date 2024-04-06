@@ -79,6 +79,9 @@
     <Compile Include="Options\Parsing\OptionResolver.cs" />
     <Compile Include="Options\Parsing\OptionResolverHelper.cs" />
     <Compile Include="Options\Validation\IValidation.cs" />
+    <Compile Include="Options\Validation\TestClassNamespaceValidation.cs" />
+    <Compile Include="Options\Validation\TestClassNameValidation.cs" />
+    <Compile Include="Options\Validation\TestFileNameValidation.cs" />
     <Compile Include="Options\Validation\Validation.cs" />
     <Compile Include="Options\Validation\ProjectNameValidation.cs" />
     <Compile Include="Projects\TestProjectFactory.cs" />
