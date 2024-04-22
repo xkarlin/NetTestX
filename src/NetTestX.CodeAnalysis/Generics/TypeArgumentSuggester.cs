@@ -17,6 +17,8 @@ internal static class TypeArgumentSuggester
     [
         typeof(object),
         typeof(int),
+        typeof(string),
+        typeof(char),
         typeof(List<>),
         typeof(HashSet<>),
         typeof(Dictionary<,>)
