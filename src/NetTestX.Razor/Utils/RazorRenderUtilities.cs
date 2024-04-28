@@ -6,7 +6,7 @@ internal static class RazorRenderUtilities
 {
     public static string NormalizeIndentation(string text, string indentation)
     {
-        string[] lines = text.Split(new [] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+        string[] lines = text.Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
 
         for (int i = 1; i < lines.Length; i++)
         {
@@ -14,6 +14,6 @@ internal static class RazorRenderUtilities
                 lines[i] = indentation + lines[i];
         }
 
-        return string.Join("\r\n", lines);
+        return string.Join("\n", lines);
     }
 }
