@@ -14,13 +14,21 @@ public static class TextViewExtensions
 
         var document = caretPosition.Snapshot.GetOpenDocumentInCurrentContextWithChanges();
 
-        if (document is null || !document.TryGetSyntaxRoot(out var syntaxRoot) || !document.TryGetSemanticModel(out var semanticModel))
+        if (document is null)
         {
             typeSymbol = null;
             return false;
         }
 
-        var syntaxNode = syntaxRoot.FindToken(caretPosition).Parent;
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+#pragma warning disable VSTHRD104 // Offer async methods
+        var syntaxRoot = document.GetSyntaxTreeAsync().Result;
+#pragma warning restore VSTHRD104 // Offer async methods
+
+        var semanticModel = document.GetSemanticModelAsync().Result;
+#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
+
+        var syntaxNode = syntaxRoot.GetRoot().FindToken(caretPosition).Parent;
 
         if (syntaxNode is not TypeDeclarationSyntax typeDeclarationSyntax)
         {
