@@ -13,7 +13,7 @@ namespace NetTestX.CodeAnalysis.Workspaces.Extensions;
 
 public static class CodeWorkspaceExtensions
 {
-    public static async Task<CodeProject> CreateTestProjectAsync(this CodeWorkspace workspace, TestProjectCreationContext context, Func<Task> saveCallback)
+    public static async Task<CodeProject> CreateTestProjectAsync(this CodeWorkspace workspace, TestProjectCreationContext context, Func<ITestFrameworkProjectModel, IMockingLibraryProjectModel, Task> saveCallback)
     {
         var mockingLibraryModel = MockingLibraryProjectModelLocator.LocateModel(context.MockingLibrary);
         var testFrameworkModel = TestFrameworkProjectModelLocator.LocateModel(context.TestFramework);
@@ -33,7 +33,7 @@ public static class CodeWorkspaceExtensions
         RazorFileTemplate template = new(model);
         string projectFile = await template.RenderAsync();
 
-        var project = await workspace.CreateProjectAsync(context.ProjectFilePath, projectFile, saveCallback);
+        var project = await workspace.CreateProjectAsync(context.ProjectFilePath, projectFile, () => saveCallback.Invoke(testFrameworkModel, mockingLibraryModel));
         return project;
     }
 

@@ -1,12 +1,15 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using EnvDTE;
+using Microsoft.VisualStudio.OperationProgress;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Workspaces;
 using NetTestX.CodeAnalysis.Workspaces.Extensions;
+using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.MockingLibraries;
+using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.TestFrameworks;
 using NetTestX.CodeAnalysis.Workspaces.Projects.Testing;
 using NetTestX.Common;
 using NetTestX.VSIX.Extensions;
+using Community.VisualStudio.Toolkit;
 
 namespace NetTestX.VSIX.Projects;
 
@@ -21,7 +24,7 @@ public class TestProjectFactory
         _context = context;
     }
 
-    public async Task<Project> CreateTestProjectAsync()
+    public async Task<DTEProject> CreateTestProjectAsync()
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
@@ -40,7 +43,7 @@ public class TestProjectFactory
             TestFramework = Options.TestFramework
         };
 
-        await workspace.CreateTestProjectAsync(ctx, () => SaveSolutionAsync(_context, testProjectPath));
+        await workspace.CreateTestProjectAsync(ctx, (frameworkModel, mockingModel) => SaveSolutionAsync(_context, testProjectPath, frameworkModel, mockingModel));
 
         var targetProject = _context.DTE.Solution.FindSolutionProject(Options.ProjectName);
 
@@ -66,10 +69,31 @@ public class TestProjectFactory
         };
     }
 
-    private static async Task SaveSolutionAsync(TestProjectFactoryContext context, string testProjectPath)
+    private static async Task SaveSolutionAsync(
+        TestProjectFactoryContext context,
+        string testProjectPath,
+        ITestFrameworkProjectModel frameworkModel,
+        IMockingLibraryProjectModel mockingModel)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-        context.DTE.Solution.AddFromFile(testProjectPath);
+        var project = context.DTE.Solution.AddFromFile(testProjectPath);
+
+        var projectGuid = project.GetProjectId();
+
+        _ = ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+        {
+            var operationProgressStatusService = await VS.GetServiceAsync<SVsOperationProgressStatusService, IVsOperationProgressStatusService2>();
+            var stageStatus = operationProgressStatusService.GetProjectStageStatus(projectGuid, CommonOperationProgressStageIds.Intellisense, true);
+
+            await stageStatus.WaitForCompletionAsync();
+
+            foreach (var reference in frameworkModel.PackageReferences)
+                await PackageUtilities.InstallPackageAsync(project, reference);
+
+            foreach (var reference in mockingModel.PackageReferences)
+                await PackageUtilities.InstallPackageAsync(project, reference);
+        });
+
         context.DTE.Solution.SaveAs(context.DTE.Solution.FileName);
     }
 }
