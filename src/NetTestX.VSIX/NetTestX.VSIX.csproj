@@ -62,6 +62,8 @@
     <Compile Include="Commands\Handlers\GenerateTestsEditorCommandHandler.cs" />
     <Compile Include="Commands\Handlers\ICommandHandler.cs" />
     <Compile Include="Commands\Helpers\SymbolHelper.cs" />
+    <Compile Include="Diagnostics\IMessageLogger.cs" />
+    <Compile Include="Diagnostics\WaitDialogMessageLogger.cs" />
     <Compile Include="Extensions\DTEExtensions.cs" />
     <Compile Include="Extensions\DTEProjectExtensions.cs" />
     <Compile Include="Extensions\DTESolutionExtensions.cs" />
@@ -84,7 +86,6 @@
     <Compile Include="Options\Validation\TestFileNameValidation.cs" />
     <Compile Include="Options\Validation\Validation.cs" />
     <Compile Include="Options\Validation\ProjectNameValidation.cs" />
-    <Compile Include="Projects\PackageUtilities.cs" />
     <Compile Include="Projects\TestProjectFactory.cs" />
     <Compile Include="Projects\TestProjectFactoryOptions.cs" />
     <Compile Include="Projects\TestProjectUtility.cs" />

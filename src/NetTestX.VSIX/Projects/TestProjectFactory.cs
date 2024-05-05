@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.OperationProgress;
 using Microsoft.VisualStudio.Shell;
@@ -10,6 +11,11 @@ using NetTestX.CodeAnalysis.Workspaces.Projects.Testing;
 using NetTestX.Common;
 using NetTestX.VSIX.Extensions;
 using Community.VisualStudio.Toolkit;
+using NetTestX.VSIX.Diagnostics;
+using System.IO.Packaging;
+using System.Diagnostics;
+using EnvDTE;
+using EnvDTE80;
 
 namespace NetTestX.VSIX.Projects;
 
@@ -43,7 +49,7 @@ public class TestProjectFactory
             TestFramework = Options.TestFramework
         };
 
-        await workspace.CreateTestProjectAsync(ctx, (frameworkModel, mockingModel) => SaveSolutionAsync(_context, testProjectPath, frameworkModel, mockingModel));
+        await workspace.CreateTestProjectAsync(ctx, () => SaveSolutionAsync(_context, testProjectPath));
 
         var targetProject = _context.DTE.Solution.FindSolutionProject(Options.ProjectName);
 
@@ -69,31 +75,27 @@ public class TestProjectFactory
         };
     }
 
-    private static async Task SaveSolutionAsync(
-        TestProjectFactoryContext context,
-        string testProjectPath,
-        ITestFrameworkProjectModel frameworkModel,
-        IMockingLibraryProjectModel mockingModel)
+    private static async Task SaveSolutionAsync(TestProjectFactoryContext context, string testProjectPath)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+        string solutionPath = context.DTE.Solution.FullName;
+
         var project = context.DTE.Solution.AddFromFile(testProjectPath);
+        context.DTE.Solution.SaveAs(context.DTE.Solution.FileName);
 
         var projectGuid = project.GetProjectId();
 
         _ = ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
         {
-            var operationProgressStatusService = await VS.GetServiceAsync<SVsOperationProgressStatusService, IVsOperationProgressStatusService2>();
-            var stageStatus = operationProgressStatusService.GetProjectStageStatus(projectGuid, CommonOperationProgressStageIds.Intellisense, true);
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            await stageStatus.WaitForCompletionAsync();
+            using WaitDialogMessageLogger messageLogger = new("Creating Test Project");
 
-            foreach (var reference in frameworkModel.PackageReferences)
-                await PackageUtilities.InstallPackageAsync(project, reference);
+            messageLogger.LogMessage("Waiting for project initialization...");
 
-            foreach (var reference in mockingModel.PackageReferences)
-                await PackageUtilities.InstallPackageAsync(project, reference);
+            context.DTE.Solution.Close();
+            context.DTE.Solution.Open(solutionPath);
         });
-
-        context.DTE.Solution.SaveAs(context.DTE.Solution.FileName);
     }
 }
