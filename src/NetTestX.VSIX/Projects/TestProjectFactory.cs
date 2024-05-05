@@ -1,21 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.OperationProgress;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Workspaces;
 using NetTestX.CodeAnalysis.Workspaces.Extensions;
-using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.MockingLibraries;
-using NetTestX.CodeAnalysis.Workspaces.Generation.Testing.TestFrameworks;
 using NetTestX.CodeAnalysis.Workspaces.Projects.Testing;
 using NetTestX.Common;
 using NetTestX.VSIX.Extensions;
-using Community.VisualStudio.Toolkit;
 using NetTestX.VSIX.Diagnostics;
-using System.IO.Packaging;
-using System.Diagnostics;
-using EnvDTE;
-using EnvDTE80;
 
 namespace NetTestX.VSIX.Projects;
 
