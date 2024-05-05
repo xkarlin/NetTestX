@@ -4,6 +4,8 @@
         <Identity Id="NetTestX.b68ae9dc-954c-4cdf-8bc4-ca14fc16cb2a" Version="1.0" Language="en-US" Publisher="Mykyta Kovalenko" />
         <DisplayName>NetTestX</DisplayName>
         <Description xml:space="preserve">Unit test scaffolder for .NET</Description>
+        <MoreInfo>https://github.com/insouciiance/NetTestX</MoreInfo>
+        <License>Resources\LICENSE</License>
         <Icon>Resources\Icon.png</Icon>
         <PreviewImage>Resources\Icon.png</PreviewImage>
         <Preview>true</Preview>
