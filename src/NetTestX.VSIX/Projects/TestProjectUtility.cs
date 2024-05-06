@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.Shell;
 using NetTestX.CodeAnalysis.Workspaces.Projects;
 using NetTestX.VSIX.UI.Models;
@@ -47,6 +48,10 @@ public static class TestProjectUtility
         ThreadHelper.ThrowIfNotOnUIThread();
 
         CodeProject codeProject = new(sourceProject.FileName);
+
+        if (codeProject.GetItems(INTERNALS_VISIBLE_TO_ITEM_NAME).Any(x => x.Include == visibleTo))
+            return;
+        
         codeProject.AddItem(INTERNALS_VISIBLE_TO_ITEM_NAME, visibleTo);
         codeProject.Save();
     }
