@@ -10,10 +10,13 @@ namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
 public class AsyncDisposableTypeCollector : ITestMethodCollector
 {
-    public IEnumerable<ISymbol> GetExcludedSymbols(MethodCollectionContext context) =>
-    [
-        .. context.Type.FindImplementationsForInterfaceMembers<IAsyncDisposable>(context.Compilation)
-    ];
+    public IEnumerable<ISymbol> GetExcludedSymbols(MethodCollectionContext context)
+    {
+        if (context.Compilation.GetNamedSymbol<IAsyncDisposable>() is null)
+            return [];
+
+        return [..context.Type.FindImplementationsForInterfaceMembers<IAsyncDisposable>(context.Compilation)];
+    }
 
     public bool ShouldCollectSymbol(MethodCollectionContext context, ISymbol symbol)
     {
