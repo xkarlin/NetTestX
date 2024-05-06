@@ -14,6 +14,6 @@ internal static class RazorRenderUtilities
                 lines[i] = indentation + lines[i];
         }
 
-        return string.Join("\n", lines);
+        return string.Join(Environment.NewLine, lines);
     }
 }
