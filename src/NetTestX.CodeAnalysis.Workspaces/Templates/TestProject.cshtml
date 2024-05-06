@@ -17,11 +17,11 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
     @foreach (var reference in Model.TestFrameworkModel.PackageReferences)
     {
-    @:@await ImportPageAsync(new PackageReferenceModel { Reference = reference })
+    @:@await ImportPageAsync(new PackageReferenceModel(reference))
     }
     @foreach (var reference in Model.MockingLibraryModel.PackageReferences)
     {
-    @:@await ImportPageAsync(new PackageReferenceModel { Reference = reference })
+    @:@await ImportPageAsync(new PackageReferenceModel(reference))
     }
   </ItemGroup>
 

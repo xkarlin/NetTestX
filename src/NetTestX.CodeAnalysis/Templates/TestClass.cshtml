@@ -1,5 +1,7 @@
 ﻿@using NetTestX.Razor
+@using NetTestX.Razor.Extensions
 @using NetTestX.CodeAnalysis.Templates
+@using static NetTestX.Razor.Utils.RazorRenderUtilities
 @inherits RazorPage<TestClassModel>
 @foreach (string ns in Model.CollectNamespaces())
 {
@@ -14,8 +16,5 @@ namespace @Model.TestClassNamespace;
 }
 public class @Model.TestClassName
 {
-    @foreach (var method in Model.TestMethods)
-    {
-    @:@await ImportPageAsync(method)
-    }
+    @await this.ImportPagesAsync(Model.TestMethods, DefaultModelSeparator)
 }

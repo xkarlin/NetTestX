@@ -2,9 +2,11 @@
 
 namespace NetTestX.Razor.Utils;
 
-internal static class RazorRenderUtilities
+public static class RazorRenderUtilities
 {
-    public static string NormalizeIndentation(string text, string indentation)
+    public static readonly string DefaultModelSeparator = $"{Environment.NewLine}{Environment.NewLine}    ";
+
+    internal static string NormalizeIndentation(string text, string indentation)
     {
         string[] lines = text.Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
 
