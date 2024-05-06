@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <UseRazor>true</UseRazor>
   </PropertyGroup>
-
+  <ItemGroup>
+    <InternalsVisibleTo Include="NetTestX.Razor.Tests.Unit" />
+  </ItemGroup>
 </Project>
