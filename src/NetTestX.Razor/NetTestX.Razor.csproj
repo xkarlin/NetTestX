@@ -3,6 +3,6 @@
     <UseRazor>true</UseRazor>
   </PropertyGroup>
   <ItemGroup>
-    <InternalsVisibleTo Include="NetTestX.Razor.Tests.Unit" />
+    <InternalsVisibleTo Include="NetTestX.Razor.Tests" />
   </ItemGroup>
 </Project>

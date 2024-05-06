@@ -23,6 +23,7 @@ public class MockingLibraryProjectModelLocatorTests
 
         // Assert
         Assert.IsType<NSubstituteProjectModel>(result);
+        Assert.Equal(MockingLibrary.NSubstitute, result.Library);
         Assert.Equal([new("NSubstitute")], result.PackageReferences, EqualityComparer<PackageReference>.Default);
     }
 
@@ -37,6 +38,7 @@ public class MockingLibraryProjectModelLocatorTests
 
         // Assert
         Assert.IsType<MoqProjectModel>(result);
+        Assert.Equal(MockingLibrary.Moq, result.Library);
         Assert.Equal([new("Moq")], result.PackageReferences, EqualityComparer<PackageReference>.Default);
     }
 
@@ -51,6 +53,7 @@ public class MockingLibraryProjectModelLocatorTests
 
         // Assert
         Assert.IsType<FakeItEasyProjectModel>(result);
+        Assert.Equal(MockingLibrary.FakeItEasy, result.Library);
         Assert.Equal([new("FakeItEasy")], result.PackageReferences, EqualityComparer<PackageReference>.Default);
     }
 }

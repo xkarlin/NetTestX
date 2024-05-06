@@ -23,8 +23,9 @@ public class TestFrameworkProjectModelLocatorTests
 
         // Assert
         Assert.IsType<NUnitProjectModel>(result);
+        Assert.Equal(TestFramework.NUnit, result.Framework);
         Assert.Equal(
-            [
+        [
                 new("NUnit"),
                 new("NUnit3TestAdapter"),
                 new("NUnit.Analyzers")
@@ -42,8 +43,9 @@ public class TestFrameworkProjectModelLocatorTests
 
         // Assert
         Assert.IsType<XUnitProjectModel>(result);
+        Assert.Equal(TestFramework.XUnit, result.Framework);
         Assert.Equal(
-            [
+        [
                 new("xunit"),
                 new("xunit.runner.visualstudio", true)
             ], result.PackageReferences, EqualityComparer<PackageReference>.Default);
@@ -60,8 +62,9 @@ public class TestFrameworkProjectModelLocatorTests
 
         // Assert
         Assert.IsType<MSTestProjectModel>(result);
+        Assert.Equal(TestFramework.MSTest, result.Framework);
         Assert.Equal(
-            [
+        [
                 new("MSTest.TestAdapter"),
                 new("MSTest.TestFramework")
             ], result.PackageReferences, EqualityComparer<PackageReference>.Default);

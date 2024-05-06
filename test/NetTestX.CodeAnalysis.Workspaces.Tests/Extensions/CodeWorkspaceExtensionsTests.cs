@@ -8,12 +8,14 @@ using NSubstitute;
 using Xunit;
 using NetTestX.CodeAnalysis.Workspaces;
 using NetTestX.CodeAnalysis.Workspaces.Projects.Testing;
+using Microsoft.Build.Locator;
+using System.Runtime.CompilerServices;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Extensions.Tests;
 
 public class CodeWorkspaceExtensionsTests
 {
-    [Fact(Skip = "MSBuild Sdk resolution failure")]
+    [Fact]
     public async Task TestCreateTestProjectAsync()
     {
         // Arrange
@@ -24,8 +26,8 @@ public class CodeWorkspaceExtensionsTests
             MockingLibrary = Common.MockingLibrary.NSubstitute,
             TestFramework = Common.TestFramework.NUnit,
             ProjectName = "TestingProject",
-            OriginalProjectPath = Environment.CurrentDirectory + "/WorkspaceFake/Misc/Project.csproj",
-            ProjectFilePath = Environment.CurrentDirectory + "/WorkspaceFake/Misc/TestingProject.csproj"
+            OriginalProjectPath = Environment.CurrentDirectory + @"\WorkspaceFake\Misc\Project.csproj",
+            ProjectFilePath = Environment.CurrentDirectory + @"\WorkspaceFake\Misc\TestingProject.csproj"
         };
 
         var testSaveCallback = () => Task.CompletedTask;
@@ -34,7 +36,7 @@ public class CodeWorkspaceExtensionsTests
         var result = await CodeWorkspaceExtensions.CreateTestProjectAsync(testWorkspace, testContext, testSaveCallback);
 
         // Assert
-        Assert.Equal("WorkspaceFake/Misc/TestingProject.csproj", result.FilePath);
+        Assert.Equal(Environment.CurrentDirectory + @"\WorkspaceFake\Misc\TestingProject.csproj", result.FilePath);
     }
 
     [Fact]

@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestX.Common", "src\NetT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{988ACA8E-3E91-4D90-BB84-EFAD27647EE7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestX.Razor.Tests.Unit", "test\NetTestX.Razor.Tests.Unit\NetTestX.Razor.Tests.Unit.csproj", "{8E200517-9B6D-422B-B590-1BA2D524AB24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestX.Razor.Tests", "test\NetTestX.Razor.Tests\NetTestX.Razor.Tests.csproj", "{8E200517-9B6D-422B-B590-1BA2D524AB24}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetTestX.CodeAnalysis.Workspaces.Tests", "test\NetTestX.CodeAnalysis.Workspaces.Tests\NetTestX.CodeAnalysis.Workspaces.Tests.csproj", "{F6C0C7FD-4E3A-4514-B997-59163D9A0D9E}"
 EndProject

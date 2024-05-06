@@ -11,11 +11,5 @@
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="NetTestX.CodeAnalysis.Workspaces.Tests" />
-    <InternalsVisibleTo Include="NetTestX.CodeAnalysis.Workspaces.Tests" />
-    <InternalsVisibleTo Include="NetTestX.CodeAnalysis.Workspaces.Tests" />
-    <InternalsVisibleTo Include="NetTestX.CodeAnalysis.Workspaces.Tests" />
-    <InternalsVisibleTo Include="NetTestX.CodeAnalysis.Workspaces.Tests" />
-    <InternalsVisibleTo Include="NetTestX.CodeAnalysis.Workspaces.Tests" />
-    <InternalsVisibleTo Include="NetTestX.CodeAnalysis.Workspaces.Tests" />
   </ItemGroup>
 </Project>
