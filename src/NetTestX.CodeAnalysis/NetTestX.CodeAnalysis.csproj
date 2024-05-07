@@ -1,21 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis" Version="4.8.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.8.0" />
     <PackageReference Include="Microsoft.VisualStudio.Utilities" Version="17.0.31902.203" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\NetTestX.Common\NetTestX.Common.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <InternalsVisibleTo Include="NetTestX.CodeAnalysis.Tests" />
   </ItemGroup>
-
   <PropertyGroup>
     <UseRazor>true</UseRazor>
   </PropertyGroup>
-
 </Project>
