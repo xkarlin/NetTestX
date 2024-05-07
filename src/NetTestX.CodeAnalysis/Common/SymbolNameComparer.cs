@@ -7,7 +7,7 @@ public class SymbolNameComparer : IEqualityComparer<ISymbol>
 {
     public static SymbolNameComparer Default { get; } = new();
 
-    private SymbolNameComparer() { }
+    internal SymbolNameComparer() { }
 
     public bool Equals(ISymbol x, ISymbol y) => x.ToDisplayString(CommonFormats.FullNullableFormat) == y.ToDisplayString(CommonFormats.FullNullableFormat);
 

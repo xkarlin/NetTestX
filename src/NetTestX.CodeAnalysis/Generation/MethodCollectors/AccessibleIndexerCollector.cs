@@ -39,7 +39,7 @@ public class AccessibleIndexerCollector : ITestMethodCollector
 
         var bodyModel = new AccessibleIndexerMethodBodyModel(indexer, constructor);
 
-        string methodName = $"Test{string.Join("", indexer.Parameters.Select(x => x.Type.ToDisplayString(CommonFormats.NameOnlyFormat)))}Indexer";
+        string methodName = $"Test{string.Join("", indexer.Parameters.Select(x => x.Type.ToDisplayString(CommonFormats.NameOnlyFormatNoSpecialTypes)))}Indexer";
 
         return new TestMethodModel(symbol, bodyModel, methodName);
     }

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="../../src/NetTestX.CodeAnalysis/NetTestX.CodeAnalysis.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
+    <PackageReference Include="xunit" Version="*" />
+
+    <PackageReference Include="xunit.runner.visualstudio" Version="*">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="NSubstitute" Version="*" />
+
+  </ItemGroup>
+
+</Project>

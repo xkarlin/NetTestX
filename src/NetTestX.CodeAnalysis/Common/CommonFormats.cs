@@ -24,6 +24,11 @@ public static class CommonFormats
         genericsOptions: SymbolDisplayGenericsOptions.None,
         miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes);
 
+    public static SymbolDisplayFormat NameOnlyFormatNoSpecialTypes { get; } = new(
+        typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameOnly,
+        globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
+        genericsOptions: SymbolDisplayGenericsOptions.None);
+
     public static SymbolDisplayFormat NameOnlyGenericFormat { get; } = new(
         typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameOnly,
         globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,

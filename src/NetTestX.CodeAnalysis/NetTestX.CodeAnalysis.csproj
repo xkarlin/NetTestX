@@ -10,6 +10,10 @@
     <ProjectReference Include="..\NetTestX.Common\NetTestX.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="NetTestX.CodeAnalysis.Tests" />
+  </ItemGroup>
+
   <PropertyGroup>
     <UseRazor>true</UseRazor>
   </PropertyGroup>
