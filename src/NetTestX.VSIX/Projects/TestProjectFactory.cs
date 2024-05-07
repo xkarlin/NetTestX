@@ -76,7 +76,7 @@ public class TestProjectFactory
         var project = context.DTE.Solution.AddFromFile(testProjectPath);
         context.DTE.Solution.SaveAs(context.DTE.Solution.FileName);
 
-        var projectGuid = project.GetProjectId();
+        await context.SaveCallback?.Invoke(project);
 
         _ = ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
         {

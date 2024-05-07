@@ -32,44 +32,45 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
         var roslynProject = await projectItem.FindRoslynProjectAsync();
         var compilation = await roslynProject.GetCompilationAsync();
 
-        var targetProject = await GetTargetProjectAsync(selectedItems);
-
-        var advancedOptions = await AdvancedOptions.GetLiveInstanceAsync();
-
-        foreach (var item in items)
-        {
-            string sourceFileName = item.FileNames[0];
-            var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == sourceFileName);
-            var syntaxTreeRoot = await syntaxTree.GetRootAsync();
-
-            var availableTypeSymbols = SymbolHelper.GetAvailableTypeSymbolsForGeneration(syntaxTreeRoot, compilation).ToImmutableArray();
-
-            bool shouldShowWarning = advancedOptions.ShowMultipleTypeWarning && availableTypeSymbols.Length > 1;
-
-            if (shouldShowWarning && !SymbolHelper.ShowMultipleTypesWarning(sourceFileName, availableTypeSymbols))
-                continue;
-
-            foreach (var typeSymbol in availableTypeSymbols)
-            {
-                var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(typeSymbol, sourceProject);
-                await codeCoordinator.LoadSourceCodeAsync(targetProject);
-            }
-        }
-    }
-
-    private async Task<DTEProject> GetTargetProjectAsync(UIHierarchyItem[] selectedItems)
-    {
-        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
         if (testProject is not null)
-            return dte.Solution.FindSolutionProject(testProject.Name);
+        {
+            var dteProject = dte.Solution.FindSolutionProject(testProject.Name);
+            await GenerateSourceFilesAsync(dteProject);
+            return;
+        }
 
         TestProjectFactoryContext context = new()
         {
             DTE = dte,
-            Project = ((ProjectItem)selectedItems[0].Object).ContainingProject
+            Project = ((ProjectItem)selectedItems[0].Object).ContainingProject,
+            SaveCallback = project => GenerateSourceFilesAsync(project)
         };
 
-        return await TestProjectUtility.CreateTestProjectFromViewAsync(context);
+        await TestProjectUtility.CreateTestProjectFromViewAsync(context);
+
+        async Task GenerateSourceFilesAsync(DTEProject targetProject)
+        {
+            var advancedOptions = await AdvancedOptions.GetLiveInstanceAsync();
+
+            foreach (var item in items)
+            {
+                string sourceFileName = item.FileNames[0];
+                var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == sourceFileName);
+                var syntaxTreeRoot = await syntaxTree.GetRootAsync();
+
+                var availableTypeSymbols = SymbolHelper.GetAvailableTypeSymbolsForGeneration(syntaxTreeRoot, compilation).ToImmutableArray();
+
+                bool shouldShowWarning = advancedOptions.ShowMultipleTypeWarning && availableTypeSymbols.Length > 1;
+
+                if (shouldShowWarning && !SymbolHelper.ShowMultipleTypesWarning(sourceFileName, availableTypeSymbols))
+                    continue;
+
+                foreach (var typeSymbol in availableTypeSymbols)
+                {
+                    var codeCoordinator = await TestSourceCodeCoordinator.CreateAsync(typeSymbol, sourceProject);
+                    await codeCoordinator.LoadSourceCodeAsync(targetProject);
+                }
+            }
+        }
     }
 }
