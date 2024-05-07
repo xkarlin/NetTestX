@@ -21,6 +21,12 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
 
         var selectedItems = dte.GetSelectedItemsFromSolutionExplorer();
 
+        ProjectItem[] items = selectedItems.Select(x =>
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            return (ProjectItem)x.Object;
+        }).ToArray();
+
         var projectItem = (ProjectItem)selectedItems[0].Object;
         var sourceProject = projectItem.ContainingProject;
         var roslynProject = await projectItem.FindRoslynProjectAsync();
@@ -30,10 +36,9 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
 
         var advancedOptions = await AdvancedOptions.GetLiveInstanceAsync();
 
-        foreach (var selectedItem in selectedItems)
+        foreach (var item in items)
         {
-            projectItem = (ProjectItem)selectedItem.Object;
-            string sourceFileName = projectItem.FileNames[0];
+            string sourceFileName = item.FileNames[0];
             var syntaxTree = compilation?.SyntaxTrees.FirstOrDefault(x => x.FilePath == sourceFileName);
             var syntaxTreeRoot = await syntaxTree.GetRootAsync();
 
