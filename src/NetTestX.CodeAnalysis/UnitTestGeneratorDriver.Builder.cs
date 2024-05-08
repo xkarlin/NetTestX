@@ -48,6 +48,7 @@ public partial class UnitTestGeneratorDriver
             Compilation = compilation;
             AllTestMethods = MethodCollectorHelper.CollectTestMethods(Type, Compilation, advancedOptions, _reporter);
             TestMethodMap = AllTestMethods.ToDictionary(x => x, _ => true);
+            AdvancedOptions = advancedOptions;
         }
 
         public UnitTestGeneratorDriver Build()

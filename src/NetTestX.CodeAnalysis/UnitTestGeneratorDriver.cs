@@ -11,7 +11,9 @@ public partial class UnitTestGeneratorDriver
 {
     private readonly UnitTestGeneratorContext _context;
 
-    private UnitTestGeneratorDriver(UnitTestGeneratorContext context)
+    internal UnitTestGeneratorContext Context => _context;
+
+    internal UnitTestGeneratorDriver(UnitTestGeneratorContext context)
     {
         _context = context;
     }
