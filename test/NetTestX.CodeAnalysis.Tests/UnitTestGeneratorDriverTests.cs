@@ -27,11 +27,13 @@ using System.Threading.Tasks;
 
 public class C : IDisposable, IAsyncDisposable
 {
-    public void M1() { }
+    public string M1(int i) { }
 
     public async Task M2() { }
 
-    public static async void M3() { }
+    public static string M3(int i) { }
+    
+    public static async void M4() { }
 
     public int this[string x]
     {
@@ -70,8 +72,12 @@ public class C : IDisposable, IAsyncDisposable
                     type.GetMembers().First(x => x.Name == "M3"),
                     new AccessibleStaticMethodBodyModel((IMethodSymbol)type.GetMembers().First(x => x.Name == "M3"))),
                 new TestMethodModel(
+                    type.GetMembers().First(x => x.Name == "M4"),
+                    new AccessibleStaticMethodBodyModel((IMethodSymbol)type.GetMembers().First(x => x.Name == "M4"))),
+                new TestMethodModel(
                     type.GetMembers().First(x => x is IPropertySymbol { IsIndexer: true }),
-                    new AccessibleIndexerMethodBodyModel((IPropertySymbol)type.GetMembers().First(x => x is IPropertySymbol { IsIndexer: true }), type.Constructors[0])),
+                    new AccessibleIndexerMethodBodyModel((IPropertySymbol)type.GetMembers().First(x => x is IPropertySymbol { IsIndexer: true }), type.Constructors[0]),
+                    "TestIndexer"),
                 new TestMethodModel(
                     type,
                     new DisposableTypeMethodBodyModel(type.Constructors[0], false)),
@@ -108,8 +114,9 @@ public class TestsForC
     {
         C sut = new();
 
+        var testI = 0;
 
-        sut.M1();
+        var result = sut.M1(testI);
 
 
     }
@@ -128,14 +135,24 @@ public class TestsForC
     [Fact]
     public void TestM3()
     {
-    
-        C.M3();
+        var testI = 0;
+
+        var result = C.M3(testI);
 
 
     }
 
     [Fact]
-    public void Testthis[]()
+    public void TestM4()
+    {
+    
+        C.M4();
+
+
+    }
+
+    [Fact]
+    public void TestIndexer()
     {
         C sut = new();
 
