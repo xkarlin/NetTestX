@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" ?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="NetTestX.b68ae9dc-954c-4cdf-8bc4-ca14fc16cb2b" Version="0.1" Language="en-US" Publisher="Mykyta Kovalenko" />
+        <Identity Id="NetTestX.b68ae9dc-954c-4cdf-8bc4-ca14fc16cb2b" Version="0.2" Language="en-US" Publisher="Mykyta Kovalenko" />
         <DisplayName>NetTestX</DisplayName>
         <Description xml:space="preserve">Unit test scaffolder for .NET</Description>
         <MoreInfo>https://github.com/insouciiance/NetTestX</MoreInfo>
