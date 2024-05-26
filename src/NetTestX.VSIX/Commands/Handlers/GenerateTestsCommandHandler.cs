@@ -46,7 +46,7 @@ public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : IC
         {
             DTE = dte,
             Project = ((ProjectItem)selectedItems[0].Object).ContainingProject,
-            SaveCallback = project => GenerateSourceFilesAsync(project)
+            SaveCallback = GenerateSourceFilesAsync
         };
 
         await TestProjectUtility.CreateTestProjectFromViewAsync(context);
