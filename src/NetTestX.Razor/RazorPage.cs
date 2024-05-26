@@ -10,6 +10,9 @@ using NetTestX.Razor.Utils;
 
 namespace NetTestX.Razor;
 
+/// <summary>
+/// Base class for implementations of <see cref="IRazorPage"/>
+/// </summary>
 public abstract class RazorPage<TModel> : Microsoft.AspNetCore.Mvc.Razor.RazorPage<TModel>, IRazorPage
 {
     private readonly MemoryStream _outputStream = new();
@@ -27,6 +30,9 @@ public abstract class RazorPage<TModel> : Microsoft.AspNetCore.Mvc.Razor.RazorPa
         };
     }
 
+    /// <summary>
+    /// Import another Razor page using the given <paramref name="model"/>
+    /// </summary>
     public async Task<string> ImportPageAsync(object model)
     {
         RazorFileTemplate nestedTemplate = new(model);
@@ -34,6 +40,9 @@ public abstract class RazorPage<TModel> : Microsoft.AspNetCore.Mvc.Razor.RazorPa
         return RazorRenderUtilities.NormalizeIndentation(nestedText, _lastIndentation);
     }
 
+    /// <summary>
+    /// Write a literal <c>string</c>
+    /// </summary>
     public override void WriteLiteral(string value)
     {
         int indentationLength = value.AsSpan().Length - value.AsSpan().TrimEnd(' ').Length;

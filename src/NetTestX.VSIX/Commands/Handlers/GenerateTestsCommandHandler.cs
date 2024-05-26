@@ -13,6 +13,9 @@ using NetTestX.VSIX.Projects;
 
 namespace NetTestX.VSIX.Commands.Handlers;
 
+/// <summary>
+/// Handler for generating tests the fast way using default options
+/// </summary>
 public class GenerateTestsCommandHandler(DTE2 dte, CodeProject testProject) : ICommandHandler
 {
     public async Task ExecuteAsync()

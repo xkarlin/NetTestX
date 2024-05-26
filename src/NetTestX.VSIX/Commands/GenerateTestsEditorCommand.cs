@@ -13,6 +13,9 @@ using NetTestX.VSIX.Extensions;
 
 namespace NetTestX.VSIX.Commands;
 
+/// <summary>
+/// Command that generates tests the fast way from the editor window, using default options, uses <see cref="GenerateTestsEditorCommandHandler"/>
+/// </summary>
 [Command(PackageIds.GenerateTestsEditorCommand)]
 public class GenerateTestsEditorCommand : BaseDynamicCommand<GenerateTestsEditorCommand, GenerateTestsEditorCommandHandler, CodeProject>
 {

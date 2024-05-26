@@ -4,7 +4,7 @@ using NetTestX.Common;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Projects.Testing.TestFrameworks;
 
-public class XUnitDetector : ITestFrameworkProjectDetector
+internal class XUnitDetector : ITestFrameworkProjectDetector
 {
     public TestFramework TestFramework => TestFramework.XUnit;
 

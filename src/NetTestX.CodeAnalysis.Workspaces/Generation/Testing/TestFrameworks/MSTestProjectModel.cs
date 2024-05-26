@@ -3,7 +3,10 @@ using NetTestX.Common;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Generation.Testing.TestFrameworks;
 
-internal class MSTestProjectModel : ITestFrameworkProjectModel
+/// <summary>
+/// <see cref="ITestFrameworkProjectModel"/> for MSTest
+/// </summary>
+public class MSTestProjectModel : ITestFrameworkProjectModel
 {
     public TestFramework Framework => TestFramework.MSTest;
 

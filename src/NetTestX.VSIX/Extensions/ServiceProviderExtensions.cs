@@ -5,8 +5,14 @@ using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace NetTestX.VSIX.Extensions;
 
+/// <summary>
+/// Extensions for <see cref="IServiceProvider"/>
+/// </summary>
 public static class ServiceProviderExtensions
 {
+    /// <summary>
+    /// Get an active text view (document) inside the editor window
+    /// </summary>
     public static IWpfTextView GetActiveTextView(this IServiceProvider provider)
     {
         var textManager = (IVsTextManager)provider.GetService(typeof(SVsTextManager));

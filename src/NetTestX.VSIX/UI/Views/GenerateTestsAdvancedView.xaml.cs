@@ -15,9 +15,6 @@ using System.Windows.Media;
 
 namespace NetTestX.VSIX.UI.Views;
 
-/// <summary>
-/// Interaction logic for GenerateTestsAdvancedView.xaml
-/// </summary>
 public partial class GenerateTestsAdvancedView
 {
     private const int MAX_DIAGNOSTICS_TO_SHOW = 10;

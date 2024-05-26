@@ -8,6 +8,9 @@ using NetTestX.VSIX.Commands.Handlers;
 
 namespace NetTestX.VSIX.Commands;
 
+/// <summary>
+/// Base class for creating dynamic VS commands
+/// </summary>
 public abstract class BaseDynamicCommand<TCommand, THandler, TItem> : BaseDynamicCommand<TCommand, TItem>
     where TCommand : BaseDynamicCommand<TCommand, THandler, TItem>, new()
     where THandler : ICommandHandler

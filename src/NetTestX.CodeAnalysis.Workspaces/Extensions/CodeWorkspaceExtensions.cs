@@ -11,8 +11,14 @@ using NetTestX.Razor;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Extensions;
 
+/// <summary>
+/// Extensions for <see cref="CodeWorkspace"/>
+/// </summary>
 public static class CodeWorkspaceExtensions
 {
+    /// <summary>
+    /// Generate a <see cref="CodeProject"/> in this <paramref name="workspace"/> using the provided <paramref name="context"/>
+    /// </summary>
     public static async Task<CodeProject> CreateTestProjectAsync(this CodeWorkspace workspace, TestProjectCreationContext context, Func<Task> saveCallback)
     {
         var mockingLibraryModel = MockingLibraryProjectModelLocator.LocateModel(context.MockingLibrary);
@@ -37,6 +43,9 @@ public static class CodeWorkspaceExtensions
         return project;
     }
 
+    /// <summary>
+    /// Get all test projects that exist in this <see cref="CodeWorkspace"/>
+    /// </summary>
     public static IEnumerable<CodeProject> GetTestProjects(this CodeWorkspace workspace)
         => workspace.Projects.Where(CodeProjectExtensions.IsTestProject);
 }

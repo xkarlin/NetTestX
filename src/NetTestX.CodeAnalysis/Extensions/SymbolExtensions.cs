@@ -6,8 +6,14 @@ using NetTestX.CodeAnalysis.Common;
 
 namespace NetTestX.CodeAnalysis.Extensions;
 
+/// <summary>
+/// Extensions for <see cref="ISymbol"/> and derivatives
+/// </summary>
 public static class SymbolExtensions
 {
+    /// <summary>
+    /// Whether the provided <see cref="ITypeSymbol"/> represents a numeric type
+    /// </summary>
     public static bool IsNumericType(this ITypeSymbol type) => type is
     {
         SpecialType: SpecialType.System_SByte or
@@ -23,6 +29,9 @@ public static class SymbolExtensions
             SpecialType.System_Double
     };
 
+    /// <summary>
+    /// Whether the provided <see cref="ITypeSymbol"/> implements the given interface (<typeparamref name="T"/>)
+    /// </summary>
     public static bool ImplementsInterface<T>(this ITypeSymbol type)
         where T : class
     {
@@ -30,6 +39,9 @@ public static class SymbolExtensions
         return type.AllInterfaces.Any(x => x.Name == typeof(T).Name);
     }
 
+    /// <summary>
+    /// Find all members of the given <see cref="INamedTypeSymbol"/> that implement some member of interface <typeparamref name="T"/>
+    /// </summary>
     public static IEnumerable<ISymbol> FindImplementationsForInterfaceMembers<T>(this INamedTypeSymbol typeSymbol, Compilation compilation)
         where T : class
     {
@@ -42,6 +54,9 @@ public static class SymbolExtensions
         }
     }
 
+    /// <summary>
+    /// Whether the given <see cref="ITypeSymbol"/> represents a generic type definition
+    /// </summary>
     public static bool IsGenericTypeDefinition(this ITypeSymbol type)
     {
         if (type.Kind != SymbolKind.NamedType)
@@ -50,21 +65,33 @@ public static class SymbolExtensions
         return ((INamedTypeSymbol)type) is { IsGenericType: true } named && SymbolNameComparer.Default.Equals(named, named.OriginalDefinition);
     }
 
+    /// <summary>
+    /// Whether the given <see cref="IMethodSymbol"/> represents a generic method definition
+    /// </summary>
     public static bool IsGenericMethodDefinition(this IMethodSymbol method)
     {
         return method.IsGenericMethod && SymbolNameComparer.Default.Equals(method, method.OriginalDefinition);
     }
 
+    /// <summary>
+    /// Whether the given <see cref="ITypeSymbol"/> implements the specified <paramref name="iface"/>
+    /// </summary>
     public static bool ImplementsInterface(this ITypeSymbol type, INamedTypeSymbol iface)
     {
         return type.AllInterfaces.Any(x => SymbolNameComparer.Default.Equals(x, iface));
     }
 
+    /// <summary>
+    /// Whether the given <see cref="ITypeSymbol"/> implements the specified generic <paramref name="iface"/>
+    /// </summary>
     public static bool ImplementsGenericInterface(this ITypeSymbol type, INamedTypeSymbol iface)
     {
         return type.AllInterfaces.Any(x => SymbolNameComparer.Default.Equals(x.OriginalDefinition, iface));
     }
 
+    /// <summary>
+    /// Find all members of the given <see cref="INamedTypeSymbol"/> that implement some member of a generic interface <paramref name="iface"/>
+    /// </summary>
     public static IEnumerable<INamedTypeSymbol> FindAllGenericInterfaceImplementations(this ITypeSymbol type, INamedTypeSymbol iface)
     {
         foreach (var candidateIface in type.AllInterfaces)
@@ -74,6 +101,9 @@ public static class SymbolExtensions
         }
     }
 
+    /// <summary>
+    /// Whether the given <see cref="ITypeSymbol"/> is inherited from <paramref name="baseType"/>
+    /// </summary>
     public static bool IsInheritedFrom(this ITypeSymbol type, ITypeSymbol baseType)
     {
         if (!type.IsReferenceType)
@@ -88,6 +118,9 @@ public static class SymbolExtensions
         return IsInheritedFrom(type.BaseType, baseType);
     }
 
+    /// <summary>
+    /// Whether the given <see cref="ITypeSymbol"/> is inherited from a generic <paramref name="baseType"/>
+    /// </summary>
     public static bool IsInheritedFromGenericType(this ITypeSymbol type, INamedTypeSymbol baseType)
     {
         if (type is null)
@@ -99,15 +132,28 @@ public static class SymbolExtensions
         return IsInheritedFromGenericType(type.BaseType, baseType);
     }
 
+    /// <summary>
+    /// Whether the given <see cref="INamedTypeSymbol"/> has any accessible constructor (taking into account <paramref name="accessibility"/>)
+    /// </summary>
     public static bool HasAccessibleConstructor(this INamedTypeSymbol type, Accessibility accessibility = Accessibility.Public)
         => TryGetAccessibleConstructor(type, accessibility, out _);
 
+    /// <summary>
+    /// Try to get any accessible constructor for the given <see cref="INamedTypeSymbol"/> (taking into account <paramref name="accessibility"/>)
+    /// </summary>
     public static bool TryGetAccessibleConstructor(this INamedTypeSymbol type, Accessibility accessibility, out IMethodSymbol constructor)
     {
         constructor = type.Constructors.FirstOrDefault(x => x.DeclaredAccessibility >= accessibility);
         return constructor is not null;
     }
 
+    /// <summary>
+    /// Get the effective accessibility for the given <see cref="ISymbol"/>
+    /// </summary>
+    /// <remarks>
+    /// This takes into account its containing type visibility (recursively) to determine the
+    /// "actual" accessibility that the symbol has
+    /// </remarks>
     public static Accessibility GetEffectiveAccessibility(this ISymbol symbol)
     {
         var accessibility = symbol.DeclaredAccessibility switch
@@ -127,6 +173,11 @@ public static class SymbolExtensions
         return accessibility;
     }
 
+    /// <summary>
+    /// Collect all namespaces that are used by the given <see cref="ISymbol"/>.
+    /// Putting all of them at the top of the file allows to use this symbol in code
+    /// without compilation issues
+    /// </summary>
     public static IEnumerable<string> CollectNamespaces(this ISymbol symbol)
     {
         HashSet<string> namespaces = [];

@@ -10,6 +10,9 @@ internal partial class OptionsProvider
     public class CodeOptionsPage : BaseOptionPage<CodeOptions> { }
 }
 
+/// <summary>
+/// Code options contained in the "Code" options page inside VS settings
+/// </summary>
 public class CodeOptions : BaseOptionModel<CodeOptions>
 {
     [Category("Code")]

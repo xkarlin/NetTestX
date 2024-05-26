@@ -6,8 +6,14 @@ using Microsoft.VisualStudio.Shell;
 
 namespace NetTestX.VSIX.Extensions;
 
+/// <summary>
+/// Extensions for <see cref="ProjectItem"/>
+/// </summary>
 public static class ProjectItemExtensions
 {
+    /// <summary>
+    /// Find the corresponsind <see cref="RoslynProject"/> for the project that conatins this <paramref name="item"/>
+    /// </summary>
     public static async Task<RoslynProject> FindRoslynProjectAsync(this ProjectItem item)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();

@@ -4,6 +4,10 @@ using NetTestX.CodeAnalysis.Extensions;
 
 namespace NetTestX.CodeAnalysis.Generation.ConstructorResolvers;
 
+/// <summary>
+/// A constructor resolver that takes any accessible constructor that is available
+/// taking into account <paramref name="accessibility"/>
+/// </summary>
 public class DummyConstructorResolver(Accessibility accessibility) : IConstructorResolver
 {
     public IMethodSymbol Resolve(INamedTypeSymbol type)

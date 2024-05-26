@@ -8,8 +8,14 @@ using NetTestX.Common.Extensions;
 
 namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
+/// <summary>
+/// Helper class for <see cref="ITestMethodCollector"/>s
+/// </summary>
 public static class MethodCollectorHelper
 {
+    /// <summary>
+    /// Retrieve all available test method collectors
+    /// </summary>
     public static IEnumerable<ITestMethodCollector> GetAvailableCollectors() =>
     [
         new AccessibleInstanceMethodCollector(),
@@ -19,6 +25,10 @@ public static class MethodCollectorHelper
         new AsyncDisposableTypeCollector()
     ];
 
+    /// <summary>
+    /// Collect a list of <see cref="TestMethodModelBase"/> for the given <paramref name="type"/>
+    /// using all available <see cref="ITestMethodCollector"/>s
+    /// </summary>
     public static IReadOnlyList<TestMethodModelBase> CollectTestMethods(
         INamedTypeSymbol type,
         Compilation compilation,

@@ -7,10 +7,16 @@ using NetTestX.VSIX.UI.Views;
 
 namespace NetTestX.VSIX.Projects;
 
+/// <summary>
+/// Helper class used to generate test projects
+/// </summary>
 public static class TestProjectUtility
 {
     private const string INTERNALS_VISIBLE_TO_ITEM_NAME = "InternalsVisibleTo";
 
+    /// <summary>
+    /// Generate a test <see cref="DTEProject"/> from the project creation view (<see cref="GenerateTestProjectView"/>)
+    /// </summary>
     public static async Task<DTEProject> CreateTestProjectFromViewAsync(TestProjectFactoryContext context)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -43,6 +49,9 @@ public static class TestProjectUtility
         return await testProjectFactory.CreateTestProjectAsync();
     }
 
+    /// <summary>
+    /// Add the InternalsVisibleTo <paramref name="visibleTo"/> item to the provided <paramref name="sourceProject"/>
+    /// </summary>
     public static void AddInternalsVisibleTo(DTEProject sourceProject, string visibleTo)
     {
         ThreadHelper.ThrowIfNotOnUIThread();

@@ -6,6 +6,9 @@ using NetTestX.VSIX.Projects;
 
 namespace NetTestX.VSIX.Commands.Handlers;
 
+/// <summary>
+/// Handler for generating testing projects
+/// </summary>
 public class GenerateTestProjectCommandHandler(DTE2 dte) : ICommandHandler
 {
     public async Task ExecuteAsync()

@@ -6,8 +6,14 @@ using System.Text;
 
 namespace NetTestX.CodeAnalysis.Utils;
 
+/// <summary>
+/// Helper class used to stringify <see cref="ISymbol"/>s and derived types
+/// </summary>
 public static class SymbolUtility
 {
+    /// <summary>
+    /// Get a display name for the given <paramref name="symbol"/>
+    /// </summary>
     public static string GetDisplayName(ISymbol symbol) => symbol switch
     {
         IMethodSymbol method => GetDisplayName(method),
@@ -15,6 +21,9 @@ public static class SymbolUtility
         _ => symbol.ToDisplayString()
     };
 
+    /// <summary>
+    /// Get a display name for the given <paramref name="method"/>
+    /// </summary>
     public static string GetDisplayName(IMethodSymbol method)
     {
         StringBuilder builder = new();
@@ -42,6 +51,9 @@ public static class SymbolUtility
         return builder.ToString();
     }
 
+    /// <summary>
+    /// Get a display name for the given <paramref name="property"/>
+    /// </summary>
     public static string GetDisplayName(IPropertySymbol property)
     {
         if (!property.IsIndexer)

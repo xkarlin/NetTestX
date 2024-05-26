@@ -4,7 +4,7 @@ using NetTestX.Common;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Projects.Testing.MockingLibraries;
 
-public class NSubstituteDetector : IMockingLibraryProjectDetector
+internal class NSubstituteDetector : IMockingLibraryProjectDetector
 {
     public MockingLibrary MockingLibrary => MockingLibrary.NSubstitute;
 

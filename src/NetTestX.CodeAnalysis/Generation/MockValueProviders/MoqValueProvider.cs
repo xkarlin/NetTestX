@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace NetTestX.CodeAnalysis.Generation.MockValueProviders;
 
+/// <summary>
+/// <see cref="IMockValueProvider"/> for Moq
+/// </summary>
 public class MoqValueProvider : MockValueProviderBase
 {
     public override string Resolve(ITypeSymbol type)

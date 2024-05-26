@@ -10,6 +10,9 @@ internal partial class OptionsProvider
     public class GeneralOptionsPage : BaseOptionPage<GeneralOptions> { }
 }
 
+/// <summary>
+/// General options contained in the "General" options page inside VS settings
+/// </summary>
 public class GeneralOptions : BaseOptionModel<GeneralOptions>
 {
     [Category("General")]

@@ -12,7 +12,10 @@ using ProjectItem = EnvDTE.ProjectItem;
 
 namespace NetTestX.VSIX.Commands.Handlers;
 
-internal class GenerateTestsAdvancedCommandHandler(DTE2 dte) : ICommandHandler
+/// <summary>
+/// Handler for generating tests the advanced way using a dedicated window
+/// </summary>
+public class GenerateTestsAdvancedCommandHandler(DTE2 dte) : ICommandHandler
 {
     public async Task ExecuteAsync()
     {

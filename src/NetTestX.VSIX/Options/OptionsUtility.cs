@@ -8,8 +8,14 @@ using System.Threading.Tasks;
 
 namespace NetTestX.VSIX.Options;
 
+/// <summary>
+/// Helper class for options
+/// </summary>
 public static class OptionsUtility
 {
+    /// <summary>
+    /// Get <see cref="AdvancedGeneratorOptions"/> from the VS options
+    /// </summary>
     public static async Task<AdvancedGeneratorOptions> GetAdvancedGeneratorOptionsAsync()
     {
         var codeOptions = await CodeOptions.GetLiveInstanceAsync();

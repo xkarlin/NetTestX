@@ -8,6 +8,9 @@ using NetTestX.VSIX.Extensions;
 
 namespace NetTestX.VSIX.Commands;
 
+/// <summary>
+/// Command that generates tests advanced from the editor window, uses <see cref="GenerateTestsAdvancedEditorCommandHandler"/>
+/// </summary>
 [Command(PackageIds.GenerateTestsAdvancedEditorCommand)]
 internal sealed class GenerateTestsAdvancedEditorCommand : BaseCommand<GenerateTestsAdvancedEditorCommand, GenerateTestsAdvancedEditorCommandHandler>
 {

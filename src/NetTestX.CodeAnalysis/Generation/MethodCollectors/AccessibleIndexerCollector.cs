@@ -9,6 +9,9 @@ using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
 
 namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
+/// <summary>
+/// Test method collector for accessible indexer methods
+/// </summary>
 public class AccessibleIndexerCollector : ITestMethodCollector
 {
     public IEnumerable<ISymbol> GetExcludedSymbols(MethodCollectionContext context) => [];

@@ -5,7 +5,10 @@ using NetTestX.CodeAnalysis.Common;
 
 namespace NetTestX.CodeAnalysis.Generation.MockValueProviders;
 
-internal class FakeItEasyValueProvider : MockValueProviderBase
+/// <summary>
+/// <see cref="IMockValueProvider"/> for FakeItEasy
+/// </summary>
+public class FakeItEasyValueProvider : MockValueProviderBase
 {
     public override string Resolve(ITypeSymbol type)
     {

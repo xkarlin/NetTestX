@@ -10,6 +10,9 @@ using NetTestX.VSIX.Commands.Handlers;
 
 namespace NetTestX.VSIX.Commands;
 
+/// <summary>
+/// Command that generates tests advanced, uses <see cref="GenerateTestsAdvancedCommandHandler"/>
+/// </summary>
 [Command(PackageIds.GenerateTestsAdvancedCommand)]
 internal sealed class GenerateTestsAdvancedCommand : BaseCommand<GenerateTestsAdvancedCommand, GenerateTestsAdvancedCommandHandler>
 {

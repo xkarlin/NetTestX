@@ -6,6 +6,9 @@ using NetTestX.CodeAnalysis.Templates.TestMethods.Bodies;
 
 namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
+/// <summary>
+/// Test method collector for accessible static methods
+/// </summary>
 public class AccessibleStaticMethodCollector : ITestMethodCollector
 {
     public IEnumerable<ISymbol> GetExcludedSymbols(MethodCollectionContext context) => [];

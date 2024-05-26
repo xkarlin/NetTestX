@@ -3,6 +3,9 @@ using NetTestX.Common;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Generation.Testing.TestFrameworks;
 
+/// <summary>
+/// <see cref="ITestFrameworkProjectModel"/> for xUnit
+/// </summary>
 public class XUnitProjectModel : ITestFrameworkProjectModel
 {
     public TestFramework Framework => TestFramework.XUnit;

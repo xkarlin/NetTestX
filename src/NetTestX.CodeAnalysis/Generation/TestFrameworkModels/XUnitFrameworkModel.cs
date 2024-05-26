@@ -2,6 +2,9 @@
 
 namespace NetTestX.CodeAnalysis.Generation.TestFrameworkModels;
 
+/// <summary>
+/// <see cref="ITestFrameworkModel"/> for xUnit
+/// </summary>
 public class XUnitFrameworkModel : ITestFrameworkModel
 {
     public string TestClassAttribute => null;

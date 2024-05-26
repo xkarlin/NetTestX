@@ -3,7 +3,10 @@ using NetTestX.Common;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Generation.Testing.MockingLibraries;
 
-internal class FakeItEasyProjectModel : IMockingLibraryProjectModel
+/// <summary>
+/// <see cref="IMockingLibraryProjectModel"/> for FakeItEasy
+/// </summary>
+public class FakeItEasyProjectModel : IMockingLibraryProjectModel
 {
     public MockingLibrary Library => MockingLibrary.FakeItEasy;
 

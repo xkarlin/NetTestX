@@ -7,6 +7,9 @@ using NetTestX.Razor;
 
 namespace NetTestX.CodeAnalysis;
 
+/// <summary>
+/// Class that is responsible for generating C# source files that contain tests for type symbols
+/// </summary>
 public partial class UnitTestGeneratorDriver
 {
     private readonly UnitTestGeneratorContext _context;
@@ -18,6 +21,9 @@ public partial class UnitTestGeneratorDriver
         _context = context;
     }
 
+    /// <summary>
+    /// Generate the C# source output with all tests
+    /// </summary>
     public async Task<string> GenerateTestClassSourceAsync()
     {
         var model = CreateTestClassModel();

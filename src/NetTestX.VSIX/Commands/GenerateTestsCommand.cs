@@ -12,6 +12,9 @@ using NetTestX.VSIX.Commands.Handlers;
 
 namespace NetTestX.VSIX.Commands;
 
+/// <summary>
+/// Command that generates tests the fast way using default options, uses <see cref="GenerateTestsCommandHandler"/>
+/// </summary>
 [Command(PackageIds.GenerateTestsCommand)]
 internal sealed class GenerateTestsCommand : BaseDynamicCommand<GenerateTestsCommand, GenerateTestsCommandHandler, CodeProject>
 {

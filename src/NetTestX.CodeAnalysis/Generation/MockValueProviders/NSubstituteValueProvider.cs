@@ -5,6 +5,9 @@ using NetTestX.CodeAnalysis.Common;
 
 namespace NetTestX.CodeAnalysis.Generation.MockValueProviders;
 
+/// <summary>
+/// <see cref="IMockValueProvider"/> for NSubstitute
+/// </summary>
 public class NSubstituteValueProvider : MockValueProviderBase
 {
     public override string Resolve(ITypeSymbol type)

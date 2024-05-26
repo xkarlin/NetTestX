@@ -2,7 +2,10 @@
 
 namespace NetTestX.CodeAnalysis.Generation.TestFrameworkModels;
 
-internal class MSTestFrameworkModel : ITestFrameworkModel
+/// <summary>
+/// <see cref="ITestFrameworkModel"/> for MSTest
+/// </summary>
+public class MSTestFrameworkModel : ITestFrameworkModel
 {
     public string TestClassAttribute => "TestClass";
 

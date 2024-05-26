@@ -9,8 +9,14 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace NetTestX.VSIX.Extensions;
 
+/// <summary>
+/// Extensions for <see cref="DTEProject"/>
+/// </summary>
 public static class DTEProjectExtensions
 {
+    /// <summary>
+    /// Find the corresponding <see cref="RoslynProject"/> for the provided <see cref="DTEProject"/>
+    /// </summary>
     public static async Task<RoslynProject> FindRoslynProjectAsync(this DTEProject project)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -20,6 +26,9 @@ public static class DTEProjectExtensions
         return sourceProject;
     }
 
+    /// <summary>
+    /// Create and add the file to the provided <paramref name="project"/> from the <paramref name="stream"/>
+    /// </summary>
     public static async Task CreateProjectFileAsync(this DTEProject project, Stream stream, string filePath)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -28,27 +37,5 @@ public static class DTEProjectExtensions
             await stream.CopyToAsync(fs);
 
         project.ProjectItems.AddFromFile(filePath);
-    }
-
-    public static Guid GetProjectId(this DTEProject project)
-    {
-        ThreadHelper.ThrowIfNotOnUIThread();
-
-        var solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
-        IVsHierarchy hierarchy;
-
-        solution.GetProjectOfUniqueName(project.FullName, out hierarchy);
-
-        if (hierarchy != null)
-        {
-            hierarchy.GetGuidProperty(
-                        VSConstants.VSITEMID_ROOT,
-                        (int)__VSHPROPID.VSHPROPID_ProjectIDGuid,
-                        out var projectGuid);
-
-            return projectGuid;
-        }
-
-        return Guid.Empty;
     }
 }

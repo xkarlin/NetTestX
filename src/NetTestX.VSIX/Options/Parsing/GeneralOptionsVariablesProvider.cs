@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace NetTestX.VSIX.Options.Parsing;
 
+/// <summary>
+/// <see cref="IParsingVariablesProvider"/> that can be used for resolving <see cref="GeneralOptions"/>
+/// </summary>
 public class GeneralOptionsVariablesProvider(INamedTypeSymbol type) : IParsingVariablesProvider
 {
     private const string TEST_CLASS_V = "TypeName";

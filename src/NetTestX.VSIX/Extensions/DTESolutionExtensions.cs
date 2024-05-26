@@ -7,8 +7,14 @@ using VSLangProj;
 
 namespace NetTestX.VSIX.Extensions;
 
+/// <summary>
+/// Extensions for <see cref="Solution"/>
+/// </summary>
 public static class DTESolutionExtensions
 {
+    /// <summary>
+    /// Get all projects that this <see cref="Solution"/> contains
+    /// </summary>
     public static IEnumerable<Project> GetSolutionProjects(this Solution solution)
     {
         ThreadHelper.ThrowIfNotOnUIThread();
@@ -41,6 +47,9 @@ public static class DTESolutionExtensions
         }
     }
 
+    /// <summary>
+    /// Find the project that has the specified <paramref name="name"/> in the <see cref="Solution"/>
+    /// </summary>
     public static Project FindSolutionProject(this Solution solution, string name)
     {
         return solution.GetSolutionProjects().FirstOrDefault(x =>

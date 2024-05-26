@@ -10,6 +10,9 @@ internal partial class OptionsProvider
     public class AdvancedOptionsPage : BaseOptionPage<AdvancedOptions> { }
 }
 
+/// <summary>
+/// Advanced options contained in the "Advanced" options page inside VS settings
+/// </summary>
 public class AdvancedOptions : BaseOptionModel<AdvancedOptions>
 {
     [Category("Advanced")]

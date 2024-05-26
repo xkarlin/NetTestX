@@ -14,8 +14,14 @@ using System.IO;
 
 namespace NetTestX.VSIX.Code;
 
+/// <summary>
+/// Helper class used for test source files generation
+/// </summary>
 public static class TestSourceCodeUtility
 {
+    /// <summary>
+    /// Load the source code from advanced view (<see cref="GenerateTestsAdvancedView"/>)
+    /// </summary>
     public static async Task LoadSourceCodeFromAdvancedViewAsync(DTE2 dte, DTEProject sourceProject, INamedTypeSymbol typeSymbol)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -55,6 +61,9 @@ public static class TestSourceCodeUtility
         await codeCoordinator.LoadSourceCodeAsync(targetProject);
     }
 
+    /// <summary>
+    /// Rebase the relative path for <paramref name="targetBase"/> same way it's done with <paramref name="relativeBase"/> and <paramref name="sourcePath"/>
+    /// </summary>
     public static string CopyRelativePath(string sourcePath, string relativeBase, string targetBase)
     {
         if (!sourcePath.EndsWith("/") && !sourcePath.EndsWith("\\"))

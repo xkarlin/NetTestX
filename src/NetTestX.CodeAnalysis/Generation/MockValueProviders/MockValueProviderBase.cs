@@ -5,6 +5,9 @@ using NetTestX.CodeAnalysis.Extensions;
 
 namespace NetTestX.CodeAnalysis.Generation.MockValueProviders;
 
+/// <summary>
+/// Base class for implementations of <see cref="IMockValueProvider"/>
+/// </summary>
 public abstract class MockValueProviderBase : IMockValueProvider
 {
     public virtual string Resolve(ITypeSymbol type) => type switch

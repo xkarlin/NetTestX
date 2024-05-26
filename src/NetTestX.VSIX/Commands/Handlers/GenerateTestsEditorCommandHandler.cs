@@ -9,6 +9,9 @@ using NetTestX.VSIX.Projects;
 
 namespace NetTestX.VSIX.Commands.Handlers;
 
+/// <summary>
+/// Handler for generating tests the fast way from the editor window, using default options
+/// </summary>
 public class GenerateTestsEditorCommandHandler(DTE2 dte, INamedTypeSymbol typeSymbol, CodeProject testProject) : ICommandHandler
 {
     public async Task ExecuteAsync()

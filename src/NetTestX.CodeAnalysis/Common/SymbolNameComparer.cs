@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace NetTestX.CodeAnalysis.Common;
 
+/// <summary>
+/// Comparer for <see cref="ISymbol"/>s that uses their name for comparison
+/// </summary>
 public class SymbolNameComparer : IEqualityComparer<ISymbol>
 {
     public static SymbolNameComparer Default { get; } = new();

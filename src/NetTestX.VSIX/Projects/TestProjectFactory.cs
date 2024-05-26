@@ -11,10 +11,16 @@ using NetTestX.VSIX.Diagnostics;
 
 namespace NetTestX.VSIX.Projects;
 
+/// <summary>
+/// Factory used to create test <see cref="DTEProject"/>s
+/// </summary>
 public class TestProjectFactory
 {
     private readonly TestProjectFactoryContext _context;
 
+    /// <summary>
+    /// Options used by this factory during test project generation
+    /// </summary>
     public required TestProjectFactoryOptions Options { get; init; }
 
     private TestProjectFactory(TestProjectFactoryContext context)
@@ -22,6 +28,9 @@ public class TestProjectFactory
         _context = context;
     }
 
+    /// <summary>
+    /// Create the testing <see cref="DTEProject"/> using the provided <see cref="Options"/>
+    /// </summary>
     public async Task<DTEProject> CreateTestProjectAsync()
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -48,6 +57,9 @@ public class TestProjectFactory
         return targetProject;
     }
 
+    /// <summary>
+    /// Create an instance of this factory using the passed <paramref name="context"/>
+    /// </summary>
     public static async Task<TestProjectFactory> CreateAsync(TestProjectFactoryContext context)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();

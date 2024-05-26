@@ -4,6 +4,9 @@ using System.Reflection;
 
 namespace NetTestX.Razor;
 
+/// <summary>
+/// Helper class used to locate <see cref="IRazorPage"/>s based on model types they use
+/// </summary>
 public static class RazorPageLocator
 {
     private static readonly Dictionary<Type, Type> _typeCache = [];
@@ -16,6 +19,9 @@ public static class RazorPageLocator
         AppDomain.CurrentDomain.AssemblyLoad += (_, args) => OnAssemblyLoaded(args.LoadedAssembly);
     }
 
+    /// <summary>
+    /// Find an instance of <see cref="IRazorPage"/> for the given model <paramref name="type"/>
+    /// </summary>
     public static IRazorPage FindPage(Type type)
     {
         if (!_typeCache.TryGetValue(type, out var pageType))

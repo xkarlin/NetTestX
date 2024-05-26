@@ -3,6 +3,9 @@ using NetTestX.Common;
 
 namespace NetTestX.CodeAnalysis.Workspaces.Generation.Testing.MockingLibraries;
 
+/// <summary>
+/// <see cref="IMockingLibraryProjectModel"/> for NSubstitute
+/// </summary>
 public class NSubstituteProjectModel : IMockingLibraryProjectModel
 {
     public MockingLibrary Library => MockingLibrary.NSubstitute;

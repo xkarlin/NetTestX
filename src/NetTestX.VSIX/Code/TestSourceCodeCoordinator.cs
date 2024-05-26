@@ -18,12 +18,21 @@ using NetTestX.VSIX.Projects;
 
 namespace NetTestX.VSIX.Code;
 
+/// <summary>
+/// Class used to generate source code files inside <see cref="DTEProject"/>s
+/// </summary>
 public class TestSourceCodeCoordinator
 {
     private readonly DTEProject _sourceProject;
 
+    /// <summary>
+    /// Options used by this coordinator
+    /// </summary>
     public required TestSourceCodeCoordinatorOptions Options { get; init; }
 
+    /// <summary>
+    /// Unit test driver builder used by this coordinator
+    /// </summary>
     public required UnitTestGeneratorDriver.Builder DriverBuilder { get; init; }
 
     private TestSourceCodeCoordinator(DTEProject sourceProject)
@@ -31,6 +40,9 @@ public class TestSourceCodeCoordinator
         _sourceProject = sourceProject;
     }
 
+    /// <summary>
+    /// Generate and add source file with unit tests to the given <paramref name="targetProject"/>
+    /// </summary>
     public async Task LoadSourceCodeAsync(DTEProject targetProject)
     {
         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -52,6 +64,9 @@ public class TestSourceCodeCoordinator
         await AddSourceFileToProjectAsync(targetProject, testSource, targetFilePath);
     }
 
+    /// <summary>
+    /// Create an instance of <see cref="TestSourceCodeCoordinator"/> for the given <paramref name="type"/> and <paramref name="sourceProject"/> that contains it
+    /// </summary>
     public static async Task<TestSourceCodeCoordinator> CreateAsync(INamedTypeSymbol type, DTEProject sourceProject, IDiagnosticReporter reporter = null)
     {
         RoslynProject roslynProject = await sourceProject.FindRoslynProjectAsync();

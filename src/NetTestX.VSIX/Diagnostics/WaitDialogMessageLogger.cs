@@ -4,6 +4,9 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace NetTestX.VSIX.Diagnostics;
 
+/// <summary>
+/// <see cref="IMessageLogger"/> that logs messages inside the VS wait dialog
+/// </summary>
 public class WaitDialogMessageLogger : IMessageLogger
 {
     public string Title { get; }

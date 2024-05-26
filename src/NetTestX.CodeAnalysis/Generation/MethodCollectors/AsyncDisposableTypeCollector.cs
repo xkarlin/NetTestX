@@ -8,6 +8,9 @@ using System.Collections.Generic;
 
 namespace NetTestX.CodeAnalysis.Generation.MethodCollectors;
 
+/// <summary>
+/// Test method collector for <see cref="IAsyncDisposable"/> interface implementations
+/// </summary>
 public class AsyncDisposableTypeCollector : ITestMethodCollector
 {
     public IEnumerable<ISymbol> GetExcludedSymbols(MethodCollectionContext context)
